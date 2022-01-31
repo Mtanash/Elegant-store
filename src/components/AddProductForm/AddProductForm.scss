@@ -1,0 +1,11 @@
+.addProductForm {
+  width: 70%;
+  h2 {
+    text-align: center;
+  }
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+}

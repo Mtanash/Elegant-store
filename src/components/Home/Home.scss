@@ -1,0 +1,31 @@
+.home {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  grid-template-rows: auto 1fr;
+
+  .main-header {
+    grid-column: 1/3;
+    grid-row: 1/2;
+    min-height: calc(100vh - 64px);
+    background: #1976d2;
+    background: url(https://images.pexels.com/photos/1051747/pexels-photo-1051747.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940)
+      #1976d2;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-blend-mode: multiply;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    h1 {
+      text-shadow: 3px 3px black;
+    }
+
+    h2 {
+      text-shadow: 3px 3px black;
+    }
+  }
+}
