@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "http://localhost:5000/orders",
+  baseURL: "https://elegant-store-api.herokuapp.com/orders",
 });
 
 export const createOrder = (orderData) => API.post("/", orderData);

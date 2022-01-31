@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "http://localhost:5000/users",
+  baseURL: "https://elegant-store-api.herokuapp.com/users",
 });
 
 API.interceptors.request.use((req) => {

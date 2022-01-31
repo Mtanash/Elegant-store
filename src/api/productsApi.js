@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "http://localhost:5000/products",
+  baseURL: "https://elegant-store-api.herokuapp.com/products",
 });
 
 export const fetchProducts = () => API.get("/");
