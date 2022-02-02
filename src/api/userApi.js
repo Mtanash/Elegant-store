@@ -1,7 +1,10 @@
 import axios from "axios";
 
+const prodUrl = "https://elegant-store-api.herokuapp.com";
+const devUrl = "http://localhost:5000";
+
 const API = axios.create({
-  baseURL: "https://elegant-store-api.herokuapp.com/users",
+  baseURL: `${prodUrl}/users`,
 });
 
 API.interceptors.request.use((req) => {
