@@ -1,27 +1,73 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import Product from "./Product/Product";
+
 import { useDispatch, useSelector } from "react-redux";
 import {
   getProducts,
   selectFilteredProducts,
 } from "../../features/products/productsSlice";
-import "../../css/Products/Products.css";
+
+import { Alert, AlertTitle, CircularProgress, Typography } from "@mui/material";
+import { Box } from "@mui/system";
 
 const Products = () => {
   const dispatch = useDispatch();
   const products = useSelector(selectFilteredProducts);
+  const productsLoading = useSelector((state) => state.products.loading);
+  const productsError = useSelector((state) => state.products.error);
 
   useEffect(() => {
     dispatch(getProducts());
   }, [dispatch]);
 
-  return (
-    <section className="products" id="products">
-      {products.map((product) => (
-        <Product product={product} key={product._id} />
-      ))}
-    </section>
-  );
+  if (productsError)
+    return (
+      <Box sx={{ minHeight: "100vh", display: "grid", placeItems: "center" }}>
+        <Alert severity="error">
+          <AlertTitle>Error</AlertTitle>
+          Failed to load products —{" "}
+          <strong>Check internet connection and try again later.</strong>
+        </Alert>
+      </Box>
+    );
+  else
+    return (
+      <Box
+        id="products"
+        sx={{
+          minHeight: "100vh",
+          display: "grid",
+          placeItems: "center",
+        }}
+      >
+        {productsLoading ? (
+          <CircularProgress />
+        ) : (
+          <>
+            <Typography
+              variant="h4"
+              align="center"
+              gutterBottom
+              sx={{ padding: "25px 0" }}
+            >
+              Latest products
+            </Typography>
+            <Box
+              sx={{
+                display: "flex",
+                flexWrap: "wrap",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              {products.map((product) => (
+                <Product product={product} key={product._id} />
+              ))}
+            </Box>
+          </>
+        )}
+      </Box>
+    );
 };
 
 export default Products;
