@@ -1,4 +1,9 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import {
+  createSlice,
+  createAsyncThunk,
+  isFulfilled,
+  isRejectedWithValue,
+} from "@reduxjs/toolkit";
 import {
   login,
   signup,
@@ -11,39 +16,54 @@ const initialState = {
   currentUser: localStorage.getItem("currentUser")
     ? JSON.parse(localStorage.getItem("currentUser"))
     : null,
+  error: null,
 };
 
 export const loginUser = createAsyncThunk(
   "user/loginUser",
-  async (userData) => {
-    const response = await login(userData);
-    if (!response?.data) throw new Error("No data found");
-    return response.data;
+  async (userData, { rejectWithValue }) => {
+    try {
+      const response = await login(userData);
+      return response?.data;
+    } catch (err) {
+      return rejectWithValue(err?.response?.data);
+    }
   }
 );
 
 export const signupUser = createAsyncThunk(
   "user/signupUser",
-  async (userData) => {
-    const response = await signup(userData);
-    if (!response?.data) throw new Error("No data found");
-    return response.data;
+  async (userData, { rejectWithValue }) => {
+    try {
+      const response = await signup(userData);
+      return response?.data;
+    } catch (err) {
+      return rejectWithValue(err?.response?.data);
+    }
   }
 );
 
 export const addProductToFavorite = createAsyncThunk(
   "user/addProductToFavorite",
-  async (productId) => {
-    await addToFavorite(productId);
-    return productId;
+  async (productId, { rejectWithValue }) => {
+    try {
+      await addToFavorite(productId);
+      return productId;
+    } catch (err) {
+      return rejectWithValue(err?.response?.data);
+    }
   }
 );
 
 export const removeProductFromFavorite = createAsyncThunk(
   "user/removeProductFromFavorite",
-  async (productId) => {
-    await removeFromFavorite(productId);
-    return productId;
+  async (productId, { rejectWithValue }) => {
+    try {
+      await removeFromFavorite(productId);
+      return productId;
+    } catch (err) {
+      return rejectWithValue(err?.response?.data);
+    }
   }
 );
 
@@ -59,20 +79,22 @@ const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    logoutUser: (state, action) => {
+    logoutUser: (state) => {
       state.currentUser = null;
       localStorage.setItem("currentUser", null);
+    },
+    setNewAccessToken: (state, action) => {
+      state.currentUser.accessToken = action.payload;
+      localStorage.setItem("currentUser", JSON.stringify(state.currentUser));
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(loginUser.fulfilled, (state, action) => {
         state.currentUser = action.payload;
-        localStorage.setItem("currentUser", JSON.stringify(state.currentUser));
       })
       .addCase(signupUser.fulfilled, (state, action) => {
         state.currentUser = action.payload;
-        localStorage.setItem("currentUser", JSON.stringify(state.currentUser));
       })
       .addCase(addProductToFavorite.fulfilled, (state, action) => {
         state.currentUser.user.favoriteProducts.push(action.payload._id);
@@ -86,12 +108,39 @@ const userSlice = createSlice({
       })
       .addCase(updateUserAvatar.fulfilled, (state, action) => {
         state.currentUser.user.avatar = action.payload.avatar;
-      });
+      })
+      .addMatcher(
+        isFulfilled(
+          loginUser,
+          signupUser,
+          addProductToFavorite,
+          removeProductFromFavorite
+        ),
+        (state) => {
+          localStorage.setItem(
+            "currentUser",
+            JSON.stringify(state.currentUser)
+          );
+          state.error = null;
+        }
+      )
+      .addMatcher(
+        isRejectedWithValue(
+          loginUser,
+          signupUser,
+          addProductToFavorite,
+          removeProductFromFavorite
+        ),
+        (state, action) => {
+          state.error = action.payload.message;
+        }
+      );
   },
 });
 
-export default userSlice.reducer;
-
-export const { logoutUser } = userSlice.actions;
+export const { logoutUser, setNewAccessToken } = userSlice.actions;
 
 export const selectCurrentUser = (state) => state.user.currentUser;
+export const selectAccessToken = (state) => state.user.currentUser?.accessToken;
+
+export default userSlice.reducer;
