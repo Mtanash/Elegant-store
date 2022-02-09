@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "../../css/Header/Header.css";
+
 import {
   IconButton,
   Typography,
@@ -10,14 +10,16 @@ import {
   MenuItem,
   ListItemIcon,
   Badge,
-  Stack,
-  Button,
+  // Stack,
+  // Button,
 } from "@mui/material";
 import Logout from "@mui/icons-material/Logout";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Login from "@mui/icons-material/Login";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+
 import { useNavigate } from "react-router-dom";
+
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser, selectCurrentUser } from "../../features/user/userSlice";
 import {
@@ -97,10 +99,10 @@ function Header() {
   return (
     <AppBar position="static">
       <Toolbar sx={{ width: "100%", gap: "20px" }}>
-        <Typography variant="h6" component="div" sx={{ flexGrow: 0.7 }}>
+        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
           <a href="/">Elegant Store</a>
         </Typography>
-        <Stack direction="row" spacing={3} sx={{ flexGrow: 0.3 }}>
+        {/* <Stack direction="row" spacing={3} sx={{ flexGrow: 0.3 }}>
           <Button sx={{ color: "#fff" }} onClick={() => navigate("/")}>
             Home
           </Button>
@@ -110,7 +112,7 @@ function Header() {
           >
             Create Product
           </Button>
-        </Stack>
+        </Stack> */}
         <IconButton aria-label="cart" onClick={() => navigate("/cart")}>
           <Badge badgeContent={cartProductsCount} color="secondary">
             <ShoppingCartIcon sx={{ color: "#FFF" }} />
