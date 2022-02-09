@@ -1,18 +1,21 @@
-import React from "react";
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import CheckoutForm from "../CheckoutForm/CheckoutForm";
-import CartProduct from "./CartProduct/CartProduct";
+import { useDispatch, useSelector } from "react-redux";
 import {
+  productRemovedFromCart,
   selectCartProducts,
   selectCartProductsCount,
   selectCartProductsTotalPrice,
 } from "../../features/Cart/cartSlice";
 import { selectCurrentUser } from "../../features/user/userSlice";
+
+import { useNavigate } from "react-router-dom";
+
+import CheckoutForm from "../CheckoutForm/CheckoutForm";
+import ProductCard from "../ProductCard/ProductCard";
+
 import { Box, Button, Typography } from "@mui/material";
-import "../../css/Cart/Cart.css";
 
 const Cart = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const cartProducts = useSelector(selectCartProducts);
   const cartProductsCount = useSelector(selectCartProductsCount);
@@ -29,8 +32,12 @@ const Cart = () => {
     toggleCheckoutForm();
   };
 
+  const onRemoveButtonClicked = (_id) => dispatch(productRemovedFromCart(_id));
+
   return (
-    <section className="cart">
+    <Box
+      sx={{ width: "70%", margin: "0 auto", minHeight: "calc(100vh - 124px)" }}
+    >
       <Typography variant="h4" align="center" sx={{ padding: "20px 10px" }}>
         {cartProductsCount > 0
           ? `There are ${cartProductsCount} ${
@@ -39,7 +46,11 @@ const Cart = () => {
           : "Cart is empty"}
       </Typography>
       {cartProducts.map((product) => (
-        <CartProduct key={product._id} {...product} />
+        <ProductCard
+          key={product._id}
+          {...product}
+          onRemoveButtonClicked={onRemoveButtonClicked}
+        />
       ))}
       {cartProductsCount > 0 && (
         <Box sx={{ display: "flex", justifyContent: "space-between" }}>
@@ -52,7 +63,7 @@ const Cart = () => {
         </Box>
       )}
       <CheckoutForm toggleCheckoutForm={toggleCheckoutForm} />
-    </section>
+    </Box>
   );
 };
 
