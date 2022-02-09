@@ -1,8 +1,7 @@
 .checkout-form {
   width: 100%;
   position: fixed;
-  bottom: 0;
-  left: 0;
+  inset: 0;
   background-color: #fff;
   padding: 25px;
   box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.3);
@@ -12,13 +11,10 @@
   align-items: center;
   transition: transform 300ms ease-in-out;
   transform: translateY(100%);
+  z-index: 10;
 }
 .checkout-form.active {
   transform: translateY(0);
-}
-.checkout-form h5 {
-  font-size: 1.2rem;
-  margin-bottom: 15px;
 }
 .checkout-form .close-button {
   margin-bottom: 10px;
@@ -37,14 +33,14 @@
   width: 50%;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
   justify-content: center;
   gap: 20px;
 }
-.checkout-form form > div:first-child {
+.checkout-form form > div:nth-child(2) {
   width: 100%;
 }
-.checkout-form form > div:first-child div {
+.checkout-form form > div:nth-child(2) div {
   flex: 0.5;
 }
 .checkout-form form > div {
