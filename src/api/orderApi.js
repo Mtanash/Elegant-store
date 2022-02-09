@@ -1,16 +1,11 @@
-import axios from "axios";
+import { publicAxios, privateAxios } from "./axios";
 
-const prodUrl = "https://elegant-store-api.herokuapp.com";
-const devUrl = "http://localhost:5000";
+export const createOrder = (orderData) =>
+  privateAxios.post("orders/", orderData);
 
-const API = axios.create({
-  baseURL: `${prodUrl}/orders`,
-});
+export const deleteOrder = (orderId) =>
+  privateAxios.delete(`orders/${orderId}`);
 
-export const createOrder = (orderData) => API.post("/", orderData);
+export const getOrders = () => privateAxios.get("orders/");
 
-export const deleteOrder = (orderId) => API.delete(`/${orderId}`);
-
-export const getOrders = () => API.get("/");
-
-export const getOrder = (orderId) => API.get(`/${orderId}`);
+export const getOrder = (orderId) => privateAxios.get(`orders/${orderId}`);

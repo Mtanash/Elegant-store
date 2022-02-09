@@ -1,29 +1,21 @@
-import axios from "axios";
+import { publicAxios, privateAxios } from "./axios";
 
-const prodUrl = "https://elegant-store-api.herokuapp.com";
-const devUrl = "http://localhost:5000";
+export const refreshToken = () => publicAxios.get("users/refresh");
 
-const API = axios.create({
-  baseURL: `${prodUrl}/users`,
-});
+export const login = (data) => publicAxios.post("users/login", data);
 
-API.interceptors.request.use((req) => {
-  if (localStorage.getItem("currentUser")) {
-    req.headers.Authorization = `Bearer ${
-      JSON.parse(localStorage.getItem("currentUser"))?.token
-    }`;
-  }
-  return req;
-});
+export const signup = (data) => publicAxios.post("users/", data);
 
-export const login = (data) => API.post("/login", data);
-
-export const signup = (data) => API.post("/", data);
-
-export const updateAvatar = (avatar) => API.post("/me/avatar", avatar);
+export const updateAvatar = (avatar) =>
+  privateAxios.post("users/me/avatar", avatar);
 
 export const addToFavorite = (productId) =>
-  API.post(`/addToFavorite`, productId);
+  privateAxios.post(`users/addToFavorite`, productId);
 
 export const removeFromFavorite = (productId) =>
-  API.post(`/removeFromFavorite`, productId);
+  privateAxios.post(`users/removeFromFavorite`, productId);
+
+export const getUserFavoriteProducts = () =>
+  privateAxios.get("users/me/favoriteProducts");
+
+export const getUserOrders = () => privateAxios.get("users/me/orders");
