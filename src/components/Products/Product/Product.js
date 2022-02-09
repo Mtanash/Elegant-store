@@ -1,8 +1,15 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { truncateString } from "../../../utils";
+
 import { useDispatch, useSelector } from "react-redux";
 import { productAddedToCart } from "../../../features/Cart/cartSlice";
-import "../../../css/Products/Product/Product.css";
+import {
+  addProductToFavorite,
+  logoutUser,
+  removeProductFromFavorite,
+  selectCurrentUser,
+} from "../../../features/user/userSlice";
+
 import CloseIcon from "@mui/icons-material/Close";
 import {
   Button,
@@ -23,12 +30,8 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+
 import { useNavigate } from "react-router-dom";
-import {
-  addProductToFavorite,
-  removeProductFromFavorite,
-  selectCurrentUser,
-} from "../../../features/user/userSlice";
 
 function Product({ product }) {
   const { description, title, price, sizes, imageUrl, _id } = product;
@@ -62,27 +65,30 @@ function Product({ product }) {
     if (productIsFavorite) {
       return dispatch(removeProductFromFavorite({ _id }))
         .unwrap()
-        .then((res) => setLoading(false));
+        .then(() => setLoading(false))
+        .catch(() => {
+          dispatch(logoutUser());
+          navigate("/auth");
+        });
     }
     dispatch(addProductToFavorite({ _id }))
       .unwrap()
-      .then((res) => setLoading(false));
+      .then(() => setLoading(false))
+      .catch(() => {
+        dispatch(logoutUser());
+        navigate("/auth");
+      });
   };
 
   const action = (
-    <React.Fragment>
-      {/* <Button color="secondary" size="small" onClick={() => {}}>
-        UNDO
-      </Button> */}
-      <IconButton
-        size="small"
-        aria-label="close"
-        color="inherit"
-        onClick={onSnackbarClose}
-      >
-        <CloseIcon fontSize="small" />
-      </IconButton>
-    </React.Fragment>
+    <IconButton
+      size="small"
+      aria-label="close"
+      color="inherit"
+      onClick={onSnackbarClose}
+    >
+      <CloseIcon fontSize="small" />
+    </IconButton>
   );
 
   return (
