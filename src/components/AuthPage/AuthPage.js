@@ -1,17 +1,29 @@
-import React, { useState } from "react";
-import { Avatar, Button, Grid, TextField, Typography } from "@mui/material";
+import { useState } from "react";
+
+import {
+  Alert,
+  Avatar,
+  Button,
+  Grid,
+  TextField,
+  Typography,
+} from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import { useDispatch } from "react-redux";
-import "../../css/AuthPage/AuthPage.css";
+import { LoadingButton } from "@mui/lab";
+import GoogleIcon from "@mui/icons-material/Google";
+
+import { useDispatch, useSelector } from "react-redux";
 import {
   loginUser,
   signupUser,
   updateUserAvatar,
 } from "../../features/user/userSlice";
+
 import { useNavigate } from "react-router-dom";
-import { LoadingButton } from "@mui/lab";
+
 import { GoogleLogin } from "react-google-login";
-import GoogleIcon from "@mui/icons-material/Google";
+
+import "../../css/AuthPage/AuthPage.css";
 
 const initialFormData = { name: "", email: "", password: "" };
 
@@ -21,6 +33,7 @@ const AuthPage = () => {
   const [formData, setFormData] = useState(initialFormData);
   const [isSignup, setIsSignup] = useState(false);
   const [loading, setLoading] = useState(false);
+  const authError = useSelector((state) => state.user.error);
 
   const handleFormChange = (e) => {
     setFormData({
@@ -35,19 +48,23 @@ const AuthPage = () => {
     if (isSignup) {
       dispatch(signupUser(formData))
         .unwrap()
-        .then((res) => {
-          setLoading(false);
+        .then(() => {
           setFormData(initialFormData);
           navigate(-1);
-        });
+        })
+        .catch((err) => {})
+        .finally(() => setLoading(false));
     } else {
       dispatch(loginUser(formData))
         .unwrap()
-        .then((res) => {
-          setLoading(false);
+        .then(() => {
           setFormData(initialFormData);
           navigate(-1);
-        });
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally(() => setLoading(false));
     }
   };
 
@@ -70,7 +87,7 @@ const AuthPage = () => {
       .unwrap()
       .then((res) => {
         dispatch(updateUserAvatar({ avatar: imageUrl }));
-        navigate("/");
+        navigate(-1);
       })
       .catch((e) => {
         dispatch(
@@ -80,7 +97,7 @@ const AuthPage = () => {
           })
         )
           .unwrap()
-          .then((res) => navigate("/"))
+          .then((res) => navigate(-1))
           .catch((e) => console.log(e));
       });
   };
@@ -93,6 +110,11 @@ const AuthPage = () => {
       <Typography component="h1" variant="h5">
         {isSignup ? "Sign up" : "Sign in"}
       </Typography>
+      {authError && (
+        <Alert sx={{ width: "100%" }} severity="error">
+          {authError}
+        </Alert>
+      )}
       <form className="authPage-form" onSubmit={handleFormSubmit}>
         {isSignup && (
           <TextField
