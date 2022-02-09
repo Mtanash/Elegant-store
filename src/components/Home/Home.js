@@ -1,9 +1,10 @@
+// import Filter from "../Filter/Filter";
+import Products from "../Products/Products";
+
 import { Typography, Button } from "@mui/material";
 import { Box } from "@mui/system";
-import React from "react";
+
 import "../../css/Home/Home.css";
-import Filter from "../Filter/Filter";
-import Products from "../Products/Products";
 
 const Home = () => {
   return (
@@ -29,7 +30,7 @@ const Home = () => {
           align="center"
           gutterBottom
         >
-          Buy and sell in one place
+          Best products for best customers
         </Typography>
         <Button
           variant="contained"

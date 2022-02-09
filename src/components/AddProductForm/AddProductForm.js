@@ -1,10 +1,14 @@
 import { TextField, Typography } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
-import React, { useState } from "react";
-import FileBase from "react-file-base64";
-import { useDispatch } from "react-redux";
-import "../../css/AddProductForm/AddProductForm.css";
+
+import { useState } from "react";
 import { createProduct } from "../../features/products/productsSlice";
+
+import FileBase from "react-file-base64";
+
+import { useDispatch } from "react-redux";
+
+import "../../css/AddProductForm/AddProductForm.css";
 
 const initialFormData = {
   title: "",

@@ -1,11 +1,15 @@
-import React, { useState } from "react";
+import { useState } from "react";
+
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
 import { selectProductById } from "../../features/products/productsSlice";
-import "../../css/ProductPage/ProductPage.css";
+import { productAddedToCart } from "../../features/Cart/cartSlice";
+
+import { useParams } from "react-router-dom";
+
 import Rating from "@mui/material/Rating";
 import { Button, TextField } from "@mui/material";
-import { productAddedToCart } from "../../features/Cart/cartSlice";
+
+import "../../css/ProductPage/ProductPage.css";
 
 const ProductPage = () => {
   const dispatch = useDispatch();

@@ -38,8 +38,6 @@ const cartSlice = createSlice({
   extraReducers: {},
 });
 
-export default cartSlice.reducer;
-
 export const { productAddedToCart, productRemovedFromCart, cartCleared } =
   cartSlice.actions;
 
@@ -53,3 +51,5 @@ export const selectCartProductsTotalPrice = (state) =>
     (prev, current) => prev + current.price * current.quantity,
     0
   );
+
+export default cartSlice.reducer;

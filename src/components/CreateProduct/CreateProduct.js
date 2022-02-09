@@ -1,10 +1,13 @@
-import React from "react";
-import "../../css/CreateProduct/CreateProduct.css";
-import { selectCurrentUser } from "../../features/user/userSlice";
 import { useSelector } from "react-redux";
+import { selectCurrentUser } from "../../features/user/userSlice";
+
 import { Button, Typography, Box } from "@mui/material";
+
 import { useNavigate } from "react-router-dom";
+
 import AddProductForm from "../AddProductForm/AddProductForm";
+
+import "../../css/CreateProduct/CreateProduct.css";
 
 const CreateProduct = () => {
   const user = useSelector(selectCurrentUser);
