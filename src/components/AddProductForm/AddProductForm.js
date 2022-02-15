@@ -42,6 +42,7 @@ const AddProductForm = () => {
       <Typography
         variant="h4"
         component="h2"
+        color="primary"
         gutterBottom
         sx={{ fontWeight: "bold" }}
       >
@@ -64,7 +65,7 @@ const AddProductForm = () => {
           type="text"
           label="Description"
           name="description"
-          minRows={3}
+          minRows={4}
           value={formData.description}
           onChange={onFormDataChange}
         />
