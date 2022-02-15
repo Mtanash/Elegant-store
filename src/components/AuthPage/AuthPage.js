@@ -92,7 +92,6 @@ const AuthPage = () => {
       .unwrap()
       .then((res) => {
         navigate(from, { replace: true });
-        console.log(res);
       })
       .catch((err) => console.log(err));
   };
