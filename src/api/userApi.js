@@ -6,6 +6,8 @@ export const login = (data) => publicAxios.post("users/login", data);
 
 export const signup = (data) => publicAxios.post("users/", data);
 
+export const googleAuth = (data) => publicAxios.post("users/googleAuth", data);
+
 export const updateAvatar = (avatar) =>
   privateAxios.post("users/me/avatar", avatar);
 
