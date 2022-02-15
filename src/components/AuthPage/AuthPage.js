@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
   Alert,
@@ -15,11 +15,12 @@ import GoogleIcon from "@mui/icons-material/Google";
 import { useDispatch, useSelector } from "react-redux";
 import {
   loginUser,
+  selectCurrentUser,
   signupUser,
   updateUserAvatar,
 } from "../../features/user/userSlice";
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 import { GoogleLogin } from "react-google-login";
 
@@ -29,11 +30,21 @@ const initialFormData = { name: "", email: "", password: "" };
 
 const AuthPage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
   const dispatch = useDispatch();
   const [formData, setFormData] = useState(initialFormData);
   const [isSignup, setIsSignup] = useState(false);
   const [loading, setLoading] = useState(false);
   const authError = useSelector((state) => state.user.error);
+
+  const user = useSelector(selectCurrentUser)?.user;
+
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, []);
 
   const handleFormChange = (e) => {
     setFormData({
@@ -50,7 +61,7 @@ const AuthPage = () => {
         .unwrap()
         .then(() => {
           setFormData(initialFormData);
-          navigate(-1);
+          navigate(from, { replace: true });
         })
         .catch((err) => {})
         .finally(() => setLoading(false));
@@ -59,7 +70,7 @@ const AuthPage = () => {
         .unwrap()
         .then(() => {
           setFormData(initialFormData);
-          navigate(-1);
+          navigate(from, { replace: true });
         })
         .catch((err) => {
           console.log(err);
@@ -87,7 +98,7 @@ const AuthPage = () => {
       .unwrap()
       .then((res) => {
         dispatch(updateUserAvatar({ avatar: imageUrl }));
-        navigate(-1);
+        navigate(from, { replace: true });
       })
       .catch((e) => {
         dispatch(
@@ -97,7 +108,7 @@ const AuthPage = () => {
           })
         )
           .unwrap()
-          .then((res) => navigate(-1))
+          .then((res) => navigate(from, { replace: true }))
           .catch((e) => console.log(e));
       });
   };
