@@ -17,6 +17,7 @@ import Logout from "@mui/icons-material/Logout";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Login from "@mui/icons-material/Login";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import DashboardIcon from "@mui/icons-material/Dashboard";
 
 import { useNavigate } from "react-router-dom";
 
@@ -27,10 +28,10 @@ import {
   selectCartProductsCount,
 } from "../../features/Cart/cartSlice";
 
-const MenuItems = ({ userExist, handleClose }) => {
+const MenuItems = ({ user, handleClose }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  if (userExist)
+  if (user)
     return (
       <>
         <MenuItem
@@ -44,6 +45,19 @@ const MenuItems = ({ userExist, handleClose }) => {
           </ListItemIcon>
           Profile
         </MenuItem>
+        {user?.role === "admin" && (
+          <MenuItem
+            onClick={() => {
+              navigate("/dashboard");
+              handleClose();
+            }}
+          >
+            <ListItemIcon>
+              <DashboardIcon fontSize="small" />
+            </ListItemIcon>
+            Dashboard
+          </MenuItem>
+        )}
         <MenuItem
           onClick={() => {
             dispatch(logoutUser());
@@ -77,8 +91,7 @@ const MenuItems = ({ userExist, handleClose }) => {
 
 function Header() {
   const navigate = useNavigate();
-  const currentUser = useSelector(selectCurrentUser);
-  const userExist = Boolean(currentUser?.user);
+  const user = useSelector(selectCurrentUser)?.user;
   const cartProductsCount = useSelector(selectCartProductsCount);
   const cartProducts = useSelector(selectCartProducts);
 
@@ -126,10 +139,10 @@ function Header() {
           aria-haspopup="true"
           aria-expanded={open ? "true" : undefined}
         >
-          {currentUser?.user?.avatar ? (
-            <Avatar src={currentUser?.user?.avatar} size="small" />
+          {user?.avatar ? (
+            <Avatar src={user?.avatar} size="small" />
           ) : (
-            <Avatar size="small">{currentUser?.user?.name[0] || null}</Avatar>
+            <Avatar size="small">{user?.name[0] || null}</Avatar>
           )}
         </IconButton>
         <Menu
@@ -139,7 +152,7 @@ function Header() {
           onClose={handleClose}
           keepMounted
         >
-          <MenuItems userExist={userExist} handleClose={handleClose} />
+          <MenuItems user={user} handleClose={handleClose} />
         </Menu>
       </Toolbar>
     </AppBar>
