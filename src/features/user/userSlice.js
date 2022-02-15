@@ -10,6 +10,7 @@ import {
   addToFavorite,
   removeFromFavorite,
   updateAvatar,
+  googleAuth,
 } from "../../api/userApi";
 
 const initialState = {
@@ -75,6 +76,18 @@ export const updateUserAvatar = createAsyncThunk(
   }
 );
 
+export const authWithGoogle = createAsyncThunk(
+  "user/authWithGoogle",
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await googleAuth(data);
+      return response?.data;
+    } catch (err) {
+      return rejectWithValue(err?.response?.data);
+    }
+  }
+);
+
 const userSlice = createSlice({
   name: "user",
   initialState,
@@ -96,6 +109,9 @@ const userSlice = createSlice({
       .addCase(signupUser.fulfilled, (state, action) => {
         state.currentUser = action.payload;
       })
+      .addCase(authWithGoogle.fulfilled, (state, action) => {
+        state.currentUser = action.payload;
+      })
       .addCase(addProductToFavorite.fulfilled, (state, action) => {
         state.currentUser.user.favoriteProducts.push(action.payload._id);
       })
@@ -114,7 +130,8 @@ const userSlice = createSlice({
           loginUser,
           signupUser,
           addProductToFavorite,
-          removeProductFromFavorite
+          removeProductFromFavorite,
+          authWithGoogle
         ),
         (state) => {
           localStorage.setItem(
@@ -129,7 +146,8 @@ const userSlice = createSlice({
           loginUser,
           signupUser,
           addProductToFavorite,
-          removeProductFromFavorite
+          removeProductFromFavorite,
+          authWithGoogle
         ),
         (state, action) => {
           state.error = action.payload.message;
