@@ -14,10 +14,10 @@ import GoogleIcon from "@mui/icons-material/Google";
 
 import { useDispatch, useSelector } from "react-redux";
 import {
+  authWithGoogle,
   loginUser,
   selectCurrentUser,
   signupUser,
-  updateUserAvatar,
 } from "../../features/user/userSlice";
 
 import { useNavigate, useLocation } from "react-router-dom";
@@ -86,31 +86,15 @@ const AuthPage = () => {
   const googleFailure = (e) => {
     console.log(e);
   };
-  const googleSuccess = async (res) => {
+  const googleSuccess = (res) => {
     const { name, email, googleId: password, imageUrl } = res.profileObj;
-    dispatch(
-      signupUser({
-        name,
-        email,
-        password,
-      })
-    )
+    dispatch(authWithGoogle({ name, email, password, imageUrl }))
       .unwrap()
       .then((res) => {
-        dispatch(updateUserAvatar({ avatar: imageUrl }));
         navigate(from, { replace: true });
+        console.log(res);
       })
-      .catch((e) => {
-        dispatch(
-          loginUser({
-            email,
-            password,
-          })
-        )
-          .unwrap()
-          .then((res) => navigate(from, { replace: true }))
-          .catch((e) => console.log(e));
-      });
+      .catch((err) => console.log(err));
   };
 
   return (
