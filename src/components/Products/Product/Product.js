@@ -97,6 +97,7 @@ function Product({ product }) {
         raised
         sx={{
           margin: "10px",
+          width: "250px",
         }}
       >
         <CardActionArea onClick={() => navigate(`/product/${product._id}`)}>
@@ -105,6 +106,7 @@ function Product({ product }) {
             height="200"
             image={imageUrl}
             alt="white"
+            sx={{ objectFit: "contain" }}
           />
           <CardContent>
             <Typography
@@ -118,12 +120,12 @@ function Product({ product }) {
             <Typography
               variant="body2"
               gutterBottom
+              align="center"
               sx={{
                 height: "95px",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                width: "250px",
               }}
             >
               {truncateString(description)}
