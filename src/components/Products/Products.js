@@ -9,6 +9,7 @@ import {
 
 import { Alert, AlertTitle, CircularProgress, Typography } from "@mui/material";
 import { Box } from "@mui/system";
+import ProductsComponent from "./ProductsComponent";
 
 const Products = () => {
   const dispatch = useDispatch();
@@ -52,18 +53,7 @@ const Products = () => {
             >
               Latest products
             </Typography>
-            <Box
-              sx={{
-                display: "flex",
-                flexWrap: "wrap",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              {products.map((product) => (
-                <Product product={product} key={product._id} />
-              ))}
-            </Box>
+            <ProductsComponent products={products} />
           </>
         )}
       </Box>
