@@ -10,6 +10,9 @@ import {
   MenuItem,
   ListItemIcon,
   Badge,
+  TextField,
+  InputAdornment,
+  Input,
   // Stack,
   // Button,
 } from "@mui/material";
@@ -18,6 +21,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Login from "@mui/icons-material/Login";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import DashboardIcon from "@mui/icons-material/Dashboard";
+import SearchIcon from "@mui/icons-material/Search";
 
 import { useNavigate } from "react-router-dom";
 
@@ -96,6 +100,7 @@ function Header() {
   const cartProducts = useSelector(selectCartProducts);
 
   const [anchorElement, setAnchorElement] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
   const open = Boolean(anchorElement);
 
   useEffect(() => {
@@ -109,10 +114,17 @@ function Header() {
     setAnchorElement(null);
   };
 
+  const handleSearchFormSubmit = (e) => {
+    e.preventDefault();
+    if (!searchQuery) return;
+    navigate(`/search?searchQuery=${searchQuery}`);
+    setSearchQuery("");
+  };
+
   return (
     <AppBar position="static">
       <Toolbar sx={{ width: "100%", gap: "20px" }}>
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+        <Typography variant="h6" component="div" sx={{ flex: "0.2" }}>
           <a href="/">Elegant Store</a>
         </Typography>
         {/* <Stack direction="row" spacing={3} sx={{ flexGrow: 0.3 }}>
@@ -126,6 +138,23 @@ function Header() {
             Create Product
           </Button>
         </Stack> */}
+        <form onSubmit={handleSearchFormSubmit} style={{ flex: "0.8" }}>
+          <Input
+            sx={{
+              backgroundColor: "white",
+              borderRadius: "8px",
+              padding: "0 5px",
+            }}
+            type="search"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            disableUnderline
+            placeholder="What are you looking for?"
+            variant="outlined"
+            startAdornment={<SearchIcon />}
+            fullWidth
+          />
+        </form>
         <IconButton aria-label="cart" onClick={() => navigate("/cart")}>
           <Badge badgeContent={cartProductsCount} color="secondary">
             <ShoppingCartIcon sx={{ color: "#FFF" }} />
