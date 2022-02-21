@@ -1,15 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { fetchProducts, addProduct } from "../../api/productsApi";
+import { addProduct } from "../../api/productsApi";
 import { sizes, sorts } from "../../constants";
-
-export const getProducts = createAsyncThunk(
-  "products/getProducts",
-  async () => {
-    const response = await fetchProducts();
-    if (!response?.data) throw new Error("No data found");
-    return response.data;
-  }
-);
 
 export const createProduct = createAsyncThunk(
   "products/createProduct",
@@ -55,24 +46,10 @@ const productsSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder
-      .addCase(getProducts.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(getProducts.fulfilled, (state, action) => {
-        state.products = action.payload;
-        state.filteredProducts = action.payload;
-        state.loading = false;
-        state.error = null;
-      })
-      .addCase(getProducts.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.error.message;
-      })
-      .addCase(createProduct.fulfilled, (state, action) => {
-        state.products.push(action.payload);
-        state.filteredProducts.push(action.payload);
-      });
+    builder.addCase(createProduct.fulfilled, (state, action) => {
+      state.products.push(action.payload);
+      state.filteredProducts.push(action.payload);
+    });
   },
 });
 
