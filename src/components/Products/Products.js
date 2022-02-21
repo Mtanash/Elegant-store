@@ -1,63 +1,67 @@
-import { useEffect } from "react";
-import Product from "./Product/Product";
+import { useEffect, useRef, useState } from "react";
+import Paginate from "../Paginate/Paginate";
+import { fetchProducts } from "../../api/productsApi";
 
-import { useDispatch, useSelector } from "react-redux";
-import {
-  getProducts,
-  selectFilteredProducts,
-} from "../../features/products/productsSlice";
-
-import { Alert, AlertTitle, CircularProgress, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import ProductsComponent from "./ProductsComponent";
 
 const Products = () => {
-  const dispatch = useDispatch();
-  const products = useSelector(selectFilteredProducts);
-  const productsLoading = useSelector((state) => state.products.loading);
-  const productsError = useSelector((state) => state.products.error);
+  const productsRef = useRef(null);
+
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const handlePageChange = (e, value) => {
+    setPage(value);
+  };
 
   useEffect(() => {
-    dispatch(getProducts());
-  }, [dispatch]);
+    const getProducts = async () => {
+      setLoading(true);
+      try {
+        const response = await fetchProducts(page);
+        const { products, totalPages } = response?.data;
+        setProducts(products);
+        setTotalPages(totalPages);
+      } catch (err) {
+        console.log(err?.response?.data);
+      }
+      setLoading(false);
+      productsRef.current.scrollIntoView();
+    };
 
-  if (productsError)
-    return (
-      <Box sx={{ minHeight: "100vh", display: "grid", placeItems: "center" }}>
-        <Alert severity="error">
-          <AlertTitle>Error</AlertTitle>
-          Failed to load products —{" "}
-          <strong>Check internet connection and try again later.</strong>
-        </Alert>
-      </Box>
-    );
-  else
-    return (
-      <Box
-        id="products"
-        sx={{
-          minHeight: "100vh",
-          display: "grid",
-          placeItems: "center",
-        }}
+    getProducts();
+  }, [page, productsRef]);
+
+  return (
+    <Box
+      ref={productsRef}
+      id="products"
+      sx={{
+        minHeight: "100vh",
+        display: "grid",
+        placeItems: "center",
+      }}
+    >
+      <Typography
+        variant="h4"
+        align="center"
+        gutterBottom
+        sx={{ padding: "25px 0" }}
       >
-        {productsLoading ? (
-          <CircularProgress />
-        ) : (
-          <>
-            <Typography
-              variant="h4"
-              align="center"
-              gutterBottom
-              sx={{ padding: "25px 0" }}
-            >
-              Latest products
-            </Typography>
-            <ProductsComponent products={products} />
-          </>
-        )}
-      </Box>
-    );
+        Latest products
+      </Typography>
+      <Paginate
+        page={page}
+        totalPages={totalPages}
+        products={products}
+        loading={loading}
+        handlePageChange={handlePageChange}
+      />
+    </Box>
+  );
 };
 
 export default Products;
