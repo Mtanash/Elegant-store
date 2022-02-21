@@ -34,7 +34,7 @@ import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import { useNavigate } from "react-router-dom";
 
 function Product({ product }) {
-  const { description, title, price, sizes, imageUrl, _id } = product;
+  const { description, price, sizes, imageUrl, _id } = product;
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -109,14 +109,6 @@ function Product({ product }) {
             sx={{ objectFit: "contain" }}
           />
           <CardContent>
-            <Typography
-              align="center"
-              variant="h5"
-              component="div"
-              gutterBottom
-            >
-              {title}
-            </Typography>
             <Typography
               variant="body2"
               gutterBottom

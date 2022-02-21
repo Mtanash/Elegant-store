@@ -11,7 +11,6 @@ import { useDispatch } from "react-redux";
 import "../../css/AddProductForm/AddProductForm.css";
 
 const initialFormData = {
-  title: "",
   description: "",
   price: "",
   imageUrl: "",
@@ -49,15 +48,6 @@ const AddProductForm = () => {
         Add new product
       </Typography>
       <form onSubmit={onFormSubmit}>
-        <TextField
-          required
-          fullWidth
-          type="text"
-          label="Title"
-          name="title"
-          value={formData.title}
-          onChange={onFormDataChange}
-        />
         <TextField
           required
           fullWidth
