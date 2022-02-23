@@ -34,7 +34,7 @@ import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import { useNavigate } from "react-router-dom";
 
 function Product({ product }) {
-  const { description, price, sizes, imageUrl, _id } = product;
+  const { description, price, imageUrl, _id } = product;
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -122,23 +122,6 @@ function Product({ product }) {
             >
               {truncateString(description)}
             </Typography>
-            <Stack
-              direction="row"
-              spacing={1}
-              justifyContent="center"
-              sx={{ minHeight: "24px" }}
-            >
-              {sizes.length > 0
-                ? sizes.map((size) => (
-                    <Chip
-                      key={size}
-                      label={size}
-                      variant="outlined"
-                      size="small"
-                    />
-                  ))
-                : "No current sizes."}
-            </Stack>
             <Divider sx={{ margin: "5px 0" }} />
             <Typography variant="h5" component="div" align="center">
               ${price}.00

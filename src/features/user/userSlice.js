@@ -96,10 +96,6 @@ const userSlice = createSlice({
       state.currentUser = null;
       localStorage.setItem("currentUser", null);
     },
-    setNewAccessToken: (state, action) => {
-      state.currentUser.accessToken = action.payload;
-      localStorage.setItem("currentUser", JSON.stringify(state.currentUser));
-    },
   },
   extraReducers: (builder) => {
     builder
