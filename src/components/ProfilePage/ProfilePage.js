@@ -36,6 +36,7 @@ import {
 } from "../../features/user/userSlice";
 // react router
 import { useNavigate } from "react-router-dom";
+import UserAvatar from "../UserAvatar/UserAvatar";
 
 const style = {
   position: "absolute",
@@ -53,7 +54,7 @@ const style = {
 };
 
 const ProfilePage = () => {
-  const user = useSelector(selectCurrentUser)?.user;
+  const user = useSelector(selectCurrentUser);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [avatar, setAvatar] = useState("");
@@ -97,11 +98,9 @@ const ProfilePage = () => {
           gap: "25px",
         }}
       >
-        <Avatar
-          size="large"
-          sx={{ width: "100px", height: "100px", margin: "auto" }}
-          src={user ? user?.avatar : null}
-          alt={user?.name}
+        <UserAvatar
+          user={user}
+          styles={{ width: "100px", height: "100px", margin: "auto" }}
         />
         <Button variant="outlined" size="small" onClick={handleOpen}>
           Update profile picture

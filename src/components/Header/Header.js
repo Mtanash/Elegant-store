@@ -1,20 +1,16 @@
 import React, { useEffect, useState } from "react";
+import UserAvatar from "../UserAvatar/UserAvatar";
 
 import {
   IconButton,
   Typography,
-  Avatar,
   AppBar,
   Toolbar,
   Menu,
   MenuItem,
   ListItemIcon,
   Badge,
-  TextField,
-  InputAdornment,
   Input,
-  // Stack,
-  // Button,
 } from "@mui/material";
 import Logout from "@mui/icons-material/Logout";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
@@ -95,7 +91,7 @@ const MenuItems = ({ user, handleClose }) => {
 
 function Header() {
   const navigate = useNavigate();
-  const user = useSelector(selectCurrentUser)?.user;
+  const user = useSelector(selectCurrentUser);
   const cartProductsCount = useSelector(selectCartProductsCount);
   const cartProducts = useSelector(selectCartProducts);
 
@@ -127,17 +123,6 @@ function Header() {
         <Typography variant="h6" component="div" sx={{ flex: "0.2" }}>
           <a href="/">Elegant Store</a>
         </Typography>
-        {/* <Stack direction="row" spacing={3} sx={{ flexGrow: 0.3 }}>
-          <Button sx={{ color: "#fff" }} onClick={() => navigate("/")}>
-            Home
-          </Button>
-          <Button
-            sx={{ color: "#fff" }}
-            onClick={() => navigate("/create-product")}
-          >
-            Create Product
-          </Button>
-        </Stack> */}
         <form onSubmit={handleSearchFormSubmit} style={{ flex: "0.8" }}>
           <Input
             sx={{
@@ -168,11 +153,7 @@ function Header() {
           aria-haspopup="true"
           aria-expanded={open ? "true" : undefined}
         >
-          {user?.avatar ? (
-            <Avatar src={user?.avatar} size="small" />
-          ) : (
-            <Avatar size="small">{user?.name[0] || null}</Avatar>
-          )}
+          <UserAvatar user={user} />
         </IconButton>
         <Menu
           id="account-menu"
