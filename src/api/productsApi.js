@@ -10,3 +10,6 @@ export const getProductsBySearch = (searchQuery) =>
 
 export const addProduct = (productData) =>
   privateAxios.post("products/", productData);
+
+export const getFeaturedProducts = () =>
+  publicAxios.get("products?featured=true");
