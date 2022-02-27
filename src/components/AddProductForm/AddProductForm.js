@@ -34,6 +34,7 @@ const AddProductForm = () => {
         setFormData(initialFormData);
         setLoading(false);
       });
+    // handle error
   };
 
   return (

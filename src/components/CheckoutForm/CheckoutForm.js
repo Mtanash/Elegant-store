@@ -65,7 +65,7 @@ const CheckoutForm = ({ toggleCheckoutForm }) => {
       });
   };
 
-  function limit(val, max) {
+  const limit = (val, max) => {
     if (val.length === 1 && val[0] > max[0]) {
       val = "0" + val;
     }
@@ -81,14 +81,15 @@ const CheckoutForm = ({ toggleCheckoutForm }) => {
     }
 
     return val;
-  }
+  };
 
-  function cardExpiry(val) {
+  const cardExpiry = (val) => {
     let month = limit(val.substring(0, 2), "12");
     let year = val.substring(2, 4);
 
     return month + (year.length ? "/" + year : "");
-  }
+  };
+
   return (
     <Box className="checkout-form" id="checkout-form">
       <Typography variant="h4" gutterBottom align="center">

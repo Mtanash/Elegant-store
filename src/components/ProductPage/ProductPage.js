@@ -102,6 +102,7 @@ const ProductPage = () => {
                   variant="contained"
                   color="secondary"
                   sx={{ alignSelf: "center", margin: "30px 0" }}
+                  onClick={onAddToCartClick}
                 >
                   Add to cart
                 </Button>
