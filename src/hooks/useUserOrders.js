@@ -6,7 +6,7 @@ import { getUserOrders } from "../api/userApi";
 const useUserOrders = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(false);
-  const user = useSelector(selectCurrentUser)?.user;
+  const user = useSelector(selectCurrentUser);
 
   useEffect(() => {
     if (!user) return;

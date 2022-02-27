@@ -19,7 +19,7 @@ const Cart = () => {
   const navigate = useNavigate();
   const cartProducts = useSelector(selectCartProducts);
   const cartProductsCount = useSelector(selectCartProductsCount);
-  const user = useSelector(selectCurrentUser)?.user;
+  const user = useSelector(selectCurrentUser);
 
   const cartTotalPrice = useSelector(selectCartProductsTotalPrice);
 
@@ -28,7 +28,7 @@ const Cart = () => {
   };
 
   const onCheckoutClick = () => {
-    if (!user?.name) return navigate("/auth");
+    if (!user) return navigate("/auth");
     toggleCheckoutForm();
   };
 

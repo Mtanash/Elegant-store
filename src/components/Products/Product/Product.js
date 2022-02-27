@@ -40,7 +40,7 @@ function Product({ product }) {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const user = useSelector(selectCurrentUser)?.user;
+  const user = useSelector(selectCurrentUser);
   const productIsFavorite = user?.favoriteProducts.includes(_id);
 
   const openSnackbar = () => {

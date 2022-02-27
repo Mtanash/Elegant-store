@@ -4,7 +4,7 @@ import { selectCurrentUser } from "../features/user/userSlice";
 import { getUserFavoriteProducts } from "../api/userApi";
 
 const useUserFavoriteProducts = () => {
-  const user = useSelector(selectCurrentUser)?.user;
+  const user = useSelector(selectCurrentUser);
   const [favoriteProducts, setFavoriteProducts] = useState([]);
   const [loading, setLoading] = useState(false);
   useEffect(() => {
@@ -19,7 +19,7 @@ const useUserFavoriteProducts = () => {
     };
 
     fetchUserProducts();
-  }, [user]);
+  }, [user.favoriteProducts]);
 
   return [favoriteProducts, loading];
 };

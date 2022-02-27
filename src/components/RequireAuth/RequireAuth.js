@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../features/user/userSlice";
 
 const RequireAuth = ({ allowedRoles }) => {
-  const user = useSelector(selectCurrentUser)?.user;
+  const user = useSelector(selectCurrentUser);
   const location = useLocation();
   return user?.role && allowedRoles.includes(user?.role) ? (
     <Outlet />

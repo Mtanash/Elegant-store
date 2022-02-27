@@ -38,7 +38,7 @@ const AuthPage = () => {
   const [loading, setLoading] = useState(false);
   const authError = useSelector((state) => state.user.error);
 
-  const user = useSelector(selectCurrentUser)?.user;
+  const user = useSelector(selectCurrentUser);
 
   useEffect(() => {
     if (user) {

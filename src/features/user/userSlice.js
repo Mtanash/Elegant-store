@@ -14,8 +14,8 @@ import {
 } from "../../api/userApi";
 
 const initialState = {
-  currentUser: localStorage.getItem("currentUser")
-    ? JSON.parse(localStorage.getItem("currentUser"))
+  user: localStorage.getItem("user")
+    ? JSON.parse(localStorage.getItem("user"))
     : null,
   error: null,
 };
@@ -93,33 +93,32 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     logoutUser: (state) => {
-      state.currentUser = null;
-      localStorage.setItem("currentUser", null);
+      state.user = null;
+      localStorage.setItem("user", null);
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(loginUser.fulfilled, (state, action) => {
-        state.currentUser = action.payload;
+        state.user = action.payload.user;
       })
       .addCase(signupUser.fulfilled, (state, action) => {
-        state.currentUser = action.payload;
+        state.user = action.payload.user;
       })
       .addCase(authWithGoogle.fulfilled, (state, action) => {
-        state.currentUser = action.payload;
+        state.user = action.payload.user;
       })
       .addCase(addProductToFavorite.fulfilled, (state, action) => {
-        state.currentUser.user.favoriteProducts.push(action.payload._id);
+        state.user.favoriteProducts.push(action.payload._id);
       })
       .addCase(removeProductFromFavorite.fulfilled, (state, action) => {
-        const newFavoriteProducts =
-          state.currentUser.user.favoriteProducts.filter(
-            (product) => product.toString() !== action.payload._id
-          );
-        state.currentUser.user.favoriteProducts = newFavoriteProducts;
+        const newFavoriteProducts = state.user.favoriteProducts.filter(
+          (product) => product.toString() !== action.payload._id
+        );
+        state.user.favoriteProducts = newFavoriteProducts;
       })
       .addCase(updateUserAvatar.fulfilled, (state, action) => {
-        state.currentUser.user.avatar = action.payload.avatar;
+        state.user.avatar = action.payload.avatar;
       })
       .addMatcher(
         isFulfilled(
@@ -130,10 +129,7 @@ const userSlice = createSlice({
           authWithGoogle
         ),
         (state) => {
-          localStorage.setItem(
-            "currentUser",
-            JSON.stringify(state.currentUser)
-          );
+          localStorage.setItem("user", JSON.stringify(state.user));
           state.error = null;
         }
       )
@@ -154,7 +150,6 @@ const userSlice = createSlice({
 
 export const { logoutUser, setNewAccessToken } = userSlice.actions;
 
-export const selectCurrentUser = (state) => state.user.currentUser;
-export const selectAccessToken = (state) => state.user.currentUser?.accessToken;
+export const selectCurrentUser = (state) => state.user.user;
 
 export default userSlice.reducer;
