@@ -54,7 +54,7 @@ const ProductPage = () => {
     return (
       <Container sx={{ minHeight: "calc(100vh - 124px)" }}>
         <Box sx={{ paddingTop: "1px" }}>
-          <Grid container spacing={1} sx={{ marginTop: "0" }}>
+          <Grid container spacing={3} sx={{ marginTop: "0" }}>
             <Grid item xs={3}>
               <img src={product?.imageUrl} alt={product?.description} />
             </Grid>

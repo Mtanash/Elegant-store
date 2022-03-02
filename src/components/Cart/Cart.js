@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 import CheckoutForm from "../CheckoutForm/CheckoutForm";
 import ProductCard from "../ProductCard/ProductCard";
 
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, Link, Typography } from "@mui/material";
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -38,13 +38,34 @@ const Cart = () => {
     <Box
       sx={{ width: "70%", margin: "0 auto", minHeight: "calc(100vh - 124px)" }}
     >
-      <Typography variant="h4" align="center" sx={{ padding: "20px 10px" }}>
-        {cartProductsCount > 0
-          ? `There are ${cartProductsCount} ${
-              cartProductsCount > 1 ? "items" : "item"
-            } in cart.`
-          : "Cart is empty"}
-      </Typography>
+      {cartProductsCount > 0 ? (
+        <Typography variant="h4" align="center" sx={{ padding: "20px 10px" }}>
+          There are {cartProductsCount}
+          {cartProductsCount > 1 ? " items" : " item"} in cart.
+        </Typography>
+      ) : (
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            paddingTop: "100px",
+          }}
+        >
+          <Typography variant="h4" align="center" sx={{ padding: "20px 10px" }}>
+            Cart is empty
+          </Typography>
+          <Link
+            sx={{ paddingTop: "25px" }}
+            component="button"
+            variant="body1"
+            onClick={() => navigate("/")}
+          >
+            Shop Now
+          </Link>
+        </Box>
+      )}
       {cartProducts.map((product) => (
         <ProductCard
           key={product._id}

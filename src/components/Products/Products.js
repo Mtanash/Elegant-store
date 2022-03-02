@@ -14,6 +14,7 @@ const Products = () => {
   const [loading, setLoading] = useState(false);
 
   const handlePageChange = (e, value) => {
+    productsRef.current.scrollIntoView();
     setPage(value);
   };
 
@@ -29,7 +30,6 @@ const Products = () => {
         console.log(err?.response?.data);
       }
       setLoading(false);
-      productsRef.current.scrollIntoView();
     };
 
     getProducts();

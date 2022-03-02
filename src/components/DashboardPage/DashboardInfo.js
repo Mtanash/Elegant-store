@@ -3,7 +3,7 @@ import { getDashboardData } from "../../api/dashboard";
 import { Box, Grid, CircularProgress } from "@mui/material";
 import Chart from "./Chart";
 import Deposits from "./Deposits";
-import Orders from "./Orders";
+import Orders from "../Orders/Orders";
 
 const DashboardInfo = () => {
   const [dashboardData, setDashboardData] = useState({});

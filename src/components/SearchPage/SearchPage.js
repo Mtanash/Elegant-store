@@ -8,7 +8,7 @@ import ProductsComponent from "../Products/ProductsComponent";
 
 const SearchPage = () => {
   const [searchParams] = useSearchParams();
-  const searchQuery = searchParams.get("searchQuery");
+  const searchQuery = searchParams.get("search");
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -23,7 +23,7 @@ const SearchPage = () => {
           setLoading(false);
           return setError("No match found");
         }
-        setProducts(response?.data);
+        setProducts(response?.data?.products);
         setLoading(false);
         setError(false);
       } catch (err) {

@@ -113,7 +113,7 @@ function Header() {
   const handleSearchFormSubmit = (e) => {
     e.preventDefault();
     if (!searchQuery) return;
-    navigate(`/search?searchQuery=${searchQuery}`);
+    navigate(`products-search?search=${searchQuery}`);
     setSearchQuery("");
   };
 
@@ -121,7 +121,7 @@ function Header() {
     <AppBar position="static">
       <Toolbar sx={{ width: "100%", gap: "20px" }}>
         <Typography variant="h6" component="div" sx={{ flex: "0.2" }}>
-          <a href="/">Elegant Store</a>
+          <a href="/">Elegant</a>
         </Typography>
         <form onSubmit={handleSearchFormSubmit} style={{ flex: "0.8" }}>
           <Input
