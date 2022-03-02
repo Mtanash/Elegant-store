@@ -84,7 +84,7 @@ const Home = () => {
           NextIcon={<ArrowForwardIosIcon />}
           PrevIcon={<ArrowBackIosNewIcon />}
           sx={{
-            "&>div:nth-child(1)": { display: "grid", placeItems: "center" },
+            "&>div:nth-of-type(1)": { display: "grid", placeItems: "center" },
             marginTop: "25px",
           }}
         >
