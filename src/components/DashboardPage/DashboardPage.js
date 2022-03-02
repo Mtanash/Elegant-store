@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import Inventory2Icon from "@mui/icons-material/Inventory2";
 import AddIcon from "@mui/icons-material/Add";
 import { Outlet, useNavigate } from "react-router-dom";
 
@@ -53,6 +54,16 @@ const DashboardPage = () => {
               <AddIcon />
             </ListItemIcon>
             <ListItemText>Add Product</ListItemText>
+          </MenuItem>
+          <MenuItem
+            onClick={() => {
+              navigate("products");
+            }}
+          >
+            <ListItemIcon>
+              <Inventory2Icon />
+            </ListItemIcon>
+            <ListItemText>Products</ListItemText>
           </MenuItem>
         </MenuList>
       </Paper>
