@@ -10,11 +10,14 @@ import RequireAuth from "./components/RequireAuth/RequireAuth";
 import UnauthorizedPage from "./components/UnauthorizedPage/UnauthorizedPage";
 import NotFoundPage from "./components/NotFoundPage/NotFoundPage";
 import SearchPage from "./components/SearchPage/SearchPage";
-import Orders from "./components/DashboardPage/Orders";
-
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Orders from "./components/Orders/Orders";
 import DashboardInfo from "./components/DashboardPage/DashboardInfo";
 import AddProductForm from "./components/AddProductForm/AddProductForm";
+import FavoriteProductsPage from "./components/ProfilePage/FavoriteProductsPage";
+import ProfileInfoPage from "./components/ProfilePage/ProfileInfoPage";
+import ProductsList from "./components/DashboardPage/ProductsList";
+
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
   return (
@@ -26,17 +29,27 @@ function App() {
         <Route path="/cart" element={<Cart />} />
         <Route path="/auth" element={<AuthPage />} />
         <Route path="/unauthorized" element={<UnauthorizedPage />} />
-        <Route path="/search" element={<SearchPage />} />
+        <Route path="/products-search" element={<SearchPage />} />
 
         <Route element={<RequireAuth allowedRoles={["admin"]} />}>
           <Route path="/dashboard" element={<DashboardPage />}>
+            <Route index element={<DashboardInfo />} />
             <Route path="info" element={<DashboardInfo />} />
             <Route path="create-product" element={<AddProductForm />} />
             <Route path="orders" element={<Orders />} />
+            <Route path="products" element={<ProductsList />} />
           </Route>
         </Route>
         <Route element={<RequireAuth allowedRoles={["admin", "user"]} />}>
-          <Route path="/me" element={<ProfilePage />} />
+          <Route path="/me" element={<ProfilePage />}>
+            <Route index element={<ProfileInfoPage />} />
+            <Route
+              path="favorite-products"
+              element={<FavoriteProductsPage />}
+            />
+            <Route path="info" element={<ProfileInfoPage />} />
+            <Route path="orders" element={<Orders title="My Orders" />} />
+          </Route>
         </Route>
 
         <Route path="*" element={<NotFoundPage />} />
