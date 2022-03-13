@@ -10,12 +10,13 @@ import RequireAuth from "./components/RequireAuth/RequireAuth";
 import UnauthorizedPage from "./components/UnauthorizedPage/UnauthorizedPage";
 import NotFoundPage from "./components/NotFoundPage/NotFoundPage";
 import SearchPage from "./components/SearchPage/SearchPage";
-import Orders from "./components/Orders/Orders";
 import DashboardInfo from "./components/DashboardPage/DashboardInfo";
 import AddProductForm from "./components/AddProductForm/AddProductForm";
 import FavoriteProductsPage from "./components/ProfilePage/FavoriteProductsPage";
 import ProfileInfoPage from "./components/ProfilePage/ProfileInfoPage";
 import ProductsList from "./components/DashboardPage/ProductsList";
+import DashboardOrdersPage from "./components/DashboardPage/DashboardOrdersPage";
+import ProfileOrdersPage from "./components/ProfilePage/ProfileOrdersPage";
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
@@ -36,7 +37,7 @@ function App() {
             <Route index element={<DashboardInfo />} />
             <Route path="info" element={<DashboardInfo />} />
             <Route path="create-product" element={<AddProductForm />} />
-            <Route path="orders" element={<Orders />} />
+            <Route path="orders" element={<DashboardOrdersPage />} />
             <Route path="products" element={<ProductsList />} />
           </Route>
         </Route>
@@ -48,7 +49,7 @@ function App() {
               element={<FavoriteProductsPage />}
             />
             <Route path="info" element={<ProfileInfoPage />} />
-            <Route path="orders" element={<Orders title="My Orders" />} />
+            <Route path="orders" element={<ProfileOrdersPage />} />
           </Route>
         </Route>
 
