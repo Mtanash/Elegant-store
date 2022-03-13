@@ -1,17 +1,16 @@
 import { useEffect, useRef, useState } from "react";
 import Paginate from "../Paginate/Paginate";
-import { fetchProducts } from "../../api/productsApi";
 
 import { Typography } from "@mui/material";
 import { Box } from "@mui/system";
+import useAxios from "../../hooks/useAxios";
+import { publicAxios } from "../../api/axios";
 
 const Products = () => {
   const productsRef = useRef(null);
-
+  const [productsData, productsLoading, productsError, fetchProducts] =
+    useAxios();
   const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(false);
 
   const handlePageChange = (e, value) => {
     productsRef.current.scrollIntoView();
@@ -19,21 +18,12 @@ const Products = () => {
   };
 
   useEffect(() => {
-    const getProducts = async () => {
-      setLoading(true);
-      try {
-        const response = await fetchProducts(page);
-        const { products, totalPages } = response?.data;
-        setProducts(products);
-        setTotalPages(totalPages);
-      } catch (err) {
-        console.log(err?.response?.data);
-      }
-      setLoading(false);
-    };
-
-    getProducts();
-  }, [page, productsRef]);
+    fetchProducts({
+      axiosInstance: publicAxios,
+      method: "GET",
+      url: `products?page=${page}`,
+    });
+  }, [page]);
 
   return (
     <Box
@@ -55,9 +45,10 @@ const Products = () => {
       </Typography>
       <Paginate
         page={page}
-        totalPages={totalPages}
-        products={products}
-        loading={loading}
+        totalPages={productsData.totalPages}
+        products={productsData.products}
+        loading={productsLoading}
+        error={productsError}
         handlePageChange={handlePageChange}
       />
     </Box>

@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
 import LoadingPage from "../LoadingPage/LoadingPage";
-
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { productAddedToCart } from "../../features/Cart/cartSlice";
-import { fetchProductById } from "../../api/productsApi";
-
 import { useParams } from "react-router-dom";
-
 import moment from "moment";
+import useHandleAddToFavorite from "../../hooks/useHandleAddToFavorite";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 
 import {
   Button,
@@ -20,36 +18,46 @@ import {
   Paper,
   Container,
 } from "@mui/material";
+import { LoadingButton } from "@mui/lab";
+import useAxios from "../../hooks/useAxios";
+import { publicAxios, privateAxios } from "../../api/axios";
+import UserAvatar from "../UserAvatar/UserAvatar";
+import { selectCurrentUser } from "../../features/user/userSlice";
+import AddReview from "../AddReview/AddReview";
+import Reviews from "../Reviews/Reviews";
+import Rates from "../Rates/Rates";
 
 const ProductPage = () => {
   const dispatch = useDispatch();
   const params = useParams();
+
+  const [rerender, setRerender] = useState(false);
   const [productQuantity, setProductQuantity] = useState(1);
-  const [product, setProduct] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [productQuantityError, setProductQuantityError] = useState(false);
+  const [addToFavoriteLoading, handleAddToFavorite] = useHandleAddToFavorite();
+  const [product, productLoading, productError, fetchProduct] = useAxios();
+  const productIsFavorite = useSelector((state) =>
+    state.user?.user?.favoriteProducts.includes(params.id)
+  );
+  const user = useSelector(selectCurrentUser);
 
   useEffect(() => {
-    const getProductById = async (id) => {
-      setLoading(true);
-      try {
-        const response = await fetchProductById(id);
-        setProduct(response?.data);
-      } catch (err) {
-        console.log(err?.response?.data);
-      }
-      setLoading(false);
-    };
-
-    getProductById(params.id);
-  }, [params.id]);
+    fetchProduct({
+      axiosInstance: publicAxios,
+      method: "get",
+      url: `/products/${params.id}`,
+    });
+  }, []);
 
   const onAddToCartClick = () => {
+    if (productQuantityError || !product?.stock > 0) return;
     dispatch(
       productAddedToCart({ productToAdd: product, amount: productQuantity })
     );
   };
 
-  if (loading) return <LoadingPage fullHeight={true} />;
+  if (productLoading) return <LoadingPage fullHeight={true} />;
+  else if (productError) return <div>Error: {productError}</div>;
   else
     return (
       <Container sx={{ minHeight: "calc(100vh - 124px)" }}>
@@ -62,12 +70,7 @@ const ProductPage = () => {
               <Typography gutterBottom variant="body1">
                 {product.description}
               </Typography>
-              <Rating
-                size="small"
-                name="read-only"
-                value={product?.rating}
-                readOnly
-              />
+              <Rates productId={params.id} rerender={rerender} />
               <Divider sx={{ margin: "5px 0" }} />
               <Typography variant="h6">Price: ${product.price}.00</Typography>
               <Typography variant="caption" gutterBottom>
@@ -96,21 +99,93 @@ const ProductPage = () => {
                   Delivery:{" "}
                   {moment(new Date()).add(2, "days").format("dddd, MMM.D")}
                 </Typography>
-                <Typography variant="h6">In stock.</Typography>
-                <Divider sx={{ margin: "5px 0" }} />
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  sx={{ alignSelf: "center", margin: "30px 0" }}
-                  onClick={onAddToCartClick}
+                {!product?.stock > 0 ? (
+                  <Typography variant="h6" sx={{ color: "red" }}>
+                    Out of stock.
+                  </Typography>
+                ) : (
+                  <Typography variant="h6">In stock.</Typography>
+                )}
+                {product?.stock > 0 && (
+                  <>
+                    <TextField
+                      sx={{
+                        alignSelf: "center",
+                        width: "40%",
+                        margin: "10px 0",
+                      }}
+                      value={productQuantity}
+                      onChange={(e) => {
+                        const value = parseInt(e.target.value);
+                        setProductQuantity(value);
+                        if (value > product.stock) {
+                          setProductQuantityError(true);
+                        } else {
+                          setProductQuantityError(false);
+                        }
+                      }}
+                      error={productQuantityError}
+                      label="Qty"
+                      type="number"
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                    />
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      sx={{ alignSelf: "center", margin: "20px 0" }}
+                      onClick={onAddToCartClick}
+                    >
+                      Add to cart
+                    </Button>
+                  </>
+                )}
+                <LoadingButton
+                  aria-label="favorite"
+                  loading={addToFavoriteLoading}
+                  onClick={() => handleAddToFavorite(params.id)}
+                  variant={productIsFavorite ? "text" : "outlined"}
+                  sx={{ alignSelf: "center" }}
                 >
-                  Add to cart
-                </Button>
+                  {productIsFavorite ? (
+                    <FavoriteIcon sx={{ color: "red" }} />
+                  ) : (
+                    <Typography variant="body2">Add to favorite</Typography>
+                  )}
+                </LoadingButton>
               </Paper>
             </Grid>
             <Grid item xs={12}>
               <Divider sx={{ margin: "5px 0" }} />
             </Grid>
+            <Grid item xs={12}>
+              <Typography variant="h6" gutterBottom align="center">
+                Reviews
+              </Typography>
+            </Grid>
+
+            <Grid item xs={6}>
+              {user ? (
+                <AddReview
+                  productId={params.id}
+                  rerender={rerender}
+                  setRerender={setRerender}
+                />
+              ) : (
+                <Typography variant="h6" align="center">
+                  Please login to add a review.
+                </Typography>
+              )}
+            </Grid>
+            <Grid item xs={6}>
+              <Reviews productId={params.id} rerender={rerender} />
+            </Grid>
+
+            <Grid item xs={12}>
+              <Divider sx={{ margin: "5px 0" }} />
+            </Grid>
+
             <Grid item xs={12}>
               <Typography variant="subtitle1" gutterBottom>
                 Customers also viewed

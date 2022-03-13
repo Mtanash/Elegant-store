@@ -1,44 +1,40 @@
-// import Filter from "../Filter/Filter";
-import Products from "../Products/Products";
-
 import {
   Typography,
   Button,
   Box,
-  Paper,
   Container,
   Card,
   CardActionArea,
   CardMedia,
   CardContent,
 } from "@mui/material";
-
-import "../../css/Home/Home.css";
-import { useEffect, useState } from "react";
-import { getFeaturedProducts } from "../../api/productsApi";
-import Carousel from "react-material-ui-carousel";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import { useEffect } from "react";
+import Products from "../Products/Products";
+import Carousel from "react-material-ui-carousel";
+import useAxios from "../../hooks/useAxios";
+import { publicAxios } from "../../api/axios";
+import LoadingPage from "../LoadingPage/LoadingPage";
+import ErrorPage from "../ErrorPage/ErrorPage";
 import { useNavigate } from "react-router-dom";
+import "../../css/Home/Home.css";
 
 const Home = () => {
   const navigate = useNavigate();
-  const [featuredProducts, setFeaturedProducts] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [
+    featuredProductsData,
+    featuredProductsLoading,
+    featuredProductsError,
+    axiosFetch,
+  ] = useAxios();
 
   useEffect(() => {
-    const fetchFeaturedProducts = async () => {
-      setLoading(true);
-      try {
-        const response = await getFeaturedProducts();
-        setFeaturedProducts(response?.data.products);
-      } catch (err) {
-        console.log(err?.response?.data);
-      }
-      setLoading(false);
-    };
-
-    fetchFeaturedProducts();
+    axiosFetch({
+      axiosInstance: publicAxios,
+      method: "GET",
+      url: `products?featured=true`,
+    });
   }, []);
 
   return (
@@ -77,52 +73,69 @@ const Home = () => {
           Shop Now
         </Button>
       </Box>
-      {/* <Filter /> */}
       <Container>
-        <Carousel
-          animation="slide"
-          NextIcon={<ArrowForwardIosIcon />}
-          PrevIcon={<ArrowBackIosNewIcon />}
-          sx={{
-            "&>div:nth-of-type(1)": { display: "grid", placeItems: "center" },
-            marginTop: "25px",
-          }}
-        >
-          {featuredProducts.map((product) => (
-            <Card raised key={product._id}>
-              <CardActionArea
-                onClick={() => navigate(`/product/${product._id}`)}
-                sx={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)" }}
-              >
-                <CardMedia
-                  component="img"
-                  height="200"
-                  image={product.imageUrl}
-                  alt={product.description}
-                  sx={{ objectFit: "contain" }}
-                />
-                <CardContent sx={{ gridColumn: "2/4" }}>
-                  <Typography
-                    variant="h6"
-                    gutterBottom
-                    align="center"
+        {featuredProductsLoading && (
+          <LoadingPage customStyles={{ minHeight: "228px" }} />
+        )}
+        {!featuredProductsLoading && featuredProductsError && <ErrorPage />}
+        {!featuredProductsError &&
+          !featuredProductsLoading &&
+          featuredProductsData?.products && (
+            <Carousel
+              animation="slide"
+              NextIcon={<ArrowForwardIosIcon />}
+              PrevIcon={<ArrowBackIosNewIcon />}
+              sx={{
+                "&>div:nth-of-type(1)": {
+                  display: "grid",
+                  placeItems: "center",
+                },
+                marginTop: "25px",
+              }}
+            >
+              {featuredProductsData.products.map((product) => (
+                <Card raised key={product._id}>
+                  <CardActionArea
+                    onClick={() => navigate(`/product/${product._id}`)}
                     sx={{
-                      height: "95px",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
+                      display: "grid",
+                      gridTemplateColumns: "repeat(3, 1fr)",
                     }}
                   >
-                    {product.description}
-                  </Typography>
-                  <Typography variant="body1" component="div" align="center">
-                    ${product.price}.00
-                  </Typography>
-                </CardContent>
-              </CardActionArea>
-            </Card>
-          ))}
-        </Carousel>
+                    <CardMedia
+                      component="img"
+                      height="200"
+                      image={product.imageUrl}
+                      alt={product.description}
+                      sx={{ objectFit: "contain" }}
+                    />
+                    <CardContent sx={{ gridColumn: "2/4" }}>
+                      <Typography
+                        variant="h6"
+                        gutterBottom
+                        align="center"
+                        sx={{
+                          height: "95px",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
+                      >
+                        {product.description}
+                      </Typography>
+                      <Typography
+                        variant="body1"
+                        component="div"
+                        align="center"
+                      >
+                        ${product.price}.00
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                </Card>
+              ))}
+            </Carousel>
+          )}
         <Products />
       </Container>
     </main>

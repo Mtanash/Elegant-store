@@ -1,27 +1,27 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../features/user/userSlice";
-import { getUserFavoriteProducts } from "../api/userApi";
+import useAxios from "./useAxios";
+import { privateAxios } from "../api/axios";
 
 const useUserFavoriteProducts = () => {
   const user = useSelector(selectCurrentUser);
-  const [favoriteProducts, setFavoriteProducts] = useState([]);
-  const [loading, setLoading] = useState(false);
-  useEffect(() => {
-    if (!user) return;
-    const fetchUserProducts = async () => {
-      setLoading(true);
-      const response = await getUserFavoriteProducts();
-      if (response?.data) {
-        setFavoriteProducts(response?.data);
-      }
-      setLoading(false);
-    };
+  const [
+    favoriteProducts,
+    favoriteProductsLoading,
+    favoriteProductsError,
+    fetchFavoriteProducts,
+  ] = useAxios();
 
-    fetchUserProducts();
+  useEffect(() => {
+    fetchFavoriteProducts({
+      axiosInstance: privateAxios,
+      method: "GET",
+      url: "users/me/favoriteProducts",
+    });
   }, [user.favoriteProducts]);
 
-  return [favoriteProducts, loading];
+  return [favoriteProducts, favoriteProductsLoading, favoriteProductsError];
 };
 
 export default useUserFavoriteProducts;
