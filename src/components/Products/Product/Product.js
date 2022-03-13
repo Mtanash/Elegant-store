@@ -3,12 +3,6 @@ import { truncateString } from "../../../utils";
 
 import { useDispatch, useSelector } from "react-redux";
 import { productAddedToCart } from "../../../features/Cart/cartSlice";
-import {
-  addProductToFavorite,
-  logoutUser,
-  removeProductFromFavorite,
-  selectCurrentUser,
-} from "../../../features/user/userSlice";
 
 import CloseIcon from "@mui/icons-material/Close";
 import {
@@ -21,8 +15,6 @@ import {
   Divider,
   Typography,
   CardActionArea,
-  Chip,
-  Stack,
   IconButton,
   Snackbar,
 } from "@mui/material";
@@ -32,17 +24,18 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 
 import { useNavigate } from "react-router-dom";
+import useHandleAddToFavorite from "../../../hooks/useHandleAddToFavorite";
 
 function Product({ product }) {
   const { description, price, imageUrl, _id } = product;
   const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [addToFavoriteLoading, handleAddToFavorite] = useHandleAddToFavorite();
+  const productIsFavorite = useSelector((state) =>
+    state.user.user?.favoriteProducts.includes(_id)
+  );
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const user = useSelector(selectCurrentUser);
-  const productIsFavorite = user?.favoriteProducts.includes(_id);
-
   const openSnackbar = () => {
     setSnackbarOpen(true);
   };
@@ -57,27 +50,6 @@ function Product({ product }) {
   const onAddToCartButtonClicked = () => {
     dispatch(productAddedToCart({ productToAdd: product }));
     openSnackbar();
-  };
-
-  const handleAddToFavorite = () => {
-    if (!user) return;
-    setLoading(true);
-    if (productIsFavorite) {
-      return dispatch(removeProductFromFavorite({ _id }))
-        .unwrap()
-        .then(() => setLoading(false))
-        .catch(() => {
-          dispatch(logoutUser());
-          navigate("/auth");
-        });
-    }
-    dispatch(addProductToFavorite({ _id }))
-      .unwrap()
-      .then(() => setLoading(false))
-      .catch(() => {
-        dispatch(logoutUser());
-        navigate("/auth");
-      });
   };
 
   const action = (
@@ -136,8 +108,8 @@ function Product({ product }) {
         >
           <LoadingButton
             aria-label="favorite"
-            loading={loading}
-            onClick={handleAddToFavorite}
+            loading={addToFavoriteLoading}
+            onClick={() => handleAddToFavorite(_id)}
           >
             {productIsFavorite ? (
               <FavoriteIcon sx={{ color: "red" }} />
