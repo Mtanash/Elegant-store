@@ -1,27 +1,19 @@
-import { Box, Pagination, CircularProgress } from "@mui/material";
+import { Box, Pagination } from "@mui/material";
 
 import ProductsComponent from "../Products/ProductsComponent";
+import LoadingPage from "../LoadingPage/LoadingPage";
+import ErrorPage from "../ErrorPage/ErrorPage";
 
 const Paginate = ({
   loading,
+  error,
   products,
   totalPages,
   page,
   handlePageChange,
 }) => {
-  if (loading)
-    return (
-      <Box
-        sx={{
-          minHeight: "calc(100vh - 124px)",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <CircularProgress />
-      </Box>
-    );
+  if (loading) return <LoadingPage />;
+  else if (error) return <ErrorPage />;
   else
     return (
       <Box>

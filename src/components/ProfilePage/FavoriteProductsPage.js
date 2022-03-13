@@ -7,13 +7,15 @@ import {
   Typography,
   Link,
   Paper,
+  styled,
 } from "@mui/material";
-import { styled } from "@mui/material";
 
 import { useNavigate } from "react-router-dom";
 
-import { useDispatch } from "react-redux";
-import { removeProductFromFavorite } from "../../features/user/userSlice";
+import LoadingPage from "../LoadingPage/LoadingPage";
+import MainPaper from "../custome material ui components/MainPaper";
+import ErrorPage from "../ErrorPage/ErrorPage";
+import useHandleAddToFavorite from "../../hooks/useHandleAddToFavorite";
 
 const CustomPaper = styled(Paper)(() => ({
   width: "100%",
@@ -27,47 +29,55 @@ const CustomPaper = styled(Paper)(() => ({
 
 const FavoriteProductsPage = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const [favoriteProducts, favoriteProductsLoading] = useUserFavoriteProducts();
+  const [favoriteProducts, favoriteProductsLoading, favoriteProductsError] =
+    useUserFavoriteProducts();
+  const [addToFavoriteLoading, handleAddToFavorite] = useHandleAddToFavorite();
 
-  const onRemoveButtonClicked = (_id) =>
-    dispatch(removeProductFromFavorite({ _id }));
-
-  return !!favoriteProducts.length ? (
-    <CustomPaper>
-      <Stack
-        spacing={1}
-        sx={{
-          width: "80%",
-          justifyContent: "center",
-          alignItems: "stretch",
-        }}
-      >
-        {favoriteProductsLoading ? (
-          <CircularProgress sx={{ alignSelf: "center" }} />
-        ) : (
-          favoriteProducts.map((product) => (
-            <ProductCard
-              key={product._id}
-              {...product}
-              onRemoveButtonClicked={onRemoveButtonClicked}
-            />
-          ))
-        )}
-      </Stack>
-    </CustomPaper>
-  ) : (
-    <CustomPaper elevation={3}>
-      <Typography>No favorite products</Typography>
-      <Typography variant="body2">
-        Go to &nbsp;
-        <Link component="button" variant="body2" onClick={() => navigate("/")}>
-          products
-        </Link>
-        &nbsp; and add some products to favorite.
-      </Typography>
-    </CustomPaper>
-  );
+  if (favoriteProductsLoading) return <LoadingPage />;
+  else if (favoriteProductsError) return <ErrorPage />;
+  else if (favoriteProducts.length === 0)
+    return (
+      <MainPaper elevation={3}>
+        <Typography>No favorite products</Typography>
+        <Typography variant="body2">
+          Go to &nbsp;
+          <Link
+            component="button"
+            variant="body2"
+            onClick={() => navigate("/")}
+          >
+            products
+          </Link>
+          &nbsp; and add some products to favorite.
+        </Typography>
+      </MainPaper>
+    );
+  else
+    return (
+      <MainPaper elevation={3}>
+        <Stack
+          spacing={1}
+          sx={{
+            width: "80%",
+            justifyContent: "center",
+            alignItems: "stretch",
+          }}
+        >
+          {favoriteProductsLoading ? (
+            <CircularProgress sx={{ alignSelf: "center" }} />
+          ) : (
+            favoriteProducts.map((product) => (
+              <ProductCard
+                key={product._id}
+                {...product}
+                loading={addToFavoriteLoading}
+                onRemoveButtonClicked={() => handleAddToFavorite(product._id)}
+              />
+            ))
+          )}
+        </Stack>
+      </MainPaper>
+    );
 };
 
 export default FavoriteProductsPage;
