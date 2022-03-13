@@ -4,14 +4,7 @@ import {
   isFulfilled,
   isRejectedWithValue,
 } from "@reduxjs/toolkit";
-import {
-  login,
-  signup,
-  addToFavorite,
-  removeFromFavorite,
-  updateAvatar,
-  googleAuth,
-} from "../../api/userApi";
+import { login, signup, updateAvatar, googleAuth } from "../../api/userApi";
 
 const initialState = {
   user: localStorage.getItem("user")
@@ -38,30 +31,6 @@ export const signupUser = createAsyncThunk(
     try {
       const response = await signup(userData);
       return response?.data;
-    } catch (err) {
-      return rejectWithValue(err?.response?.data);
-    }
-  }
-);
-
-export const addProductToFavorite = createAsyncThunk(
-  "user/addProductToFavorite",
-  async (productId, { rejectWithValue }) => {
-    try {
-      await addToFavorite(productId);
-      return productId;
-    } catch (err) {
-      return rejectWithValue(err?.response?.data);
-    }
-  }
-);
-
-export const removeProductFromFavorite = createAsyncThunk(
-  "user/removeProductFromFavorite",
-  async (productId, { rejectWithValue }) => {
-    try {
-      await removeFromFavorite(productId);
-      return productId;
     } catch (err) {
       return rejectWithValue(err?.response?.data);
     }
@@ -96,6 +65,18 @@ const userSlice = createSlice({
       state.user = null;
       localStorage.setItem("user", null);
     },
+    productAddedToFavorite: (state, action) => {
+      state.user.favoriteProducts.push(action.payload._id);
+    },
+    productRemovedFromFavorite: (state, action) => {
+      const newFavoriteProducts = state.user.favoriteProducts.filter(
+        (product) => product.toString() !== action.payload._id
+      );
+      state.user.favoriteProducts = newFavoriteProducts;
+    },
+    userSavedToLocalStorage: (state) => {
+      localStorage.setItem("user", JSON.stringify(state.user));
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -108,39 +89,18 @@ const userSlice = createSlice({
       .addCase(authWithGoogle.fulfilled, (state, action) => {
         state.user = action.payload.user;
       })
-      .addCase(addProductToFavorite.fulfilled, (state, action) => {
-        state.user.favoriteProducts.push(action.payload._id);
-      })
-      .addCase(removeProductFromFavorite.fulfilled, (state, action) => {
-        const newFavoriteProducts = state.user.favoriteProducts.filter(
-          (product) => product.toString() !== action.payload._id
-        );
-        state.user.favoriteProducts = newFavoriteProducts;
-      })
       .addCase(updateUserAvatar.fulfilled, (state, action) => {
         state.user.avatar = action.payload.avatar;
       })
       .addMatcher(
-        isFulfilled(
-          loginUser,
-          signupUser,
-          addProductToFavorite,
-          removeProductFromFavorite,
-          authWithGoogle
-        ),
+        isFulfilled(loginUser, signupUser, authWithGoogle),
         (state) => {
           localStorage.setItem("user", JSON.stringify(state.user));
           state.error = null;
         }
       )
       .addMatcher(
-        isRejectedWithValue(
-          loginUser,
-          signupUser,
-          addProductToFavorite,
-          removeProductFromFavorite,
-          authWithGoogle
-        ),
+        isRejectedWithValue(loginUser, signupUser, authWithGoogle),
         (state, action) => {
           state.error = action.payload.message;
         }
@@ -148,7 +108,12 @@ const userSlice = createSlice({
   },
 });
 
-export const { logoutUser, setNewAccessToken } = userSlice.actions;
+export const {
+  logoutUser,
+  productAddedToFavorite,
+  productRemovedFromFavorite,
+  userSavedToLocalStorage,
+} = userSlice.actions;
 
 export const selectCurrentUser = (state) => state.user.user;
 
