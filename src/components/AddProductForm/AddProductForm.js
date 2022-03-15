@@ -1,21 +1,19 @@
 import { Input, TextField, Typography } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
-
-import { useState } from "react";
-import { createProduct } from "../../features/products/productsSlice";
-
-import { useDispatch } from "react-redux";
-
-import "../../css/AddProductForm/AddProductForm.css";
-import { publicAxios } from "../../api/axios";
-import { getImageUploadUrl, addProductImageUrl } from "../../api/productsApi";
-import Resizer from "react-image-file-resizer";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
+import { useState } from "react";
+import { publicAxios } from "../../api/axios";
+import { getImageUploadUrl, addProductImageUrl } from "../../api/productsApi";
+import { createProduct } from "../../features/products/productsSlice";
+import { useDispatch } from "react-redux";
+import Resizer from "react-image-file-resizer";
+import "../../css/AddProductForm/AddProductForm.css";
 
 const initialFormData = {
   description: "",
   price: "",
+  stock: "1",
   featured: false,
 };
 
@@ -108,6 +106,15 @@ const AddProductForm = () => {
           label="Price"
           name="price"
           value={formData.price}
+          onChange={onFormDataChange}
+        />
+        <TextField
+          required
+          fullWidth
+          type="number"
+          label="Stock"
+          name="stock"
+          value={formData.stock}
           onChange={onFormDataChange}
         />
         <FormControlLabel
