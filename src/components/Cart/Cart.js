@@ -70,7 +70,7 @@ const Cart = () => {
         <ProductCard
           key={product._id}
           {...product}
-          onRemoveButtonClicked={onRemoveButtonClicked}
+          onRemoveButtonClicked={() => onRemoveButtonClicked(product._id)}
         />
       ))}
       {cartProductsCount > 0 && (
