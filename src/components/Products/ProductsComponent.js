@@ -1,7 +1,7 @@
 import { Box } from "@mui/system";
 import Product from "./Product/Product";
 
-const ProductsComponent = ({ products }) => {
+const ProductsComponent = ({ products = [] }) => {
   return (
     <Box
       sx={{
