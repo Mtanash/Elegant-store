@@ -2,12 +2,12 @@ import {
   Card,
   CardMedia,
   CardContent,
-  Button,
   Typography,
   Divider,
   CardActionArea,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 import { truncateString } from "../../utils";
 
@@ -19,6 +19,7 @@ const ProductCard = ({
   price,
   imageUrl,
   _id,
+  loading,
   onRemoveButtonClicked,
 }) => {
   const navigate = useNavigate();
@@ -47,14 +48,15 @@ const ProductCard = ({
           <Typography variant="body2">Price: ${price}</Typography>
         </CardContent>
       </CardActionArea>
-      <Button
+      <LoadingButton
         sx={{ alignSelf: "center" }}
         variant="outlined"
         startIcon={<DeleteIcon />}
-        onClick={() => onRemoveButtonClicked(_id)}
+        loading={loading}
+        onClick={onRemoveButtonClicked}
       >
         Remove
-      </Button>
+      </LoadingButton>
     </Card>
   );
 };
