@@ -1,4 +1,6 @@
 import { useState } from "react";
+import useAxios from "../../hooks/useAxios";
+import { privateAxios } from "../../api/axios";
 
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -6,7 +8,6 @@ import {
   selectCartProducts,
   selectCartProductsTotalPrice,
 } from "../../features/Cart/cartSlice";
-import { createOrder } from "../../features/order/orderSlice";
 
 import { useNavigate } from "react-router-dom";
 
@@ -35,7 +36,12 @@ const CheckoutForm = ({ toggleCheckoutForm }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [formData, setFormData] = useState(initialFormDataState);
-  const [loading, setLoading] = useState(false);
+  const [
+    createdOrder,
+    createdOrderLoading,
+    createdOrderError,
+    fetchCreatedOrder,
+  ] = useAxios();
 
   const handleFormData = (e) => {
     setFormData({
@@ -46,23 +52,37 @@ const CheckoutForm = ({ toggleCheckoutForm }) => {
 
   const onFormSubmit = (e) => {
     e.preventDefault();
-    setLoading(true);
 
     const order = {
       orderProducts: cartProducts.map((product) => ({ _id: product._id })),
       orderTotalPrice: cartProductsTotalPrice,
-      orderInfo: { ...formData },
+      orderInfo: {
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        address: formData.address,
+        phoneNumber: formData.phoneNumber,
+      },
+      paymentMethodInfo: {
+        creditNumber: formData.creditNumber,
+        creditExpMonth: formData.creditExpMonth,
+        creditExpYear: formData.creditExpYear,
+        creditCVC: formData.creditCVC,
+      },
     };
 
-    dispatch(createOrder(order))
-      .unwrap()
-      .then((res) => {
-        setLoading(false);
-        toggleCheckoutForm();
-        setFormData(initialFormDataState);
-        dispatch(cartCleared());
-        navigate("/");
-      });
+    fetchCreatedOrder({
+      axiosInstance: privateAxios,
+      method: "POST",
+      url: "orders",
+      requestConfig: {
+        ...order,
+      },
+    }).then(() => {
+      toggleCheckoutForm();
+      setFormData(initialFormDataState);
+      dispatch(cartCleared());
+      navigate("/");
+    });
   };
 
   const limit = (val, max) => {
@@ -199,7 +219,7 @@ const CheckoutForm = ({ toggleCheckoutForm }) => {
         </div>
 
         <LoadingButton
-          loading={loading}
+          loading={createdOrderLoading}
           variant="contained"
           fullWidth
           type="submit"
