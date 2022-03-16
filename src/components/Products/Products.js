@@ -5,6 +5,8 @@ import { Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import useAxios from "../../hooks/useAxios";
 import { publicAxios } from "../../api/axios";
+import LoadingPage from "../../pages/LoadingPage/LoadingPage";
+import ErrorPage from "../../pages/ErrorPage/ErrorPage";
 
 const Products = () => {
   const productsRef = useRef(null);
@@ -25,34 +27,35 @@ const Products = () => {
     });
   }, [page]);
 
-  return (
-    <Box
-      ref={productsRef}
-      id="products"
-      sx={{
-        minHeight: "100vh",
-        display: "grid",
-        placeItems: "center",
-      }}
-    >
-      <Typography
-        variant="h4"
-        align="center"
-        gutterBottom
-        sx={{ padding: "25px 0" }}
+  if (productsLoading) return <LoadingPage />;
+  else if (productsError) return <ErrorPage />;
+  else
+    return (
+      <Box
+        ref={productsRef}
+        id="products"
+        sx={{
+          minHeight: "100vh",
+          display: "grid",
+          placeItems: "center",
+        }}
       >
-        Latest products
-      </Typography>
-      <Paginate
-        page={page}
-        totalPages={productsData.totalPages}
-        products={productsData.products}
-        loading={productsLoading}
-        error={productsError}
-        handlePageChange={handlePageChange}
-      />
-    </Box>
-  );
+        <Typography
+          variant="h4"
+          align="center"
+          gutterBottom
+          sx={{ padding: "25px 0" }}
+        >
+          Latest products
+        </Typography>
+        <Paginate
+          page={page}
+          totalPages={productsData.totalPages}
+          products={productsData.products}
+          handlePageChange={handlePageChange}
+        />
+      </Box>
+    );
 };
 
 export default Products;
