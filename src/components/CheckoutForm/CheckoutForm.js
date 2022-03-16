@@ -54,7 +54,10 @@ const CheckoutForm = ({ toggleCheckoutForm }) => {
     e.preventDefault();
 
     const order = {
-      orderProducts: cartProducts.map((product) => ({ _id: product._id })),
+      orderProducts: cartProducts.map((product) => ({
+        product: product._id,
+        quantity: product.quantity,
+      })),
       orderTotalPrice: cartProductsTotalPrice,
       orderInfo: {
         firstName: formData.firstName,
