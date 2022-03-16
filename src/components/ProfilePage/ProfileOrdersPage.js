@@ -12,7 +12,7 @@ const ProfileOrdersPage = () => {
     axiosFetch({
       axiosInstance: privateAxios,
       method: "GET",
-      url: "users/me/orders",
+      url: "orders/me",
     });
   }, []);
 

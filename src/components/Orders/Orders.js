@@ -24,7 +24,7 @@ const Orders = ({ title, orders, showAllOrders = false }) => {
   const navigate = useNavigate();
   const [ordersData, ordersDataLoading, ordersDataError, fetchOrdersData] =
     useAxios();
-  const [fetchedOrders, setFetchedOrders] = useState(null);
+  const [fetchedOrders, setFetchedOrders] = useState([]);
 
   useEffect(() => {
     if (orders) setFetchedOrders(orders);
