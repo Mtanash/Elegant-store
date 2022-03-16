@@ -6,13 +6,13 @@ import { privateAxios } from "../../api/axios";
 import ErrorPage from "../ErrorPage/ErrorPage";
 
 const ProfileOrdersPage = () => {
-  const [orders, ordersLoading, ordersError, axiosFetch] = useAxios();
+  const [orders, ordersLoading, ordersError, fetchOrders] = useAxios();
 
   useEffect(() => {
-    axiosFetch({
+    fetchOrders({
       axiosInstance: privateAxios,
       method: "GET",
-      url: "orders/me",
+      url: "users/me/orders",
     });
   }, []);
 
