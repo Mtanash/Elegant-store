@@ -15,8 +15,8 @@ import moment from "moment";
 import { useEffect, useState } from "react";
 import useAxios from "../../hooks/useAxios";
 import { publicAxios } from "../../api/axios";
-import LoadingPage from "../LoadingPage/LoadingPage";
-import ErrorPage from "../ErrorPage/ErrorPage";
+import LoadingPage from "../../pages/LoadingPage/LoadingPage";
+import ErrorPage from "../../pages/ErrorPage/ErrorPage";
 
 import { useNavigate } from "react-router-dom";
 

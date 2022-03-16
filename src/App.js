@@ -1,22 +1,22 @@
 import Footer from "./components/Footer/Footer";
 import Header from "./components/Header/Header";
-import Cart from "./components/Cart/Cart";
-import ProductPage from "./components/ProductPage/ProductPage";
-import AuthPage from "./components/AuthPage/AuthPage";
-import Home from "./components/Home/Home";
-import ProfilePage from "./components/ProfilePage/ProfilePage";
-import DashboardPage from "./components/DashboardPage/DashboardPage";
+import CartPage from "./pages/CartPage/CartPage";
+import ProductPage from "./pages/ProductPage/ProductPage";
+import AuthPage from "./pages/AuthPage/AuthPage";
+import HomePage from "./pages/HomePage/HomePage";
+import ProfilePage from "./pages/ProfilePage/ProfilePage";
+import DashboardPage from "./pages/DashboardPage/DashboardPage";
 import RequireAuth from "./components/RequireAuth/RequireAuth";
-import UnauthorizedPage from "./components/UnauthorizedPage/UnauthorizedPage";
-import NotFoundPage from "./components/NotFoundPage/NotFoundPage";
-import SearchPage from "./components/SearchPage/SearchPage";
-import DashboardInfo from "./components/DashboardPage/DashboardInfo";
+import UnauthorizedPage from "./pages/UnauthorizedPage/UnauthorizedPage";
+import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
+import SearchPage from "./pages/SearchPage/SearchPage";
+import DashboardInfo from "./pages/DashboardPage/DashboardInfo";
 import AddProductForm from "./components/AddProductForm/AddProductForm";
-import FavoriteProductsPage from "./components/ProfilePage/FavoriteProductsPage";
-import ProfileInfoPage from "./components/ProfilePage/ProfileInfoPage";
-import ProductsList from "./components/DashboardPage/ProductsList";
-import DashboardOrdersPage from "./components/DashboardPage/DashboardOrdersPage";
-import ProfileOrdersPage from "./components/ProfilePage/ProfileOrdersPage";
+import FavoriteProductsPage from "./pages/ProfilePage/FavoriteProductsPage";
+import ProfileInfoPage from "./pages/ProfilePage/ProfileInfoPage";
+import ProductsList from "./pages/DashboardPage/ProductsList";
+import DashboardOrdersPage from "./pages/DashboardPage/DashboardOrdersPage";
+import ProfileOrdersPage from "./pages/ProfilePage/ProfileOrdersPage";
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
@@ -25,9 +25,9 @@ function App() {
     <BrowserRouter>
       <Header />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<HomePage />} />
         <Route path="/product/:id" element={<ProductPage />} />
-        <Route path="/cart" element={<Cart />} />
+        <Route path="/cart" element={<CartPage />} />
         <Route path="/auth" element={<AuthPage />} />
         <Route path="/unauthorized" element={<UnauthorizedPage />} />
         <Route path="/products-search" element={<SearchPage />} />
