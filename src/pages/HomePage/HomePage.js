@@ -11,7 +11,7 @@ import {
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { useEffect } from "react";
-import Products from "../Products/Products";
+import Products from "../../components/Products/Products";
 import Carousel from "react-material-ui-carousel";
 import useAxios from "../../hooks/useAxios";
 import { publicAxios } from "../../api/axios";
@@ -20,7 +20,7 @@ import ErrorPage from "../ErrorPage/ErrorPage";
 import { useNavigate } from "react-router-dom";
 import "../../css/Home/Home.css";
 
-const Home = () => {
+const HomePage = () => {
   const navigate = useNavigate();
   const [
     featuredProductsData,
@@ -142,4 +142,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default HomePage;

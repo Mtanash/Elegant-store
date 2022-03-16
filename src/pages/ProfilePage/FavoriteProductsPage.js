@@ -1,5 +1,5 @@
 import useUserFavoriteProducts from "../../hooks/useUserFavoriteProducts";
-import ProductCard from "../ProductCard/ProductCard";
+import HorizontalProductCard from "../../components/HorizontalProductCard/HorizontalProductCard";
 
 import {
   Stack,
@@ -13,7 +13,7 @@ import {
 import { useNavigate } from "react-router-dom";
 
 import LoadingPage from "../LoadingPage/LoadingPage";
-import MainPaper from "../custome material ui components/MainPaper";
+import MainPaper from "../../components/custome material ui components/MainPaper";
 import ErrorPage from "../ErrorPage/ErrorPage";
 import useHandleAddToFavorite from "../../hooks/useHandleAddToFavorite";
 
@@ -67,7 +67,7 @@ const FavoriteProductsPage = () => {
             <CircularProgress sx={{ alignSelf: "center" }} />
           ) : (
             favoriteProducts.map((product) => (
-              <ProductCard
+              <HorizontalProductCard
                 key={product._id}
                 {...product}
                 loading={addToFavoriteLoading}

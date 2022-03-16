@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { truncateString } from "../../../utils";
+import { truncateString } from "../../utils";
 
 import { useDispatch, useSelector } from "react-redux";
-import { productAddedToCart } from "../../../features/Cart/cartSlice";
+import { productAddedToCart } from "../../features/Cart/cartSlice";
 
 import CloseIcon from "@mui/icons-material/Close";
 import {
@@ -24,9 +24,9 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 
 import { useNavigate } from "react-router-dom";
-import useHandleAddToFavorite from "../../../hooks/useHandleAddToFavorite";
+import useHandleAddToFavorite from "../../hooks/useHandleAddToFavorite";
 
-function Product({ product }) {
+function VerticalProductCard({ product }) {
   const { description, price, imageUrl, _id } = product;
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [addToFavoriteLoading, handleAddToFavorite] = useHandleAddToFavorite();
@@ -141,4 +141,4 @@ function Product({ product }) {
   );
 }
 
-export default Product;
+export default VerticalProductCard;

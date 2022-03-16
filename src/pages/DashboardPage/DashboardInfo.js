@@ -1,12 +1,12 @@
 import { useEffect } from "react";
 import { Box, Grid } from "@mui/material";
-import Chart from "./Chart";
-import Deposits from "./Deposits";
-import Orders from "../Orders/Orders";
+import Chart from "../../components/Chart/Chart";
+import Deposits from "../../components/Deposits/Deposits";
+import Orders from "../../components/Orders/Orders";
 import useAxios from "../../hooks/useAxios";
 import { privateAxios } from "../../api/axios";
-import LoadingPage from "../LoadingPage/LoadingPage";
-import ErrorPage from "../ErrorPage/ErrorPage";
+import LoadingPage from "../../pages/LoadingPage/LoadingPage";
+import ErrorPage from "../../pages/ErrorPage/ErrorPage";
 
 const DashboardInfo = () => {
   const [

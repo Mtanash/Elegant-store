@@ -1,9 +1,9 @@
 import { useEffect } from "react";
-import Orders from "../Orders/Orders";
-import LoadingPage from "../LoadingPage/LoadingPage";
+import Orders from "../../components/Orders/Orders";
+import LoadingPage from "../../pages/LoadingPage/LoadingPage";
 import useAxios from "../../hooks/useAxios";
 import { privateAxios } from "../../api/axios";
-import ErrorPage from "../ErrorPage/ErrorPage";
+import ErrorPage from "../../pages/ErrorPage/ErrorPage";
 
 const ProfileOrdersPage = () => {
   const [orders, ordersLoading, ordersError, fetchOrders] = useAxios();

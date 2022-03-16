@@ -1,7 +1,7 @@
 import { Box } from "@mui/system";
-import Product from "./Product/Product";
+import VerticalProductCard from "../VerticalProductCard/VerticalProductCard";
 
-const ProductsComponent = ({ products = [] }) => {
+const ProductsContainer = ({ products = [] }) => {
   return (
     <Box
       sx={{
@@ -13,10 +13,10 @@ const ProductsComponent = ({ products = [] }) => {
       }}
     >
       {products.map((product) => (
-        <Product product={product} key={product._id} />
+        <VerticalProductCard product={product} key={product._id} />
       ))}
     </Box>
   );
 };
 
-export default ProductsComponent;
+export default ProductsContainer;

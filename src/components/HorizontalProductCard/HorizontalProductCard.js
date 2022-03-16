@@ -13,7 +13,7 @@ import { truncateString } from "../../utils";
 
 import { useNavigate } from "react-router-dom";
 
-const ProductCard = ({
+const HorizontalProductCard = ({
   description,
   quantity,
   price,
@@ -61,4 +61,4 @@ const ProductCard = ({
   );
 };
 
-export default ProductCard;
+export default HorizontalProductCard;

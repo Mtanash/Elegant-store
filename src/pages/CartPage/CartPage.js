@@ -9,12 +9,12 @@ import { selectCurrentUser } from "../../features/user/userSlice";
 
 import { useNavigate } from "react-router-dom";
 
-import CheckoutForm from "../CheckoutForm/CheckoutForm";
-import ProductCard from "../ProductCard/ProductCard";
+import CheckoutForm from "../../components/CheckoutForm/CheckoutForm";
+import HorizontalProductCard from "../../components/HorizontalProductCard/HorizontalProductCard";
 
 import { Box, Button, Link, Typography } from "@mui/material";
 
-const Cart = () => {
+const CartPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const cartProducts = useSelector(selectCartProducts);
@@ -67,7 +67,7 @@ const Cart = () => {
         </Box>
       )}
       {cartProducts.map((product) => (
-        <ProductCard
+        <HorizontalProductCard
           key={product._id}
           {...product}
           onRemoveButtonClicked={() => onRemoveButtonClicked(product._id)}
@@ -88,4 +88,4 @@ const Cart = () => {
   );
 };
 
-export default Cart;
+export default CartPage;

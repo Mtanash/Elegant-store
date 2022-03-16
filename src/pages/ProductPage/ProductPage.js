@@ -20,12 +20,11 @@ import {
 } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import useAxios from "../../hooks/useAxios";
-import { publicAxios, privateAxios } from "../../api/axios";
-import UserAvatar from "../UserAvatar/UserAvatar";
+import { publicAxios } from "../../api/axios";
 import { selectCurrentUser } from "../../features/user/userSlice";
-import AddReview from "../AddReview/AddReview";
-import Reviews from "../Reviews/Reviews";
-import Rates from "../Rates/Rates";
+import AddReview from "../../components/AddReview/AddReview";
+import Reviews from "../../components/Reviews/Reviews";
+import Rates from "../../components/Rates/Rates";
 
 const ProductPage = () => {
   const dispatch = useDispatch();

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { privateAxios } from "../../api/axios";
 import { DataGrid } from "@mui/x-data-grid";
 import { Paper, Rating } from "@mui/material";
@@ -34,7 +34,6 @@ const columns = [
 ];
 
 const ProductsList = () => {
-  // const [products, setProducts] = useState();
   const [productsData, productsLoading, productsError, fetchProducts] =
     useAxios();
 

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
-import LoadingPage from "../LoadingPage/LoadingPage";
-import ErrorPage from "../ErrorPage/ErrorPage";
-import Orders from "../Orders/Orders";
+import LoadingPage from "../../pages/LoadingPage/LoadingPage";
+import ErrorPage from "../../pages/ErrorPage/ErrorPage";
+import Orders from "../../components/Orders/Orders";
 import useAxios from "../../hooks/useAxios";
 import { privateAxios } from "../../api/axios";
 

@@ -2,7 +2,7 @@ import { Paper, Button, Typography, Modal, Box } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 
 import { useState } from "react";
-import UserAvatar from "../UserAvatar/UserAvatar";
+import UserAvatar from "../../components/UserAvatar/UserAvatar";
 
 import { useNavigate } from "react-router-dom";
 
