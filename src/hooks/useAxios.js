@@ -1,16 +1,17 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { logoutUser } from "../features/user/userSlice";
+import useLogout from "./useLogout";
 import { useNavigate, useLocation } from "react-router-dom";
 
 const useAxios = () => {
+  const logout = useLogout();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
 
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
-  const [error, setError] = useState("");
+  const [error, setError] = useState(null);
   const [controller, setController] = useState();
 
   const axiosFetch = async (configObj) => {
@@ -25,18 +26,16 @@ const useAxios = () => {
         signal: ctrl.signal,
       });
       setData(res.data);
-      return Promise.resolve("success");
+      return Promise.resolve(res.data);
     } catch (err) {
-      console.log(err.message);
-      console.log(err.response);
-      if (err.response.status === 401) {
+      if (err.response.status === 403) {
         // reauthenticate
-        dispatch(logoutUser());
+        await logout();
         navigate("/auth", { state: { from: location } });
       }
 
       setError(err.message);
-      return Promise.reject("Failed");
+      return Promise.reject(err.response);
     } finally {
       setLoading(false);
     }
