@@ -9,37 +9,7 @@ const publicAxios = axios.create({
 
 const privateAxios = axios.create({
   baseURL,
-  withCredentials: true,
+  headers: { "Content-Type": "application/json" },
 });
-
-let accessToken;
-
-const getAccessToken = async () => {
-  const response = await publicAxios.get("users/refresh");
-  accessToken = response?.data?.accessToken;
-  return response?.data?.accessToken;
-};
-
-privateAxios.interceptors.request.use(
-  (config) => {
-    config.headers["authorization"] = `Bearer ${accessToken}`;
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
-
-privateAxios.interceptors.response.use(
-  (response) => response,
-  async (error) => {
-    const previousRequest = error?.config;
-    if (error?.response?.status === 401 && !previousRequest.sent) {
-      previousRequest.sent = true;
-      const newAccessToken = await getAccessToken();
-      previousRequest.headers["authorization"] = `Bearer ${newAccessToken}`;
-      return privateAxios(previousRequest);
-    }
-    return Promise.reject(error);
-  }
-);
 
 export { privateAxios, publicAxios };
