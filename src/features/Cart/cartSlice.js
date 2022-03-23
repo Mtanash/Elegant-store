@@ -42,14 +42,21 @@ export const { productAddedToCart, productRemovedFromCart, cartCleared } =
   cartSlice.actions;
 
 export const selectCartProducts = (state) => state.cart.cartProducts;
+
 export const selectCartProductsCount = (state) =>
   state.cart.cartProducts.reduce((acc, cur) => {
     return acc + cur.quantity;
   }, 0);
+
 export const selectCartProductsTotalPrice = (state) =>
   state.cart.cartProducts.reduce(
-    (prev, current) => prev + current.price * current.quantity,
-    0
+    (prev, current) => {
+      if (current?.priceAfterDiscount) {
+        return { total: prev.total + current.priceAfterDiscount };
+      }
+      return { total: prev.total + current.price };
+    },
+    { total: 0 }
   );
 
 export default cartSlice.reducer;
