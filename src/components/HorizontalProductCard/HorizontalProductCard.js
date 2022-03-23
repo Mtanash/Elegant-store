@@ -17,6 +17,7 @@ const HorizontalProductCard = ({
   description,
   quantity,
   price,
+  priceAfterDiscount,
   imageUrl,
   _id,
   loading,
@@ -45,7 +46,9 @@ const HorizontalProductCard = ({
           </Typography>
           <Divider />
           {quantity && <Typography variant="body2">Qty: {quantity}</Typography>}
-          <Typography variant="body2">Price: ${price}</Typography>
+          <Typography variant="body2">
+            Price: ${priceAfterDiscount ? priceAfterDiscount : price}
+          </Typography>
         </CardContent>
       </CardActionArea>
       <LoadingButton
