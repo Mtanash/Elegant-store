@@ -6,7 +6,7 @@ import ErrorPage from "../../pages/ErrorPage/ErrorPage";
 import { Paper, Box, Typography, Divider, Rating } from "@mui/material";
 import UserAvatar from "../UserAvatar/UserAvatar";
 
-const Reviews = ({ productId, rerender }) => {
+const Reviews = ({ productId }) => {
   const [reviews, reviewsLoading, reviewsError, fetchReviewsData] = useAxios();
 
   useEffect(() => {
@@ -15,7 +15,7 @@ const Reviews = ({ productId, rerender }) => {
       method: "GET",
       url: `products/reviews/${productId}`,
     });
-  }, [productId, rerender]);
+  }, [productId]);
 
   if (reviewsLoading) return <LoadingPage customStyles={{ height: "500px" }} />;
   else if (reviewsError) return <ErrorPage />;
