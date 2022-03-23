@@ -1,7 +1,9 @@
 import { Box } from "@mui/system";
+import useHandleAddToFavorite from "../../hooks/useHandleAddToFavorite";
 import VerticalProductCard from "../VerticalProductCard/VerticalProductCard";
 
 const ProductsContainer = ({ products = [] }) => {
+  const [addToFavoriteLoading, handleAddToFavorite] = useHandleAddToFavorite();
   return (
     <Box
       sx={{
@@ -13,7 +15,12 @@ const ProductsContainer = ({ products = [] }) => {
       }}
     >
       {products.map((product) => (
-        <VerticalProductCard product={product} key={product._id} />
+        <VerticalProductCard
+          product={product}
+          key={product._id}
+          addToFavoriteLoading={addToFavoriteLoading}
+          handleAddToFavorite={handleAddToFavorite}
+        />
       ))}
     </Box>
   );
