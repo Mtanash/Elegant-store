@@ -1,8 +1,6 @@
 import { Box, Pagination } from "@mui/material";
 
 import ProductsContainer from "../Products/ProductsContainer";
-import LoadingPage from "../../pages/LoadingPage/LoadingPage";
-import ErrorPage from "../../pages/ErrorPage/ErrorPage";
 
 const Paginate = ({ products, totalPages, page, handlePageChange }) => {
   return (
