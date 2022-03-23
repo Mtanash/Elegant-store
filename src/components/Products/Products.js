@@ -27,7 +27,7 @@ const Products = () => {
     });
   }, [page]);
 
-  if (productsLoading) return <LoadingPage />;
+  if (productsLoading) return <LoadingPage fullHeight={true} />;
   else if (productsError) return <ErrorPage />;
   else
     return (
