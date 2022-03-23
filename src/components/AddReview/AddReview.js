@@ -1,13 +1,14 @@
 import { LoadingButton } from "@mui/lab";
 import { Rating, Box, Typography, TextField, Paper } from "@mui/material";
-import { useEffect, useState } from "react";
-import { privateAxios } from "../../api/axios";
+import { useState } from "react";
 import useAxios from "../../hooks/useAxios";
+import useAxiosDirect from "../../hooks/useAxiosDirect";
 import ErrorPage from "../../pages/ErrorPage/ErrorPage";
 import LoadingPage from "../../pages/LoadingPage/LoadingPage";
 import UserAvatar from "../UserAvatar/UserAvatar";
 import { selectCurrentUser } from "../../features/user/userSlice";
 import { useSelector } from "react-redux";
+import usePrivateAxios from "../../hooks/usePrivateAxios";
 
 const rateLabels = {
   1: "Useless",
@@ -17,28 +18,26 @@ const rateLabels = {
   5: "Excellent",
 };
 
-const AddReview = ({ productId, rerender, setRerender }) => {
+const AddReview = ({ productId }) => {
+  const privateAxios = usePrivateAxios();
   const [hover, setHover] = useState(-1);
   const [rate, setRate] = useState(0);
   const [rateDescription, setRateDescription] = useState("");
   const [data, addReviewLoading, addReviewError, addReviewAxiosFetch] =
     useAxios();
+
   const [
     userReviewedProduct,
     userReviewedProductLoading,
     userReviewedProductError,
-    userReviewedProductAxiosFetch,
-  ] = useAxios();
+    refetchUserReviewedProduct,
+  ] = useAxiosDirect({
+    axiosInstance: privateAxios,
+    method: "GET",
+    url: `products/reviews/userReviewedProduct/${productId}`,
+  });
 
   const user = useSelector(selectCurrentUser);
-
-  useEffect(() => {
-    userReviewedProductAxiosFetch({
-      axiosInstance: privateAxios,
-      method: "GET",
-      url: `products/reviews/userReviewedProduct/${productId}`,
-    });
-  }, [productId, rerender]);
 
   const handleAddReview = () => {
     if (rate === 0 || !productId) return;
@@ -54,7 +53,7 @@ const AddReview = ({ productId, rerender, setRerender }) => {
     }).then(() => {
       setRate(0);
       setRateDescription("");
-      setRerender(!rerender);
+      refetchUserReviewedProduct();
     });
   };
 
