@@ -13,14 +13,11 @@ import { LoadingButton } from "@mui/lab";
 import GoogleIcon from "@mui/icons-material/Google";
 
 import { useDispatch, useSelector } from "react-redux";
-import {
-  authWithGoogle,
-  loginUser,
-  selectCurrentUser,
-  signupUser,
-} from "../../features/user/userSlice";
+import { selectCurrentUser, userLoggedIn } from "../../features/user/userSlice";
 
 import { useNavigate, useLocation } from "react-router-dom";
+import useAxios from "../../hooks/useAxios";
+import { publicAxios } from "../../api/axios";
 
 import { GoogleLogin } from "react-google-login";
 
@@ -35,10 +32,12 @@ const AuthPage = () => {
   const dispatch = useDispatch();
   const [formData, setFormData] = useState(initialFormData);
   const [isSignup, setIsSignup] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const authError = useSelector((state) => state.user.error);
+
+  const [errorMessage, setErrorMessage] = useState(null);
 
   const user = useSelector(selectCurrentUser);
+
+  const [, authDataLoading, , fetchAuthData] = useAxios();
 
   useEffect(() => {
     if (user) {
@@ -55,27 +54,48 @@ const AuthPage = () => {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    setLoading(true);
     if (isSignup) {
-      dispatch(signupUser(formData))
-        .unwrap()
-        .then(() => {
+      fetchAuthData({
+        axiosInstance: publicAxios,
+        method: "POST",
+        url: "/users",
+        requestConfig: {
+          ...formData,
+          withCredentials: true,
+        },
+      })
+        .then((response) => {
+          setErrorMessage(null);
           setFormData(initialFormData);
+          dispatch(userLoggedIn(response));
           navigate(from, { replace: true });
         })
-        .catch((err) => {})
-        .finally(() => setLoading(false));
+        .catch((error) => {
+          if (!error?.data?.message)
+            return setErrorMessage("No server response!");
+          setErrorMessage(error?.data?.message);
+        });
     } else {
-      dispatch(loginUser(formData))
-        .unwrap()
-        .then(() => {
+      fetchAuthData({
+        axiosInstance: publicAxios,
+        method: "POST",
+        url: "/users/login",
+        requestConfig: {
+          ...formData,
+          withCredentials: true,
+        },
+      })
+        .then((response) => {
+          setErrorMessage(null);
           setFormData(initialFormData);
+          dispatch(userLoggedIn(response));
           navigate(from, { replace: true });
         })
-        .catch((err) => {
-          console.log(err);
-        })
-        .finally(() => setLoading(false));
+        .catch((error) => {
+          if (!error?.data?.message)
+            return setErrorMessage("No server response!");
+          setErrorMessage(error?.data?.message);
+        });
     }
   };
 
@@ -88,12 +108,28 @@ const AuthPage = () => {
   };
   const googleSuccess = (res) => {
     const { name, email, googleId: password, imageUrl } = res.profileObj;
-    dispatch(authWithGoogle({ name, email, password, imageUrl }))
-      .unwrap()
-      .then((res) => {
+
+    fetchAuthData({
+      axiosInstance: publicAxios,
+      method: "POST",
+      url: "/users/googleAuth",
+      requestConfig: {
+        name,
+        email,
+        password,
+        imageUrl,
+      },
+    })
+      .then((response) => {
+        setErrorMessage(null);
+        dispatch(userLoggedIn(response));
         navigate(from, { replace: true });
       })
-      .catch((err) => console.log(err));
+      .catch((error) => {
+        if (!error?.data?.message)
+          return setErrorMessage("No server response!");
+        setErrorMessage(error?.data?.message);
+      });
   };
 
   return (
@@ -104,9 +140,9 @@ const AuthPage = () => {
       <Typography component="h1" variant="h5">
         {isSignup ? "Sign up" : "Sign in"}
       </Typography>
-      {authError && (
+      {errorMessage && (
         <Alert sx={{ width: "100%" }} severity="error">
-          {authError}
+          {errorMessage}
         </Alert>
       )}
       <form className="authPage-form" onSubmit={handleFormSubmit}>
@@ -137,7 +173,7 @@ const AuthPage = () => {
           fullWidth
         />
         <LoadingButton
-          loading={loading}
+          loading={authDataLoading}
           type="submit"
           fullWidth
           variant="contained"
