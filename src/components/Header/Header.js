@@ -21,16 +21,17 @@ import SearchIcon from "@mui/icons-material/Search";
 
 import { useNavigate } from "react-router-dom";
 
-import { useDispatch, useSelector } from "react-redux";
-import { logoutUser, selectCurrentUser } from "../../features/user/userSlice";
+import { useSelector } from "react-redux";
+import { selectCurrentUser } from "../../features/user/userSlice";
+import useLogout from "../../hooks/useLogout";
 import {
   selectCartProducts,
   selectCartProductsCount,
 } from "../../features/Cart/cartSlice";
 
 const MenuItems = ({ user, handleClose }) => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const logout = useLogout()
   if (user)
     return (
       <>
@@ -59,8 +60,8 @@ const MenuItems = ({ user, handleClose }) => {
           </MenuItem>
         )}
         <MenuItem
-          onClick={() => {
-            dispatch(logoutUser());
+          onClick={async () => {
+            await logout()
             handleClose();
           }}
         >
