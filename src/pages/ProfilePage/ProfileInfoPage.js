@@ -7,6 +7,7 @@ import UserAvatar from "../../components/UserAvatar/UserAvatar";
 import { useNavigate } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
+import { selectCurrentUser } from "../../features/user/userSlice";
 
 import FileBase from "react-file-base64";
 
