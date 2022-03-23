@@ -21,7 +21,7 @@ const CartPage = () => {
   const cartProductsCount = useSelector(selectCartProductsCount);
   const user = useSelector(selectCurrentUser);
 
-  const cartTotalPrice = useSelector(selectCartProductsTotalPrice);
+  const { total: cartTotalPrice } = useSelector(selectCartProductsTotalPrice);
 
   const toggleCheckoutForm = () => {
     document.getElementById("checkout-form").classList.toggle("active");
