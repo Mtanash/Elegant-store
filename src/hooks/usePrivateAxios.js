@@ -7,11 +7,6 @@ const usePrivateAxios = () => {
   const accessToken = useSelector((state) => state.user?.accessToken);
   const getAccessToken = useRefreshToken();
 
-  // useEffect(() => {
-  //   console.log("access token: ", accessToken);
-  //   console.log("get access token: ", getAccessToken);
-  // }, [accessToken, getAccessToken]);
-
   useEffect(() => {
     const requestInterceptor = privateAxios.interceptors.request.use(
       (config) => {
@@ -36,10 +31,8 @@ const usePrivateAxios = () => {
         return Promise.reject(error);
       }
     );
-    // console.log("running");
 
     return () => {
-      // console.log("ended");
       privateAxios.interceptors.request.eject(requestInterceptor);
       privateAxios.interceptors.response.eject(responseInterceptor);
     };
