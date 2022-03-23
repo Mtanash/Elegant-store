@@ -2,11 +2,12 @@ import { useEffect } from "react";
 import Orders from "../../components/Orders/Orders";
 import LoadingPage from "../../pages/LoadingPage/LoadingPage";
 import useAxios from "../../hooks/useAxios";
-import { privateAxios } from "../../api/axios";
+import usePrivateAxios from "../../hooks/usePrivateAxios";
 import ErrorPage from "../../pages/ErrorPage/ErrorPage";
 
 const ProfileOrdersPage = () => {
   const [orders, ordersLoading, ordersError, fetchOrders] = useAxios();
+  const privateAxios = usePrivateAxios();
 
   useEffect(() => {
     fetchOrders({

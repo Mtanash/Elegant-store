@@ -2,9 +2,9 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../features/user/userSlice";
 import useAxios from "./useAxios";
-import { privateAxios } from "../api/axios";
-
+import usePrivateAxios from "./usePrivateAxios";
 const useUserFavoriteProducts = () => {
+  const privateAxios = usePrivateAxios();
   const user = useSelector(selectCurrentUser);
   const [
     favoriteProducts,

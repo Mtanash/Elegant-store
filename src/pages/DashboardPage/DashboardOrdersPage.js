@@ -3,9 +3,10 @@ import LoadingPage from "../../pages/LoadingPage/LoadingPage";
 import ErrorPage from "../../pages/ErrorPage/ErrorPage";
 import Orders from "../../components/Orders/Orders";
 import useAxios from "../../hooks/useAxios";
-import { privateAxios } from "../../api/axios";
+import usePrivateAxios from "../../hooks/usePrivateAxios";
 
 const DashboardOrdersPage = () => {
+  const privateAxios = usePrivateAxios();
   const [orders, ordersLoading, ordersError, fetchOrders] = useAxios();
 
   useEffect(() => {

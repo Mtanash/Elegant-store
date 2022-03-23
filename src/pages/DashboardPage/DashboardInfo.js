@@ -4,11 +4,12 @@ import Chart from "../../components/Chart/Chart";
 import Deposits from "../../components/Deposits/Deposits";
 import Orders from "../../components/Orders/Orders";
 import useAxios from "../../hooks/useAxios";
-import { privateAxios } from "../../api/axios";
+import usePrivateAxios from "../../hooks/usePrivateAxios";
 import LoadingPage from "../../pages/LoadingPage/LoadingPage";
 import ErrorPage from "../../pages/ErrorPage/ErrorPage";
 
 const DashboardInfo = () => {
+  const privateAxios = usePrivateAxios();
   const [
     dashboardData,
     dashboardDataLoading,

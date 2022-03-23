@@ -1,7 +1,6 @@
 import { useState } from "react";
 import useAxios from "../../hooks/useAxios";
-import { privateAxios } from "../../api/axios";
-
+import usePrivateAxios from "../../hooks/usePrivateAxios";
 import { useDispatch, useSelector } from "react-redux";
 import {
   cartCleared,
@@ -30,6 +29,7 @@ const initialFormDataState = {
 };
 
 const CheckoutForm = ({ toggleCheckoutForm }) => {
+  const privateAxios = usePrivateAxios();
   const cartProducts = useSelector(selectCartProducts);
   const cartProductsTotalPrice = useSelector(selectCartProductsTotalPrice);
 
@@ -58,7 +58,7 @@ const CheckoutForm = ({ toggleCheckoutForm }) => {
         product: product._id,
         quantity: product.quantity,
       })),
-      orderTotalPrice: cartProductsTotalPrice,
+      orderTotalPrice: cartProductsTotalPrice.total,
       orderInfo: {
         firstName: formData.firstName,
         lastName: formData.lastName,

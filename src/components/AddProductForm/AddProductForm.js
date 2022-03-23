@@ -3,12 +3,10 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import { useState } from "react";
-import { publicAxios } from "../../api/axios";
-import { getImageUploadUrl, addProductImageUrl } from "../../api/productsApi";
-import { createProduct } from "../../features/products/productsSlice";
-import { useDispatch } from "react-redux";
 import Resizer from "react-image-file-resizer";
 import "../../css/AddProductForm/AddProductForm.css";
+import usePrivateAxios from "../../hooks/usePrivateAxios";
+import { publicAxios } from "../../api/axios";
 
 const initialFormData = {
   description: "",
@@ -18,10 +16,10 @@ const initialFormData = {
 };
 
 const AddProductForm = () => {
-  const dispatch = useDispatch();
   const [formData, setFormData] = useState(initialFormData);
-  const [loading, setLoading] = useState(false);
   const [file, setFile] = useState(null);
+  const privateAxios = usePrivateAxios();
+  const [loading, setLoading] = useState(false);
 
   const onFormDataChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -29,10 +27,13 @@ const AddProductForm = () => {
 
   const onFormSubmit = (e) => {
     e.preventDefault();
+    setLoading(true);
 
     const uploadProductImage = async (imageName) => {
       try {
-        const response = await getImageUploadUrl(imageName);
+        const response = await privateAxios.get(
+          `/products/imageUploadUrl/${imageName}`
+        );
         const uploadUrl = response?.data?.url;
         await publicAxios.put(uploadUrl, file, {
           headers: {
@@ -46,16 +47,17 @@ const AddProductForm = () => {
       }
     };
 
-    setLoading(true);
-    dispatch(createProduct(formData))
-      .unwrap()
-      .then(async (res) => {
-        const productId = res._id;
-        const imageUrl = await uploadProductImage(productId);
-        await addProductImageUrl({ productId, imageUrl });
+    privateAxios.post("/products", { ...formData }).then(async (res) => {
+      const productId = res?.data?._id;
+      const imageUrl = await uploadProductImage(productId);
+      try {
+        await privateAxios.post("/products/image", { productId, imageUrl });
         setFormData(initialFormData);
         setLoading(false);
-      });
+      } catch (err) {
+        console.log(err);
+      }
+    });
   };
 
   const onInputFileChange = (e) => {
