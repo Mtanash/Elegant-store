@@ -1,15 +1,5 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { addProduct } from "../../api/productsApi";
+import { createSlice } from "@reduxjs/toolkit";
 import { sizes, sorts } from "../../constants";
-
-export const createProduct = createAsyncThunk(
-  "products/createProduct",
-  async (productData) => {
-    const response = await addProduct(productData);
-    if (!response?.data) throw new Error("No data found");
-    return response.data;
-  }
-);
 
 const initialState = {
   products: [],
@@ -44,12 +34,6 @@ const productsSlice = createSlice({
         product.sizes.includes(sizeType)
       );
     },
-  },
-  extraReducers: (builder) => {
-    builder.addCase(createProduct.fulfilled, (state, action) => {
-      state.products.push(action.payload);
-      state.filteredProducts.push(action.payload);
-    });
   },
 });
 
