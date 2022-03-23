@@ -17,6 +17,7 @@ import ProfileInfoPage from "./pages/ProfilePage/ProfileInfoPage";
 import ProductsList from "./pages/DashboardPage/ProductsList";
 import DashboardOrdersPage from "./pages/DashboardPage/DashboardOrdersPage";
 import ProfileOrdersPage from "./pages/ProfilePage/ProfileOrdersPage";
+import PersistentLogin from "./components/PersistentLogin/PersistentLogin";
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
@@ -25,31 +26,34 @@ function App() {
     <BrowserRouter>
       <Header />
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/product/:id" element={<ProductPage />} />
-        <Route path="/cart" element={<CartPage />} />
-        <Route path="/auth" element={<AuthPage />} />
-        <Route path="/unauthorized" element={<UnauthorizedPage />} />
-        <Route path="/products-search" element={<SearchPage />} />
+        <Route element={<PersistentLogin />}>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/product/:id" element={<ProductPage />} />
+          <Route path="/cart" element={<CartPage />} />
+          <Route path="/auth" element={<AuthPage />} />
+          <Route path="/unauthorized" element={<UnauthorizedPage />} />
+          <Route path="/products-search" element={<SearchPage />} />
 
-        <Route element={<RequireAuth allowedRoles={["admin"]} />}>
-          <Route path="/dashboard" element={<DashboardPage />}>
-            <Route index element={<DashboardInfo />} />
-            <Route path="info" element={<DashboardInfo />} />
-            <Route path="create-product" element={<AddProductForm />} />
-            <Route path="orders" element={<DashboardOrdersPage />} />
-            <Route path="products" element={<ProductsList />} />
+          {/* protected routes */}
+          <Route element={<RequireAuth allowedRoles={["admin"]} />}>
+            <Route path="/dashboard" element={<DashboardPage />}>
+              <Route index element={<DashboardInfo />} />
+              <Route path="info" element={<DashboardInfo />} />
+              <Route path="create-product" element={<AddProductForm />} />
+              <Route path="orders" element={<DashboardOrdersPage />} />
+              <Route path="products" element={<ProductsList />} />
+            </Route>
           </Route>
-        </Route>
-        <Route element={<RequireAuth allowedRoles={["admin", "user"]} />}>
-          <Route path="/me" element={<ProfilePage />}>
-            <Route index element={<ProfileInfoPage />} />
-            <Route
-              path="favorite-products"
-              element={<FavoriteProductsPage />}
-            />
-            <Route path="info" element={<ProfileInfoPage />} />
-            <Route path="orders" element={<ProfileOrdersPage />} />
+          <Route element={<RequireAuth allowedRoles={["admin", "user"]} />}>
+            <Route path="/me" element={<ProfilePage />}>
+              <Route index element={<ProfileInfoPage />} />
+              <Route
+                path="favorite-products"
+                element={<FavoriteProductsPage />}
+              />
+              <Route path="info" element={<ProfileInfoPage />} />
+              <Route path="orders" element={<ProfileOrdersPage />} />
+            </Route>
           </Route>
         </Route>
 
