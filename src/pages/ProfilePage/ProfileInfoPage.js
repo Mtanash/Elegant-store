@@ -7,10 +7,6 @@ import UserAvatar from "../../components/UserAvatar/UserAvatar";
 import { useNavigate } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
-import {
-  selectCurrentUser,
-  updateUserAvatar,
-} from "../../features/user/userSlice";
 
 import FileBase from "react-file-base64";
 
@@ -47,13 +43,6 @@ const ProfileInfoPage = () => {
 
   const updateAvatar = () => {
     setLoading(true);
-
-    dispatch(updateUserAvatar({ avatar }))
-      .unwrap()
-      .then((res) => {
-        setLoading(false);
-        handleClose();
-      });
   };
 
   return (
