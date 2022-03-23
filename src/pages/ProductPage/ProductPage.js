@@ -25,12 +25,12 @@ import { selectCurrentUser } from "../../features/user/userSlice";
 import AddReview from "../../components/AddReview/AddReview";
 import Reviews from "../../components/Reviews/Reviews";
 import Rates from "../../components/Rates/Rates";
+import Price from "../../components/Price/Price";
 
 const ProductPage = () => {
   const dispatch = useDispatch();
   const params = useParams();
 
-  const [rerender, setRerender] = useState(false);
   const [productQuantity, setProductQuantity] = useState(1);
   const [productQuantityError, setProductQuantityError] = useState(false);
   const [addToFavoriteLoading, handleAddToFavorite] = useHandleAddToFavorite();
@@ -69,9 +69,12 @@ const ProductPage = () => {
               <Typography gutterBottom variant="body1">
                 {product.description}
               </Typography>
-              <Rates productId={params.id} rerender={rerender} />
+              <Rates rates={product.rates} />
               <Divider sx={{ margin: "5px 0" }} />
-              <Typography variant="h6">Price: ${product.price}.00</Typography>
+              <Price
+                price={product.price}
+                priceAfterDiscount={product?.priceAfterDiscount}
+              />
               <Typography variant="caption" gutterBottom>
                 All prices include VAT.
               </Typography>
@@ -93,7 +96,13 @@ const ProductPage = () => {
                   alignItems: "flex-start",
                 }}
               >
-                <Typography variant="h6">${product.price}.00</Typography>
+                <Typography variant="h6">
+                  $
+                  {product?.priceAfterDiscount
+                    ? product.priceAfterDiscount
+                    : product.price}
+                  .00
+                </Typography>
                 <Typography variant="body1">
                   Delivery:{" "}
                   {moment(new Date()).add(2, "days").format("dddd, MMM.D")}
@@ -166,11 +175,7 @@ const ProductPage = () => {
 
             <Grid item xs={6}>
               {user ? (
-                <AddReview
-                  productId={params.id}
-                  rerender={rerender}
-                  setRerender={setRerender}
-                />
+                <AddReview productId={params.id} />
               ) : (
                 <Typography variant="h6" align="center">
                   Please login to add a review.
@@ -178,7 +183,7 @@ const ProductPage = () => {
               )}
             </Grid>
             <Grid item xs={6}>
-              <Reviews productId={params.id} rerender={rerender} />
+              <Reviews productId={params.id} />
             </Grid>
 
             <Grid item xs={12}>
