@@ -1,4 +1,4 @@
-import { Paper, Button, Typography, Modal, Box } from "@mui/material";
+import { Paper, Button, Typography, Modal, Box, Input } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 
 import { useState } from "react";
@@ -7,9 +7,13 @@ import UserAvatar from "../../components/UserAvatar/UserAvatar";
 import { useNavigate } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
-import { selectCurrentUser } from "../../features/user/userSlice";
+import {
+  selectCurrentUser,
+  userDataRefreshed,
+} from "../../features/user/userSlice";
 
-import FileBase from "react-file-base64";
+import Resizer from "react-image-file-resizer";
+import usePrivateAxios from "../../hooks/usePrivateAxios";
 
 const style = {
   position: "absolute",
@@ -27,13 +31,14 @@ const style = {
 };
 
 const ProfileInfoPage = () => {
+  const privateAxios = usePrivateAxios();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector(selectCurrentUser);
 
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [avatar, setAvatar] = useState("");
+  const [file, setFile] = useState(null);
 
   const handleOpen = () => {
     if (!user) return navigate("/auth");
@@ -42,8 +47,32 @@ const ProfileInfoPage = () => {
 
   const handleClose = () => setOpen(false);
 
+  const onInputFileChange = (e) => {
+    const uncompressedFile = e.target.files[0];
+    Resizer.imageFileResizer(
+      uncompressedFile,
+      250,
+      200,
+      "PNG",
+      100,
+      0,
+      (uri) => {
+        setFile(uri);
+        console.log(file);
+      },
+      "base64",
+      250,
+      200
+    );
+  };
+
   const updateAvatar = () => {
     setLoading(true);
+    privateAxios.post("/users/me/avatar", { avatar: file }).then((response) => {
+      dispatch(userDataRefreshed({ ...user, avatar: file }));
+      setLoading(false);
+      handleClose();
+    });
   };
 
   return (
@@ -74,10 +103,11 @@ const ProfileInfoPage = () => {
         aria-labelledby="pick-file-modal"
       >
         <Box sx={style}>
-          <FileBase
+          <Input
             type="file"
-            multiple={false}
-            onDone={({ base64 }) => setAvatar(base64)}
+            inputProps={{ accept: ".png, .jpeg, .jpg" }}
+            required
+            onChange={onInputFileChange}
           />
           <LoadingButton
             loading={loading}
