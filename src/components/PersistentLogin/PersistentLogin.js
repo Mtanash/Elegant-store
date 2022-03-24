@@ -2,10 +2,7 @@ import { Outlet } from "react-router-dom";
 import { useState, useEffect } from "react";
 import useRefreshToken from "../../hooks/useRefreshToken";
 import { useSelector } from "react-redux";
-import {
-  selectCurrentUser,
-  userDataRefreshed,
-} from "../../features/user/userSlice";
+import { userDataRefreshed } from "../../features/user/userSlice";
 import { publicAxios } from "../../api/axios";
 import jwtDecode from "jwt-decode";
 import { useDispatch } from "react-redux";
@@ -16,7 +13,6 @@ const PersistentLogin = () => {
   const [loading, setLoading] = useState(true);
   const getAccessToken = useRefreshToken();
   let accessToken = useSelector((state) => state.user?.accessToken);
-  const user = useSelector(selectCurrentUser);
 
   useEffect(() => {
     const verifyRefreshToken = async () => {
