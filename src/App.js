@@ -18,6 +18,7 @@ import ProductsList from "./pages/DashboardPage/ProductsList";
 import DashboardOrdersPage from "./pages/DashboardPage/DashboardOrdersPage";
 import ProfileOrdersPage from "./pages/ProfilePage/ProfileOrdersPage";
 import PersistentLogin from "./components/PersistentLogin/PersistentLogin";
+import SnackbarAlert from "./components/SnackbarAlert/SnackbarAlert";
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
@@ -25,6 +26,7 @@ function App() {
   return (
     <BrowserRouter>
       <Header />
+      <SnackbarAlert />
       <Routes>
         <Route element={<PersistentLogin />}>
           <Route path="/" element={<HomePage />} />
