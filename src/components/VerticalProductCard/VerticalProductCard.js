@@ -21,6 +21,8 @@ import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import { useNavigate } from "react-router-dom";
 import Price from "../Price/Price";
 import Rates from "../Rates/Rates";
+import { useContext } from "react";
+import SnackbarContext from "../../context/SnackbarContext";
 
 function VerticalProductCard({
   product,
@@ -29,6 +31,7 @@ function VerticalProductCard({
 }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { openSnackbar } = useContext(SnackbarContext);
 
   const { description, price, priceAfterDiscount, imageUrl, _id, rates } =
     product;
@@ -39,6 +42,7 @@ function VerticalProductCard({
 
   const onAddToCartButtonClicked = () => {
     dispatch(productAddedToCart({ productToAdd: product }));
+    openSnackbar("Product added to cart.");
   };
 
   return (

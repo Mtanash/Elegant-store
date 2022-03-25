@@ -1,6 +1,6 @@
 import { LoadingButton } from "@mui/lab";
 import { Rating, Box, Typography, TextField, Paper } from "@mui/material";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import useAxios from "../../hooks/useAxios";
 import useAxiosDirect from "../../hooks/useAxiosDirect";
 import ErrorPage from "../../pages/ErrorPage/ErrorPage";
@@ -9,6 +9,7 @@ import UserAvatar from "../UserAvatar/UserAvatar";
 import { selectCurrentUser } from "../../features/user/userSlice";
 import { useSelector } from "react-redux";
 import usePrivateAxios from "../../hooks/usePrivateAxios";
+import SnackbarContext from "../../context/SnackbarContext";
 
 const rateLabels = {
   1: "Useless",
@@ -19,6 +20,7 @@ const rateLabels = {
 };
 
 const AddReview = ({ productId }) => {
+  const { openSnackbar } = useContext(SnackbarContext);
   const privateAxios = usePrivateAxios();
   const [hover, setHover] = useState(-1);
   const [rate, setRate] = useState(0);
@@ -54,6 +56,7 @@ const AddReview = ({ productId }) => {
       setRate(0);
       setRateDescription("");
       refetchUserReviewedProduct();
+      openSnackbar("Review added successfully");
     });
   };
 

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import useAxios from "../../hooks/useAxios";
 import usePrivateAxios from "../../hooks/usePrivateAxios";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,6 +16,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import NumberFormat from "react-number-format";
 
 import "../../css/CheckoutForm/CheckoutForm.css";
+import SnackbarContext from "../../context/SnackbarContext";
 
 const initialFormDataState = {
   firstName: "",
@@ -29,6 +30,7 @@ const initialFormDataState = {
 };
 
 const CheckoutForm = ({ toggleCheckoutForm }) => {
+  const { openSnackbar } = useContext(SnackbarContext);
   const privateAxios = usePrivateAxios();
   const cartProducts = useSelector(selectCartProducts);
   const cartProductsTotalPrice = useSelector(selectCartProductsTotalPrice);
@@ -85,6 +87,8 @@ const CheckoutForm = ({ toggleCheckoutForm }) => {
       setFormData(initialFormDataState);
       dispatch(cartCleared());
       navigate("/");
+
+      openSnackbar("Order created successfully");
     });
   };
 

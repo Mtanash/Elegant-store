@@ -2,11 +2,12 @@ import { Input, TextField, Typography } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import Resizer from "react-image-file-resizer";
 import "../../css/AddProductForm/AddProductForm.css";
 import usePrivateAxios from "../../hooks/usePrivateAxios";
 import { publicAxios } from "../../api/axios";
+import SnackbarContext from "../../context/SnackbarContext";
 
 const initialFormData = {
   description: "",
@@ -16,6 +17,7 @@ const initialFormData = {
 };
 
 const AddProductForm = () => {
+  const { openSnackbar } = useContext(SnackbarContext);
   const [formData, setFormData] = useState(initialFormData);
   const [file, setFile] = useState(null);
   const privateAxios = usePrivateAxios();
@@ -54,6 +56,7 @@ const AddProductForm = () => {
         await privateAxios.post("/products/image", { productId, imageUrl });
         setFormData(initialFormData);
         setLoading(false);
+        openSnackbar("New Product added successfully");
       } catch (err) {
         console.log(err);
       }

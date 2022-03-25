@@ -6,7 +6,10 @@ import {
 } from "../features/user/userSlice";
 import useAxios from "./useAxios";
 import usePrivateAxios from "./usePrivateAxios";
+import { useContext } from "react";
+import SnackbarContext from "../context/SnackbarContext";
 const useHandleAddToFavorite = () => {
+  const { openSnackbar } = useContext(SnackbarContext);
   const [data, loading, error, axiosFetch] = useAxios();
   const privateAxios = usePrivateAxios();
 
@@ -25,6 +28,7 @@ const useHandleAddToFavorite = () => {
         requestConfig: { _id: productId },
       }).then(() => {
         dispatch(productAddedToFavorite({ _id: productId }));
+        openSnackbar("Product added to favorite");
       });
     } else {
       axiosFetch({
@@ -34,6 +38,7 @@ const useHandleAddToFavorite = () => {
         requestConfig: { _id: productId },
       }).then(() => {
         dispatch(productRemovedFromFavorite({ _id: productId }));
+        openSnackbar("Product removed from favorite");
       });
     }
   };
