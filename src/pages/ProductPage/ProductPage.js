@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import LoadingPage from "../LoadingPage/LoadingPage";
 import { useDispatch, useSelector } from "react-redux";
 import { productAddedToCart } from "../../features/Cart/cartSlice";
@@ -26,8 +26,10 @@ import AddReview from "../../components/AddReview/AddReview";
 import Reviews from "../../components/Reviews/Reviews";
 import Rates from "../../components/Rates/Rates";
 import Price from "../../components/Price/Price";
+import SnackbarContext from "../../context/SnackbarContext";
 
 const ProductPage = () => {
+  const { openSnackbar } = useContext(SnackbarContext);
   const dispatch = useDispatch();
   const params = useParams();
 
@@ -53,6 +55,7 @@ const ProductPage = () => {
     dispatch(
       productAddedToCart({ productToAdd: product, amount: productQuantity })
     );
+    openSnackbar("Product added to cart");
   };
 
   if (productLoading) return <LoadingPage fullHeight={true} />;
