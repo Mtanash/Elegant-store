@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
 import useLogout from "./useLogout";
 import { useNavigate, useLocation } from "react-router-dom";
 
 const useAxios = () => {
   const logout = useLogout();
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
 
