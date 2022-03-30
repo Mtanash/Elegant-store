@@ -95,7 +95,13 @@ const AddReview = ({ productId }) => {
             {owner?.name}
           </Typography>
         </Box>
-        <Box>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
           <Rating name="product rate" value={rate?.value} readOnly />
           <Typography variant="subtitle1" align="center">
             {text}
