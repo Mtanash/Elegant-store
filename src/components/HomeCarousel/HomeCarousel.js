@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import Price from "../Price/Price";
+import { truncateString } from "../../utils";
 
 const HomeCarousel = ({ products }) => {
   const navigate = useNavigate();
@@ -54,7 +55,7 @@ const HomeCarousel = ({ products }) => {
                   justifyContent: "center",
                 }}
               >
-                {product.description}
+                {truncateString(product.description, 50)}
               </Typography>
               <Price
                 price={product.price}
