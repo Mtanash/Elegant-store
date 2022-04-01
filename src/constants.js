@@ -12,3 +12,13 @@ export const sorts = {
   lowest: "lowest",
   highest: "highest",
 };
+
+export const categoriesObj = {
+  womenClothes: "Women Clothes",
+  menClothes: "Men Clothes",
+  electronics: "Electronics",
+  perfumes: "Perfumes",
+  bags: "Bags",
+  shoes: "Shoes",
+  watches: "Watches",
+};
