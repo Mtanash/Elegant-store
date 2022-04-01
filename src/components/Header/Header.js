@@ -11,6 +11,7 @@ import {
   ListItemIcon,
   Badge,
   Input,
+  Box,
 } from "@mui/material";
 import Logout from "@mui/icons-material/Logout";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
@@ -31,7 +32,7 @@ import {
 
 const MenuItems = ({ user, handleClose }) => {
   const navigate = useNavigate();
-  const logout = useLogout()
+  const logout = useLogout();
   if (user)
     return (
       <>
@@ -61,7 +62,7 @@ const MenuItems = ({ user, handleClose }) => {
         )}
         <MenuItem
           onClick={async () => {
-            await logout()
+            await logout();
             handleClose();
           }}
         >
@@ -124,7 +125,7 @@ function Header() {
         <Typography variant="h6" component="div" sx={{ flex: "0.2" }}>
           <a href="/">Elegant</a>
         </Typography>
-        <form onSubmit={handleSearchFormSubmit} style={{ flex: "0.8" }}>
+        <form onSubmit={handleSearchFormSubmit} style={{ flex: "0.5" }}>
           <Input
             sx={{
               backgroundColor: "white",
@@ -141,30 +142,40 @@ function Header() {
             fullWidth
           />
         </form>
-        <IconButton aria-label="cart" onClick={() => navigate("/cart")}>
-          <Badge badgeContent={cartProductsCount} color="secondary">
-            <ShoppingCartIcon sx={{ color: "#FFF" }} />
-          </Badge>
-        </IconButton>
-        <IconButton
-          onClick={handleClick}
-          size="small"
-          aria-label="account menu of current user"
-          aria-controls={open ? "account-menu" : undefined}
-          aria-haspopup="true"
-          aria-expanded={open ? "true" : undefined}
+        <Box
+          sx={{
+            flex: "0.3",
+            display: "flex",
+            justifyContent: "flex-end",
+            alignItems: "center",
+            gap: "15px",
+          }}
         >
-          <UserAvatar user={user} />
-        </IconButton>
-        <Menu
-          id="account-menu"
-          anchorEl={anchorElement}
-          open={open}
-          onClose={handleClose}
-          keepMounted
-        >
-          <MenuItems user={user} handleClose={handleClose} />
-        </Menu>
+          <IconButton aria-label="cart" onClick={() => navigate("/cart")}>
+            <Badge badgeContent={cartProductsCount} color="secondary">
+              <ShoppingCartIcon sx={{ color: "#FFF" }} />
+            </Badge>
+          </IconButton>
+          <IconButton
+            onClick={handleClick}
+            size="small"
+            aria-label="account menu of current user"
+            aria-controls={open ? "account-menu" : undefined}
+            aria-haspopup="true"
+            aria-expanded={open ? "true" : undefined}
+          >
+            <UserAvatar user={user} />
+          </IconButton>
+          <Menu
+            id="account-menu"
+            anchorEl={anchorElement}
+            open={open}
+            onClose={handleClose}
+            keepMounted
+          >
+            <MenuItems user={user} handleClose={handleClose} />
+          </Menu>
+        </Box>
       </Toolbar>
     </AppBar>
   );
