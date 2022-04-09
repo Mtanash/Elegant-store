@@ -1,4 +1,3 @@
-import { Avatar } from "@mui/material";
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../features/user/userSlice";
 
@@ -7,13 +6,28 @@ const UserAvatar = ({ user, styles }) => {
 
   if (!user) user = currentUser;
 
-  return user?.avatar ? (
-    <Avatar src={user?.avatar} size="small" sx={styles} />
-  ) : (
-    <Avatar size="small" sx={styles}>
-      {user?.name[0] || null}
-    </Avatar>
-  );
+  if (!user)
+    return (
+      <img
+        src="/images/avatar_placeholder.png"
+        alt="user avatar"
+        className="rounded-full object-cover"
+      />
+    );
+  else if (!user?.avatar)
+    return (
+      <img src="" alt={user?.name} className="rounded-full object-cover">
+        {user?.name[0]?.toUpperCase()}
+      </img>
+    );
+  else
+    return (
+      <img
+        src={user?.avatar ? user.avatar : "/images/avatar_placeholder.png"}
+        alt={user?.name}
+        className="rounded-full object-cover"
+      />
+    );
 };
 
 export default UserAvatar;
