@@ -1,28 +1,13 @@
 import { truncateString } from "../../utils";
-
 import { useDispatch, useSelector } from "react-redux";
 import { productAddedToCart } from "../../features/Cart/cartSlice";
-
-import {
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  CardMedia,
-  Divider,
-  Typography,
-  CardActionArea,
-} from "@mui/material";
-import LoadingButton from "@mui/lab/LoadingButton";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
-
 import { useNavigate } from "react-router-dom";
 import Price from "../Price/Price";
 import Rates from "../Rates/Rates";
 import { useContext } from "react";
 import SnackbarContext from "../../context/SnackbarContext";
+import { MdFavorite, MdOutlineFavoriteBorder } from "react-icons/md";
+import { BsCartPlus } from "react-icons/bs";
 
 function VerticalProductCard({
   product,
@@ -46,63 +31,36 @@ function VerticalProductCard({
   };
 
   return (
-    <Card
-      raised
-      sx={{
-        margin: "10px",
-        width: "250px",
-      }}
-    >
-      <CardActionArea onClick={() => navigate(`/product/${product._id}`)}>
-        <CardMedia
-          component="img"
-          height="200"
-          image={imageUrl}
-          alt="white"
-          sx={{ objectFit: "contain" }}
-        />
-        <CardContent>
-          <Typography
-            variant="body2"
-            gutterBottom
-            align="center"
-            sx={{
-              height: "95px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            {truncateString(description)}
-          </Typography>
-          <Divider sx={{ margin: "5px 0" }} />
-          <Price price={price} priceAfterDiscount={priceAfterDiscount} center />
-          <Rates rates={rates} center />
-        </CardContent>
-      </CardActionArea>
-      <CardActions
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-        }}
-      >
-        <Button aria-label="favorite" onClick={() => handleAddToFavorite(_id)}>
+    <div className="rounded-lg shadow-xl hover:shadow-2xl flex flex-col w-56 transition-shadow ease-in-out duration-200">
+      <img
+        src={imageUrl}
+        alt={description}
+        className="row-start-1 row-end-1 h-48 w-40 object-contain self-center cursor-pointer"
+        onClick={() => navigate(`/product/${product._id}`)}
+      />
+      <p className="h-28 p-3 text-center">{truncateString(description, 90)}</p>
+      <hr className="text-pale-white" />
+      <Price price={price} priceAfterDiscount={priceAfterDiscount} center />
+      <Rates rates={rates} center />
+      <div className="flex justify-center gap-5 p-3">
+        <button
+          className="text-red hover:opacity-80 transition-opacity ease-linear duration-200"
+          onClick={() => handleAddToFavorite(_id)}
+        >
           {productIsFavorite ? (
-            <FavoriteIcon sx={{ color: "red" }} />
+            <MdFavorite className="w-6 h-6" />
           ) : (
-            <FavoriteBorderIcon />
+            <MdOutlineFavoriteBorder className="w-6 h-6 " />
           )}
-        </Button>
-        <Button
-          size="small"
-          variant="contained"
-          endIcon={<AddShoppingCartIcon />}
+        </button>
+        <button
+          className="flex items-center gap-2 p-1 px-2 font-semibold bg-deep-orange text-white rounded-md hover:opacity-80 transition-opacity ease-linear duration-200"
           onClick={onAddToCartButtonClicked}
         >
-          Add to cart
-        </Button>
-      </CardActions>
-    </Card>
+          Add to cart <BsCartPlus className="inline-block w-6 h-6" />
+        </button>
+      </div>
+    </div>
   );
 }
 
