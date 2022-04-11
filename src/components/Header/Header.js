@@ -38,7 +38,7 @@ function Header() {
 
   return (
     <header className="p-5 container mx-auto flex flex-row justify-between items-center gap-4">
-      <a href="." className="text-l md:text-2xl text-bold flex-1 md:flex-none">
+      <a href="." className="text-xl sm:text-2xl text-bold flex-1 md:flex-none">
         Elegant Store
       </a>
       <nav className="flex items-center justify-center gap-3">
