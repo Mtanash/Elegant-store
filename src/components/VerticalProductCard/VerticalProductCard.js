@@ -6,8 +6,9 @@ import Price from "../Price/Price";
 import Rates from "../Rates/Rates";
 import { useContext } from "react";
 import SnackbarContext from "../../context/SnackbarContext";
-import { MdFavorite, MdOutlineFavoriteBorder } from "react-icons/md";
 import { BsCartPlus } from "react-icons/bs";
+import IconButton from "../IconButton/IconButton";
+import AddToFavoriteButton from "../AddToFavoriteButton/AddToFavoriteButton";
 
 function VerticalProductCard({
   product,
@@ -43,22 +44,15 @@ function VerticalProductCard({
       <Price price={price} priceAfterDiscount={priceAfterDiscount} center />
       <Rates rates={rates} center />
       <div className="flex justify-center gap-5 p-3">
-        <button
-          className="text-red hover:opacity-80 transition-opacity ease-linear duration-200"
-          onClick={() => handleAddToFavorite(_id)}
-        >
-          {productIsFavorite ? (
-            <MdFavorite className="w-6 h-6" />
-          ) : (
-            <MdOutlineFavoriteBorder className="w-6 h-6 " />
-          )}
-        </button>
-        <button
-          className="flex items-center gap-2 p-1 px-2 font-semibold bg-deep-orange text-white rounded-md hover:opacity-80 transition-opacity ease-linear duration-200"
-          onClick={onAddToCartButtonClicked}
-        >
-          Add to cart <BsCartPlus className="inline-block w-6 h-6" />
-        </button>
+        <AddToFavoriteButton
+          onButtonClick={() => handleAddToFavorite(_id)}
+          productIsFavorite={productIsFavorite}
+        />
+        <IconButton
+          text="Add to cart"
+          onButtonClick={onAddToCartButtonClicked}
+          Icon={BsCartPlus}
+        />
       </div>
     </div>
   );

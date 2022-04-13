@@ -1,5 +1,4 @@
-import { LoadingButton } from "@mui/lab";
-import { Rating, Box, Typography, TextField, Paper } from "@mui/material";
+import { Rating } from "@mui/material";
 import { useState, useContext } from "react";
 import useAxios from "../../hooks/useAxios";
 import useAxiosDirect from "../../hooks/useAxiosDirect";
@@ -10,6 +9,7 @@ import { selectCurrentUser } from "../../features/user/userSlice";
 import { useSelector } from "react-redux";
 import usePrivateAxios from "../../hooks/usePrivateAxios";
 import SnackbarContext from "../../context/SnackbarContext";
+import LoadingButton from "../LoadingButton/LoadingButton";
 
 const rateLabels = {
   1: "Useless",
@@ -25,8 +25,7 @@ const AddReview = ({ productId }) => {
   const [hover, setHover] = useState(-1);
   const [rate, setRate] = useState(0);
   const [rateDescription, setRateDescription] = useState("");
-  const [data, addReviewLoading, addReviewError, addReviewAxiosFetch] =
-    useAxios();
+  const [, addReviewLoading, , addReviewAxiosFetch] = useAxios();
 
   const [
     userReviewedProduct,
@@ -65,75 +64,26 @@ const AddReview = ({ productId }) => {
   else if (userReviewedProduct) {
     const { owner, rate, text } = userReviewedProduct;
     return (
-      <Paper
-        elevation={3}
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "5px",
-          padding: "15px",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <Typography variant="h6" align="center">
+      <div className="p-2 rounded-md drop-shadow-lg flex flex-col justify-center items-center gap-3">
+        <p className="text-lg font-semibold text-center">
           You already reviewed this product.
-        </Typography>
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "5px",
-            alignItems: "center",
-            justifyContent: "center",
-            flexBasis: "100px",
-            flexShrink: "0",
-          }}
-        >
-          <UserAvatar user={owner} />
-          <Typography align="center" variant="subtitle2">
-            {owner?.name}
-          </Typography>
-        </Box>
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <Rating name="product rate" value={rate?.value} readOnly />
-          <Typography variant="subtitle1" align="center">
-            {text}
-          </Typography>
-        </Box>
-      </Paper>
+        </p>
+        <div className="flex flex-col gap-2 items-center justify-center">
+          <div className="w-10 h-10">
+            <UserAvatar user={owner} />
+          </div>
+          <p className="text-center font-semibold">{owner?.name}</p>
+        </div>
+        <Rating name="product rate" value={rate?.value} readOnly />
+        <p className="text-center">{text}</p>
+      </div>
     );
   } else
     return (
-      <Paper
-        elevation={3}
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "25px",
-          padding: "15px",
-        }}
-      >
-        <Typography variant="h6" gutterBottom align="center">
-          Add a review
-        </Typography>
-        <Box
-          sx={{
-            width: "100%",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: "10px",
-            alignSelf: "center",
-          }}
-        >
-          <Typography variant="body2">Pick a rate: </Typography>
+      <div className="p-2 rounded-md drop-shadow-lg flex flex-col gap-4">
+        <p className="text-lg font-semibold text-center">Add a review</p>
+        <div className="flex gap-2 items-center justify-center">
+          <p>Pick a rate: </p>
           <Rating
             name="product-rating"
             value={rate}
@@ -145,43 +95,35 @@ const AddReview = ({ productId }) => {
             }}
           />
           {rate !== null && (
-            <Box sx={{ ml: 2, minWidth: "62px" }}>
+            <div className="ml-2 min-w-[62px]">
               {rateLabels[hover !== -1 ? hover : rate]}
-            </Box>
+            </div>
           )}
-        </Box>
-        <Box sx={{ display: "flex", gap: "20px" }}>
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              width: "100px",
-            }}
-          >
-            <UserAvatar />
-            <Typography align="center" variant="subtitle2">
-              {user.name}
-            </Typography>
-          </Box>
-          <TextField
-            fullWidth
-            multiline
-            minRows={3}
+        </div>
+        <div className="flex gap-4">
+          <div className="flex flex-col gap-2 items-center justify-center">
+            <div className="w-10 h-10">
+              <UserAvatar user={user} />
+            </div>
+            <p className="text-center font-semibold">{user?.name}</p>
+          </div>
+
+          <textarea
+            className=" block w-full px-3 py-1.5 text-base font-normal resize-none outline-none border-2 border-pale-grey rounded-md focus:border-blue border-opacity-60 transition-colors"
+            rows={4}
             placeholder="Review description"
             value={rateDescription}
             onChange={(e) => setRateDescription(e.target.value)}
-          />
-        </Box>
+          ></textarea>
+        </div>
+
         <LoadingButton
-          sx={{ alignSelf: "center" }}
-          variant="contained"
-          onClick={handleAddReview}
+          text="Submit Review"
           loading={addReviewLoading}
-        >
-          Submit Review
-        </LoadingButton>
-      </Paper>
+          onButtonClick={handleAddReview}
+          color="blue"
+        />
+      </div>
     );
 };
 
