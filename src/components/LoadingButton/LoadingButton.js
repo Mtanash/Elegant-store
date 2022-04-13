@@ -1,13 +1,14 @@
 import React from "react";
 
-const LoadingButton = ({ text, loading, onButtonClick, color }) => {
+const LoadingButton = ({ text, loading, onButtonClick, color, submit }) => {
   return (
     <button
-      className={`text-white hover:opacity-80 transition-opacity disabled:cursor-not-allowed self-center grid place-items-center px-2 py-3 rounded-md ${
+      className={`text-white hover:opacity-80 transition-opacity disabled:cursor-not-allowed self-center grid place-items-center py-2 px-6 rounded-md ${
         color ? `bg-${color}` : null
       }`}
       disabled={loading !== undefined ? loading : null}
       onClick={onButtonClick}
+      type={`${submit ? "submit" : "button"}`}
     >
       {loading ? (
         <svg
