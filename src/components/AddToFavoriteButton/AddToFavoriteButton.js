@@ -3,7 +3,7 @@ import { MdFavorite, MdOutlineFavoriteBorder } from "react-icons/md";
 const AddToFavoriteButton = ({ onButtonClick, productIsFavorite, loading }) => {
   return (
     <button
-      className="text-red hover:opacity-80 transition-opacity disabled:cursor-not-allowed self-center w-8 h-8 grid place-items-center"
+      className="text-red hover:scale-95 transition-transform disabled:cursor-not-allowed self-center w-8 h-8 grid place-items-center"
       disabled={loading !== undefined ? loading : null}
       onClick={onButtonClick}
     >
