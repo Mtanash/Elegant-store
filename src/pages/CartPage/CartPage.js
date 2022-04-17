@@ -37,7 +37,7 @@ const CartPage = () => {
   const onRemoveButtonClicked = (_id) => dispatch(productRemovedFromCart(_id));
 
   return (
-    <section className="overflow-hidden min-h-[calc(100vh_-_theme(headerAndFooterHeight))] container mx-auto mb-10">
+    <section className="overflow-hidden min-h-[calc(100vh_-_theme(headerAndFooterHeight))] container mx-auto mb-10 p-4">
       {cartProductsCount > 0 ? (
         <p className="text-center font-bold text-2xl my-6">
           There {cartProductsCount > 1 ? " are" : " is"} {cartProductsCount}
