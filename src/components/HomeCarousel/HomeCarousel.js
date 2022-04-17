@@ -1,70 +1,65 @@
-import Carousel from "react-material-ui-carousel";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-import {
-  Card,
-  CardActionArea,
-  CardMedia,
-  CardContent,
-  Typography,
-} from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import Price from "../Price/Price";
-import { truncateString } from "../../utils";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { Carousel } from "react-responsive-carousel";
+import { BsArrowRightCircle, BsArrowLeftCircle } from "react-icons/bs";
 
 const HomeCarousel = ({ products }) => {
   const navigate = useNavigate();
   return (
     <Carousel
-      animation="slide"
-      NextIcon={<ArrowForwardIosIcon />}
-      PrevIcon={<ArrowBackIosNewIcon />}
-      sx={{
-        "&>div:nth-of-type(1)": {
-          display: "grid",
-          placeItems: "center",
-        },
-        marginTop: "25px",
-      }}
+      autoPlay
+      dynamicHeight
+      emulateTouch
+      infiniteLoop
+      showStatus={false}
+      showThumbs={false}
+      showIndicators={false}
+      className=" px-2"
+      renderArrowPrev={(onClickHandler, hasPrev, label) => (
+        <button
+          type="button"
+          onClick={onClickHandler}
+          title={label}
+          className="hidden md:inline-block cursor-pointer z-10 left-3 absolute top-2/4 -translate-y-2/4"
+        >
+          <BsArrowLeftCircle className="w-8 h-8 text-pale-grey hover:text-deep-blue transition-colors" />
+        </button>
+      )}
+      renderArrowNext={(onClickHandler, hasPrev, label) => (
+        <button
+          type="button"
+          onClick={onClickHandler}
+          title={label}
+          className="hidden md:inline-block cursor-pointer z-10 right-3 absolute top-2/4 -translate-y-2/4"
+        >
+          <BsArrowRightCircle className="w-8 h-8 text-pale-grey hover:text-deep-blue transition-colors" />
+        </button>
+      )}
     >
       {products.map((product) => (
-        <Card raised key={product._id}>
-          <CardActionArea
-            onClick={() => navigate(`/product/${product._id}`)}
-            sx={{
-              display: "grid",
-              gridTemplateColumns: "repeat(3, 1fr)",
-            }}
-          >
-            <CardMedia
-              component="img"
-              height="200"
-              image={product.imageUrl}
+        <div key={product._id} className="flex gap-4 h-44 sm:h-56">
+          <div className="basis-2/4">
+            <img
+              className="h-full"
+              src={product.imageUrl}
               alt={product.description}
-              sx={{ objectFit: "contain" }}
             />
-            <CardContent sx={{ gridColumn: "2/4" }}>
-              <Typography
-                variant="h6"
-                gutterBottom
-                align="center"
-                sx={{
-                  height: "95px",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                {truncateString(product.description, 50)}
-              </Typography>
-              <Price
-                price={product.price}
-                priceAfterDiscount={product.priceAfterDiscount}
-                center
-              />
-            </CardContent>
-          </CardActionArea>
-        </Card>
+          </div>
+          <div className="p-2 md:p-4 basis-2/4 h-full  flex flex-col justify-center items-center gap-2">
+            <Price
+              price={product?.price}
+              priceAfterDiscount={product?.priceAfterDiscount}
+              center
+            />
+            <button
+              className="inline-block px-2 py-1 md:px-4 md:py-2 bg-deep-orange rounded-md text-white font-semibold text-center hover:scale-95 transition-transform"
+              onClick={() => navigate(`/product/${product._id}`)}
+            >
+              Order now
+            </button>
+          </div>
+        </div>
       ))}
     </Carousel>
   );

@@ -1,15 +1,14 @@
-import { Typography, Button, Box, Container } from "@mui/material";
-
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import Products from "../../components/Products/Products";
 import useAxios from "../../hooks/useAxios";
 import { publicAxios } from "../../api/axios";
 import LoadingPage from "../LoadingPage/LoadingPage";
 import ErrorPage from "../ErrorPage/ErrorPage";
-import "../../css/Home/Home.css";
 import HomeCarousel from "../../components/HomeCarousel/HomeCarousel";
 
 const HomePage = () => {
+  const ProductSectionRef = useRef(null);
+
   const [
     featuredProductsData,
     featuredProductsLoading,
@@ -25,43 +24,29 @@ const HomePage = () => {
     });
   }, []);
 
+  const scrollToElement = (ref) => {
+    window.scrollTo({
+      top: ref.current.offsetTop,
+      left: 0,
+      behavior: "smooth",
+    });
+  };
+
   return (
     <main className="home">
-      <Box className="main-header">
-        <Typography
-          sx={{
-            width: "60%",
-            margin: "10px auto",
-            fontWeight: "bold",
-          }}
-          variant="h2"
-          component="h1"
-          align="center"
-          gutterBottom
-        >
-          Elegant store
-        </Typography>
-        <Typography
-          sx={{ width: "60%", margin: "0 auto" }}
-          variant="h4"
-          component="h2"
-          align="center"
-          gutterBottom
-        >
+      <div className="flex flex-col justify-center items-center h-[calc(100vh_-_64px)]">
+        <h1 className="text-5xl text-center my-4 font-bold">Elegant store</h1>
+        <h2 className="text-3xl text-center font-semibold my-8">
           Best products for best customers
-        </Typography>
-        <Button
-          variant="contained"
-          size="large"
-          color="secondary"
-          sx={{ marginTop: "40px" }}
-          component="a"
-          href="#products"
+        </h2>
+        <button
+          className="rounded-md inline-block px-8 py-4 bg-deep-orange font-semibold text-center text-white hover:scale-95 transition-transform self-center"
+          onClick={() => scrollToElement(ProductSectionRef)}
         >
           Shop Now
-        </Button>
-      </Box>
-      <Container>
+        </button>
+      </div>
+      <div id="products" className="container mx-auto" ref={ProductSectionRef}>
         {featuredProductsLoading && (
           <LoadingPage customStyles={{ minHeight: "228px" }} />
         )}
@@ -72,7 +57,7 @@ const HomePage = () => {
             <HomeCarousel products={featuredProductsData.products} />
           )}
         <Products />
-      </Container>
+      </div>
     </main>
   );
 };
