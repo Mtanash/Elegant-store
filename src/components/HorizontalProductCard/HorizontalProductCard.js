@@ -18,7 +18,7 @@ const HorizontalProductCard = ({
   return (
     <div
       key={_id}
-      className="flex my-4 gap-4 border-b-2 border-pale-grey border-opacity-30 pb-4"
+      className="flex flex-wrap justify-center my-4 gap-4 border-b-2 border-pale-grey border-opacity-30 pb-4"
     >
       <div
         className="w-28 h-28 overflow-hidden cursor-pointer"
@@ -26,7 +26,7 @@ const HorizontalProductCard = ({
       >
         <img src={imageUrl} alt={description} />
       </div>
-      <div className="flex-1">
+      <div className="flex-1 basis-[55%]">
         <p
           className="text-lg font-semibold mb-2 max-w-[50ch] break-words cursor-pointer"
           onClick={() => navigate(`/product/${_id}`)}
