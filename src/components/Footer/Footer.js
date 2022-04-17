@@ -2,7 +2,7 @@ import { AiOutlineLinkedin, AiFillGithub } from "react-icons/ai";
 
 const Footer = () => {
   return (
-    <footer className="bg-deep-blue text-white p-3">
+    <footer className="bg-deep-blue text-white p-3 text-sm md:text-lg">
       <div className="container mx-auto">
         <p className="text-center">
           Created by{" "}
