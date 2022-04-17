@@ -37,11 +37,11 @@ function Header() {
   }, [cartProducts]);
 
   return (
-    <header className="p-5 shadow-lg">
-      <div className="container mx-auto flex flex-row justify-between items-center gap-4">
+    <header className="p-2 shadow-lg">
+      <div className="container mx-auto flex flex-row justify-between items-center gap-2">
         <a
           href="."
-          className="text-xl sm:text-2xl text-bold flex-1 md:flex-none"
+          className="text-lg sm:text-2xl font-bold flex-1 md:flex-none"
         >
           Elegant Store
         </a>
