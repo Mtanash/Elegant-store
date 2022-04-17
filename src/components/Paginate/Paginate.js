@@ -18,7 +18,7 @@ const Paginate = ({ products, totalPages, page, handlePageChange }) => {
       <div className="flex gap-3 self-center justify-center items-center">
         {page !== 1 && (
           <button
-            class="p-1 px-4 rounded-md flex items-center justify-center gap-2 text-white bg-deep-blue hover:opacity-95  transition-all ease-in-out duration-150"
+            className="p-1 px-4 rounded-md flex items-center justify-center gap-2 text-white bg-deep-blue hover:opacity-95  transition-all ease-in-out duration-150"
             onClick={() => prevPage()}
           >
             <BsArrowLeft className="w-4 h-4" />
@@ -30,7 +30,7 @@ const Paginate = ({ products, totalPages, page, handlePageChange }) => {
         </p>
         {page !== totalPages && (
           <button
-            class="p-1 px-4 rounded-md flex items-center justify-center gap-2 text-white bg-deep-blue hover:opacity-95
+            className="p-1 px-4 rounded-md flex items-center justify-center gap-2 text-white bg-deep-blue hover:opacity-95
               transition-all ease-in-out duration-200"
             onClick={() => nextPage()}
           >
