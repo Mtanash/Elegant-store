@@ -39,7 +39,7 @@ const ProductDetailsPanel = ({ product, productIsFavorite }) => {
   };
 
   return (
-    <div className="border-[1px] border-solid border-grey border-opacity-20 rounded-md p-2 col-start-4 col-end-5 flex flex-col justify-center">
+    <div className="border-[1px] border-solid border-grey border-opacity-20 rounded-md p-2 col-start-1 col-end-2 row-start-3 row-end-4 md:col-start-4 md:col-end-5 md:row-start-1 md:row-end-2 flex flex-col justify-center">
       <p className="font-semibold text-lg mb-1">
         $
         {product?.priceAfterDiscount

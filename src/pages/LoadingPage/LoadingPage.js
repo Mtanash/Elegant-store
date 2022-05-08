@@ -1,26 +1,14 @@
-import { Box, CircularProgress } from "@mui/material";
+import { CircularProgress } from "@mui/material";
 
-const LoadingPage = ({ fullHeight, customStyles = {} }) => {
+const LoadingPage = ({ fullHeight }) => {
   return (
-    <Box
-      sx={[
-        fullHeight
-          ? {
-              minHeight: "calc(100vh - 124px)",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }
-          : {
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            },
-        customStyles,
-      ]}
+    <section
+      className={`${
+        fullHeight && "min-h-[calc(100vh_-_theme(headerAndFooterHeight))]"
+      } flex justify-center items-center`}
     >
       <CircularProgress />
-    </Box>
+    </section>
   );
 };
 

@@ -1,7 +1,7 @@
 module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
-    headerAndFooterHeight: "172px",
+    headerAndFooterHeight: "152px",
     colors: {
       "deep-orange": "#FF5F00",
       "deep-red": "#B20600",

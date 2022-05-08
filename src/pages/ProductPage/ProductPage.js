@@ -37,7 +37,7 @@ const ProductPage = () => {
       <section className="min-h-[calc(100vh_-_theme(headerAndFooterHeight))] p-3">
         <div className="container mx-auto flex flex-col items-center justify-center gap-3">
           {/* Product info section */}
-          <div className="grid justify-center items-start gap-4 grid-cols-4">
+          <div className="grid justify-center items-start gap-4 ">
             <ProductFullDetails product={product} />
 
             <ProductDetailsPanel
@@ -48,9 +48,11 @@ const ProductPage = () => {
           <hr className="text-pale-white h-px w-full" />
           {/* Reviews section */}
           <h3 className="text-xl font-semibold self-center my-3">Reviews</h3>
-          <div className="w-full grid grid-cols-2 gap-4">
+          <div className="w-full flex flex-col md:grid grid-cols-2 gap-4">
             {user ? (
-              <AddReview productId={params.id} />
+              <div>
+                <AddReview productId={params.id} />
+              </div>
             ) : (
               <p className="text-center text-lg">
                 Please{" "}
@@ -63,7 +65,7 @@ const ProductPage = () => {
                 to add a review.
               </p>
             )}
-
+            <hr />
             <div>
               <Reviews productId={params.id} />
             </div>

@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const HamburgerMenu = ({ links }) => {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const navigate = useNavigate();
   const menuRef = useRef(null);
 
   useEffect(() => {
@@ -39,19 +41,48 @@ const HamburgerMenu = ({ links }) => {
       {/* mobile menu */}
       <div
         ref={menuRef}
-        className={`absolute flex ${
+        className={`absolute flex pl-14 ${
           showMobileMenu ? "scale-y-100" : "scale-y-0"
-        } flex-col items-center self-end gap-3 py-8 mt-10 font-bold bg-white w-48 drop-shadow-xl z-20 -right-16 transition-transform ease-in-out duration-300 origin-top md:hidden sm:right-0`}
+        } flex-col items-start self-end gap-3 py-8 mt-10 font-bold bg-white w-48 drop-shadow-xl z-20 -right-16 transition-transform ease-in-out duration-300 origin-top md:hidden sm:right-0`}
       >
-        {links.map((link) => (
-          <a
-            key={link.text}
-            className="p-2 font-semibold text-grey hover:text-deep-blue inline-block transition-colors ease-in-out duration-200"
-            href={link.url}
+        <div className="p-2 font-semibold text-grey hover:text-deep-blue inline-block transition-colors ease-in-out duration-200">
+          Fashion
+          <div
+            className={`ml-3 w-full flex flex-col items-start transition-opacity`}
           >
-            {link.text}
-          </a>
-        ))}
+            <button
+              className="py-1 font-normal hover:translate-x-1 transition-transform duration-200"
+              onClick={() => {
+                navigate(`category?category=Men Clothes`);
+              }}
+            >
+              Men
+            </button>
+            <button
+              className="py-1 font-normal hover:translate-x-1 transition-transform duration-200"
+              onClick={() => {
+                navigate(`category?category=Women Clothes`);
+              }}
+            >
+              Women
+            </button>
+          </div>
+        </div>
+        <button
+          className="p-2 font-semibold text-grey hover:text-deep-blue inline-block transition-colors ease-in-out duration-200"
+          onClick={() => navigate(`category?category=Bags`)}
+        >
+          Bags
+        </button>
+        <button className="p-2 font-semibold text-grey hover:text-deep-blue inline-block transition-colors ease-in-out duration-200">
+          Watches
+        </button>
+        <button className="p-2 font-semibold text-grey hover:text-deep-blue inline-block transition-colors ease-in-out duration-200">
+          Shoes
+        </button>
+        <button className="p-2 font-semibold text-grey hover:text-deep-blue inline-block transition-colors ease-in-out duration-200">
+          Perfumes
+        </button>
       </div>
     </div>
   );

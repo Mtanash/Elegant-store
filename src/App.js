@@ -21,6 +21,7 @@ import PersistentLogin from "./components/PersistentLogin/PersistentLogin";
 import SnackbarAlert from "./components/SnackbarAlert/SnackbarAlert";
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import CategoryPage from "./pages/CategoryPage/CategoryPage";
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
           <Route path="/auth" element={<AuthPage />} />
           <Route path="/unauthorized" element={<UnauthorizedPage />} />
           <Route path="/products-search" element={<SearchPage />} />
+          <Route path="/category" element={<CategoryPage />} />
 
           {/* protected routes */}
           <Route element={<RequireAuth allowedRoles={["admin"]} />}>

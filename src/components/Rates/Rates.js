@@ -1,4 +1,4 @@
-import { Box, Rating, Typography } from "@mui/material";
+import { Rating } from "@mui/material";
 
 const Rates = ({ rates = [], center }) => {
   const { value: totalRatesValue } = rates.reduce(
@@ -11,22 +11,18 @@ const Rates = ({ rates = [], center }) => {
   const rate = Math.ceil(totalRatesValue / totalRates);
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        gap: "5px",
-        alignItems: "center",
-        justifyContent: center ? "center" : "flex-start",
-        height: "24px",
-      }}
+    <div
+      className={`flex gap-1 items-center h-6 ${
+        center ? "justify-center" : "justify-start"
+      }`}
     >
       {rate > 0 && (
         <>
           <Rating size="small" name="read-only" value={rate} readOnly />
-          <Typography>{totalRates}</Typography>
+          <p className="font-medium">{totalRates}</p>
         </>
       )}
-    </Box>
+    </div>
   );
 };
 

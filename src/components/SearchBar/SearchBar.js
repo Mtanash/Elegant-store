@@ -52,7 +52,7 @@ const SearchBar = () => {
         className={`absolute right-0 transition-all duration-300 shadow-lg
               ${
                 showSearchBar
-                  ? "opacity-100 z-0 top-full"
+                  ? "opacity-100 z-0 top-[140%]"
                   : "top-0 -z-10 opacity-0"
               }`}
         onSubmit={handleSearchFormSubmit}

@@ -13,7 +13,7 @@ const Paginate = ({ products, totalPages, page, handlePageChange }) => {
   };
 
   return (
-    <div className="flex flex-col gap-7">
+    <div className="flex flex-col justify-between py-4 gap-7 min-h-[calc(100vh_-_theme(headerAndFooterHeight))]">
       <ProductsContainer products={products} />
       <div className="flex gap-3 self-center justify-center items-center">
         {page !== 1 && (
