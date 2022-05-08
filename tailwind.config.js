@@ -13,6 +13,7 @@ module.exports = {
       blue: "#14279B",
       "pale-grey": "#8D8DAA",
       "pale-red": "#7B5298",
+      green: "#008000",
     },
     extend: {},
   },

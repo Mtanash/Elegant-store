@@ -1,52 +1,34 @@
-import { Typography, Box } from "@mui/material";
-
 const Price = ({ price, priceAfterDiscount, center }) => {
   const discount = Math.floor(((price - priceAfterDiscount) / price) * 100);
   return (
-    <Box
-      sx={{
-        display: "flex",
-        justifyContent: center ? "center" : "flex-start",
-        height: "55px",
-      }}
-    >
+    <div className={`flex h-14 ${center ? "justify-center" : "justify-start"}`}>
       {priceAfterDiscount ? (
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: center ? "center" : "flex-start",
-          }}
+        <div
+          className={`flex flex-col justify-center ${
+            center ? "items-center" : "items-start"
+          }`}
         >
-          <Box sx={{ display: "flex", alignItems: "center", gap: "5px" }}>
+          <div className="flex items-center gap-1">
             EGP
-            <Typography variant="h6">{priceAfterDiscount}.00</Typography>
-          </Box>
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              gap: "10px",
-            }}
-          >
-            <Typography sx={{ textDecoration: "line-through" }} variant="body2">
-              EGP {price}.00
-            </Typography>
-            <Typography
+            <p className="text-xl font-semibold">{priceAfterDiscount}.00</p>
+          </div>
+          <div className="flex items-center gap-[10px]">
+            <p className="line-through text-sm">EGP {price}.00</p>
+            <p
+              className="text-sm font-medium text-green"
               sx={{ fontSize: ".9rem", fontWeight: "500", color: "green" }}
             >
               {discount}% OFF
-            </Typography>
-          </Box>
-        </Box>
+            </p>
+          </div>
+        </div>
       ) : (
-        <Box sx={{ display: "flex", alignItems: "center", gap: "5px" }}>
+        <div className="flex items-center gap-1">
           EGP
-          <Typography variant="h6">{price}.00</Typography>
-        </Box>
+          <p className="text-xl font-semibold">{price}.00</p>
+        </div>
       )}
-    </Box>
+    </div>
   );
 };
 
