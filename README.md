@@ -9,12 +9,13 @@
 - Authentication system.
 - Cart system.
 - Add products to favorite menu.
-- Each user can buy and sell products.
+- Review and rating system
 
 ## Tech
 
 - React Js
 - Redux toolkit
+- Tailwind css
 - Material UI
 - Google Oauth
 - Axios
