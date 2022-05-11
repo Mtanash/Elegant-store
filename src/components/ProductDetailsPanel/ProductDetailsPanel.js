@@ -1,5 +1,4 @@
 import moment from "moment";
-import { MdFavorite, MdOutlineFavoriteBorder } from "react-icons/md";
 import {
   BsFillArrowUpSquareFill,
   BsFillArrowDownSquareFill,

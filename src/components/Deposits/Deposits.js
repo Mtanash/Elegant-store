@@ -1,4 +1,4 @@
-import { Paper, Typography, Link } from "@mui/material";
+import { Typography, Link } from "@mui/material";
 
 const Deposits = ({ totalDeposits }) => {
   return (

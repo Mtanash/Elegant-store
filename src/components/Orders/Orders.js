@@ -1,5 +1,4 @@
 import {
-  Paper,
   Typography,
   TableContainer,
   Table,

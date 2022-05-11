@@ -10,7 +10,7 @@ import { useContext } from "react";
 import SnackbarContext from "../context/SnackbarContext";
 const useHandleAddToFavorite = () => {
   const { openSnackbar } = useContext(SnackbarContext);
-  const [data, loading, error, axiosFetch] = useAxios();
+  const [, loading, , axiosFetch] = useAxios();
   const privateAxios = usePrivateAxios();
 
   const dispatch = useDispatch();
