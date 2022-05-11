@@ -1,19 +1,24 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-html, body {
+html,
+body {
   scroll-behavior: smooth;
 }
 
-a {
-  text-decoration: none;
-  color: inherit;
+img {
+  object-fit: contain;
 }
 
-img {
-  width: 100%;
-  object-fit: contain;
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
 }

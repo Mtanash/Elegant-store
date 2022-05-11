@@ -1,24 +1,17 @@
-import { Alert, AlertTitle, Box } from "@mui/material";
+import { Alert, AlertTitle } from "@mui/material";
 
 const ErrorPage = ({ fullHeight }) => {
   return (
-    <Box
-      sx={
-        fullHeight
-          ? {
-              minHeight: "calc(100vh - 124px)",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }
-          : null
-      }
+    <section
+      className={`${
+        fullHeight && "min-h-[calc(100vh_-_theme(headerAndFooterHeight))]"
+      } flex justify-center items-center`}
     >
       <Alert severity="error">
         <AlertTitle>Error</AlertTitle>
         Something went wrong — <strong>Please try again later!</strong>
       </Alert>
-    </Box>
+    </section>
   );
 };
 

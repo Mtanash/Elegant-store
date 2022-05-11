@@ -1,8 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import Paginate from "../Paginate/Paginate";
-
-import { Typography } from "@mui/material";
-import { Box } from "@mui/system";
 import useAxios from "../../hooks/useAxios";
 import { publicAxios } from "../../api/axios";
 import LoadingPage from "../../pages/LoadingPage/LoadingPage";
@@ -14,7 +11,7 @@ const Products = () => {
     useAxios();
   const [page, setPage] = useState(1);
 
-  const handlePageChange = (e, value) => {
+  const handlePageChange = (value) => {
     productsRef.current.scrollIntoView();
     setPage(value);
   };
@@ -31,30 +28,14 @@ const Products = () => {
   else if (productsError) return <ErrorPage />;
   else
     return (
-      <Box
-        ref={productsRef}
-        id="products"
-        sx={{
-          minHeight: "100vh",
-          display: "grid",
-          placeItems: "center",
-        }}
-      >
-        <Typography
-          variant="h4"
-          align="center"
-          gutterBottom
-          sx={{ padding: "25px 0" }}
-        >
-          Latest products
-        </Typography>
+      <div ref={productsRef} className="my-8">
         <Paginate
           page={page}
           totalPages={productsData.totalPages}
           products={productsData.products}
           handlePageChange={handlePageChange}
         />
-      </Box>
+      </div>
     );
 };
 

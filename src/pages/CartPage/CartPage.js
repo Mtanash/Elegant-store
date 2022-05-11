@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 import CheckoutForm from "../../components/CheckoutForm/CheckoutForm";
 import HorizontalProductCard from "../../components/HorizontalProductCard/HorizontalProductCard";
 
-import { Box, Button, Link, Typography } from "@mui/material";
+import { useState } from "react";
 
 const CartPage = () => {
   const dispatch = useDispatch();
@@ -23,8 +23,10 @@ const CartPage = () => {
 
   const { total: cartTotalPrice } = useSelector(selectCartProductsTotalPrice);
 
+  const [checkoutFormIsOpen, setCheckoutFormIsOpen] = useState(false);
+
   const toggleCheckoutForm = () => {
-    document.getElementById("checkout-form").classList.toggle("active");
+    setCheckoutFormIsOpen(!checkoutFormIsOpen);
   };
 
   const onCheckoutClick = () => {
@@ -35,36 +37,19 @@ const CartPage = () => {
   const onRemoveButtonClicked = (_id) => dispatch(productRemovedFromCart(_id));
 
   return (
-    <Box
-      sx={{ width: "70%", margin: "0 auto", minHeight: "calc(100vh - 124px)" }}
-    >
+    <section className="overflow-hidden min-h-[calc(100vh_-_theme(headerAndFooterHeight))] container mx-auto mb-10 p-4">
       {cartProductsCount > 0 ? (
-        <Typography variant="h4" align="center" sx={{ padding: "20px 10px" }}>
-          There are {cartProductsCount}
+        <p className="text-center font-bold text-2xl my-6">
+          There {cartProductsCount > 1 ? " are" : " is"} {cartProductsCount}
           {cartProductsCount > 1 ? " items" : " item"} in cart.
-        </Typography>
+        </p>
       ) : (
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            paddingTop: "100px",
-          }}
-        >
-          <Typography variant="h4" align="center" sx={{ padding: "20px 10px" }}>
-            Cart is empty
-          </Typography>
-          <Link
-            sx={{ paddingTop: "25px" }}
-            component="button"
-            variant="body1"
-            onClick={() => navigate("/")}
-          >
+        <div className="flex flex-col items-center justify-center pt-24">
+          <p className="text-center font-bold text-2xl p-4">Cart is empty</p>
+          <button className="hover:underline" onClick={() => navigate("/")}>
             Shop Now
-          </Link>
-        </Box>
+          </button>
+        </div>
       )}
       {cartProducts.map((product) => (
         <HorizontalProductCard
@@ -74,17 +59,23 @@ const CartPage = () => {
         />
       ))}
       {cartProductsCount > 0 && (
-        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-          <Typography variant="h6" className="total-price">
+        <div className="flex justify-between items-center">
+          <p className="font-semibold text-lg">
             Total price: ${cartTotalPrice}.00
-          </Typography>
-          <Button variant="contained" onClick={onCheckoutClick}>
+          </p>
+          <button
+            className="py-2 px-6 bg-deep-orange rounded-md text-white text-lg font-semibold hover:scale-95 transition-transform"
+            onClick={onCheckoutClick}
+          >
             Proceed to checkout
-          </Button>
-        </Box>
+          </button>
+        </div>
       )}
-      <CheckoutForm toggleCheckoutForm={toggleCheckoutForm} />
-    </Box>
+      <CheckoutForm
+        toggleCheckoutForm={toggleCheckoutForm}
+        checkoutFormIsOpen={checkoutFormIsOpen}
+      />
+    </section>
   );
 };
 

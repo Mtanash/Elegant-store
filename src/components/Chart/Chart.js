@@ -57,9 +57,9 @@ const data = [
 
 const Chart = () => {
   return (
-    <Paper elevation={3} sx={{ height: "100%", padding: "20px" }}>
+    <div className="shadow-special p-5 h-60 md:h-72 w-full">
       <ResponsiveContainer width="100%" height="100%">
-        <LineChart width={300} height={100} data={data}>
+        <LineChart width={100} height={100} data={data}>
           <Line type="monotone" dataKey="pv" stroke="#8884d8" strokeWidth={2} />
           <CartesianGrid stroke="#ccc" strokeDasharray="6 6" />
           <XAxis dataKey="name" />
@@ -67,7 +67,7 @@ const Chart = () => {
           <Tooltip />
         </LineChart>
       </ResponsiveContainer>
-    </Paper>
+    </div>
   );
 };
 

@@ -10,13 +10,11 @@ import {
 
 import { useNavigate } from "react-router-dom";
 
-import { TextField, Box, Typography } from "@mui/material";
-import LoadingButton from "@mui/lab/LoadingButton";
-
 import NumberFormat from "react-number-format";
 
-import "../../css/CheckoutForm/CheckoutForm.css";
 import SnackbarContext from "../../context/SnackbarContext";
+
+import LoadingButton from "../LoadingButton/LoadingButton";
 
 const initialFormDataState = {
   firstName: "",
@@ -29,7 +27,7 @@ const initialFormDataState = {
   creditCVC: "",
 };
 
-const CheckoutForm = ({ toggleCheckoutForm }) => {
+const CheckoutForm = ({ checkoutFormIsOpen, toggleCheckoutForm }) => {
   const { openSnackbar } = useContext(SnackbarContext);
   const privateAxios = usePrivateAxios();
   const cartProducts = useSelector(selectCartProducts);
@@ -38,12 +36,7 @@ const CheckoutForm = ({ toggleCheckoutForm }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [formData, setFormData] = useState(initialFormDataState);
-  const [
-    createdOrder,
-    createdOrderLoading,
-    createdOrderError,
-    fetchCreatedOrder,
-  ] = useAxios();
+  const [, createdOrderLoading, , fetchCreatedOrder] = useAxios();
 
   const handleFormData = (e) => {
     setFormData({
@@ -118,123 +111,165 @@ const CheckoutForm = ({ toggleCheckoutForm }) => {
   };
 
   return (
-    <Box className="checkout-form" id="checkout-form">
-      <Typography variant="h4" gutterBottom align="center">
-        Shipping information
-      </Typography>
-      <button className="close-button" onClick={toggleCheckoutForm}>
-        &#10005;
-      </button>
-      <form onSubmit={onFormSubmit}>
-        <Typography
-          align="left"
-          variant="subtitle1"
-          sx={{ alignSelf: "flex-start" }}
+    <section
+      className={`fixed inset-0 p-6 bg-white transition-transform duration-500 ease-in-out h-auto overflow-auto grid place-items-center ${
+        !checkoutFormIsOpen ? "translate-y-full" : null
+      }`}
+    >
+      <div className="flex flex-col gap-8 justify-center items-center pb-10 w-full">
+        <p className="text-3xl font-bold text-center mt-8">Checkout</p>
+        <button
+          className="bg-red text-white w-9 h-9 rounded-md font-semibold hover:bg-deep-red transition-colors absolute top-3 right-3"
+          onClick={toggleCheckoutForm}
         >
-          Shipping information
-        </Typography>
-        <div>
-          <TextField
-            label="First Name"
-            type="text"
-            required
-            name="firstName"
-            value={formData.firstName}
-            onChange={handleFormData}
-          />
-          <TextField
-            label="Last Name"
-            type="text"
-            required
-            name="lastName"
-            value={formData.lastName}
-            onChange={handleFormData}
-          />
-        </div>
-        <TextField
-          label="Address"
-          type="text"
-          required
-          name="address"
-          fullWidth
-          value={formData.address}
-          onChange={handleFormData}
-        />
-        <TextField
-          label="Phone Number"
-          type="text"
-          required
-          name="phoneNumber"
-          fullWidth
-          value={formData.phoneNumber}
-          onChange={handleFormData}
-        />
+          &#10005;
+        </button>
+        <form className="w-full sm:w-[70%]" onSubmit={onFormSubmit}>
+          <p className="text-left font-semibold text-xl mb-4 pl-2 border-l-4 border-deep-orange">
+            Shipping information
+          </p>
+          <div className="flex flex-col gap-4">
+            <div className="flex flex-col sm:flex-row gap-1">
+              <div className="flex flex-col gap-1 grow">
+                <label className="font-semibold" htmlFor="firstName">
+                  First Name
+                </label>
+                <input
+                  className="w-full rounded-md p-2 px-3 border-opacity-60 outline-none border-2 border-pale-grey hover:border-deep-blue focus:border-pale-red transition-colors"
+                  type="text"
+                  id="firstName"
+                  name="firstName"
+                  placeholder="First Name"
+                  required
+                  value={formData.firstName}
+                  onChange={handleFormData}
+                />
+              </div>
 
-        <Typography
-          align="left"
-          variant="subtitle1"
-          sx={{ alignSelf: "flex-start" }}
-        >
-          Payment information
-        </Typography>
+              <div className="flex flex-col gap-1 grow">
+                <label className="font-semibold" htmlFor="lastName">
+                  Last Name
+                </label>
+                <input
+                  className="w-full rounded-md p-2 px-3 border-opacity-60 outline-none border-2 border-pale-grey hover:border-deep-blue focus:border-pale-red transition-colors"
+                  type="text"
+                  id="lastName"
+                  name="lastName"
+                  placeholder="Last Name"
+                  required
+                  value={formData.lastName}
+                  onChange={handleFormData}
+                />
+              </div>
+            </div>
 
-        <NumberFormat
-          customInput={TextField}
-          label="Credit Number"
-          format="#### #### #### ####"
-          required
-          fullWidth
-          placeholder="xxxx xxxx xxxx xxxx"
-          mask="_"
-          value={formData.creditNumber}
-          onValueChange={(e) =>
-            setFormData({ ...formData, creditNumber: e.floatedValue })
-          }
-        />
-        <div>
-          <NumberFormat
-            customInput={TextField}
-            label="Credit Expiry"
-            fullWidth
-            required
-            format={cardExpiry}
-            placeholder="MM/YY"
-            mask={["M", "M", "Y", "Y"]}
-            onValueChange={(e) => {
-              if (e.formattedValue.length === 5) {
-                const month = e.formattedValue.slice(0, 2);
-                const year = e.formattedValue.slice(3, 5);
-                setFormData({
-                  ...formData,
-                  creditExpMonth: parseInt(month),
-                  creditExpYear: parseInt(year),
-                });
-              }
-            }}
-          />
-          <NumberFormat
-            customInput={TextField}
-            fullWidth
-            required
-            label="Credit CVC"
-            format="###"
-            placeholder="xxx"
-            onValueChange={(e) =>
-              setFormData({ ...formData, creditCVC: e.floatedValue })
-            }
-          />
-        </div>
+            <div className="flex flex-col gap-1">
+              <label className="font-semibold" htmlFor="address">
+                Address
+              </label>
+              <input
+                className="w-full rounded-md p-2 px-3 border-opacity-60 outline-none border-2 border-pale-grey hover:border-deep-blue focus:border-pale-red transition-colors"
+                type="text"
+                id="address"
+                name="address"
+                placeholder="Address"
+                required
+                value={formData.address}
+                onChange={handleFormData}
+              />
+            </div>
 
-        <LoadingButton
-          loading={createdOrderLoading}
-          variant="contained"
-          fullWidth
-          type="submit"
-        >
-          Submit
-        </LoadingButton>
-      </form>
-    </Box>
+            <div className="flex flex-col gap-1">
+              <label className="font-semibold" htmlFor="phoneNumber">
+                Phone Number
+              </label>
+              <input
+                className="w-full rounded-md p-2 px-3 border-opacity-60 outline-none border-2 border-pale-grey hover:border-deep-blue focus:border-pale-red transition-colors"
+                type="text"
+                id="phoneNumber"
+                name="phoneNumber"
+                placeholder="Phone Number"
+                required
+                value={formData.phoneNumber}
+                onChange={handleFormData}
+              />
+            </div>
+
+            <p className="text-left font-semibold text-xl mb-4 pl-2 border-l-4 border-deep-orange">
+              Payment information
+            </p>
+
+            <div className="flex flex-col gap-1">
+              <label className="font-semibold" htmlFor="creditNumber">
+                Credit Number
+              </label>
+              <NumberFormat
+                className="w-full rounded-md p-2 px-3 border-opacity-60 outline-none border-2 border-pale-grey hover:border-deep-blue focus:border-pale-red transition-colors"
+                id="creditNumber"
+                format="#### #### #### ####"
+                required
+                placeholder="xxxx xxxx xxxx xxxx"
+                mask="_"
+                value={formData.creditNumber}
+                onValueChange={(e) =>
+                  setFormData({ ...formData, creditNumber: e.floatedValue })
+                }
+              />
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-1">
+              <div className="flex flex-col gap-1 grow">
+                <label className="font-semibold" htmlFor="creditExpiry">
+                  Credit Expiry
+                </label>
+                <NumberFormat
+                  className="w-full rounded-md p-2 px-3 border-opacity-60 outline-none border-2 border-pale-grey hover:border-deep-blue focus:border-pale-red transition-colors"
+                  id="creditExpiry"
+                  required
+                  format={cardExpiry}
+                  placeholder="MM/YY"
+                  mask={["M", "M", "Y", "Y"]}
+                  onValueChange={(e) => {
+                    if (e.formattedValue.length === 5) {
+                      const month = e.formattedValue.slice(0, 2);
+                      const year = e.formattedValue.slice(3, 5);
+                      setFormData({
+                        ...formData,
+                        creditExpMonth: parseInt(month),
+                        creditExpYear: parseInt(year),
+                      });
+                    }
+                  }}
+                />
+              </div>
+
+              <div className="flex flex-col gap-1 grow">
+                <label className="font-semibold" htmlFor="creditCVC">
+                  Credit CVC
+                </label>
+                <NumberFormat
+                  className="w-full rounded-md p-2 px-3 border-opacity-60 outline-none border-2 border-pale-grey hover:border-deep-blue focus:border-pale-red transition-colors"
+                  id="creditCVC"
+                  required
+                  format="###"
+                  placeholder="xxx"
+                  onValueChange={(e) =>
+                    setFormData({ ...formData, creditCVC: e.floatedValue })
+                  }
+                />
+              </div>
+            </div>
+
+            <LoadingButton
+              text="Submit"
+              loading={createdOrderLoading}
+              submit
+              color="blue"
+            />
+          </div>
+        </form>
+      </div>
+    </section>
   );
 };
 

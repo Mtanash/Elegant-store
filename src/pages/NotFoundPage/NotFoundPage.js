@@ -1,27 +1,21 @@
-import { Container, Box, Typography, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 const NotFoundPage = () => {
   const navigate = useNavigate();
   return (
-    <Container>
-      <Box
-        sx={{
-          height: "calc(100vh - 124px)",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <Typography variant="h2" component="h2" color="error" gutterBottom>
+    <section className="min-h-[calc(100vh_-_theme(headerAndFooterHeight))] container mx-auto grid place-items-center">
+      <div className="flex flex-col items-center justify-center">
+        <p className="text-7xl font-semibold my-4 text-red text-center">
           Page Not Found
-        </Typography>
-        <Button variant="contained" size="large" onClick={() => navigate("/")}>
+        </p>
+        <button
+          className="px-4 py-2 bg-pale-red text-white rounded-md hover:scale-95 transition-transform"
+          onClick={() => navigate("/")}
+        >
           Go to homepage
-        </Button>
-      </Box>
-    </Container>
+        </button>
+      </div>
+    </section>
   );
 };
 

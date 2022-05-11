@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { Box, Grid } from "@mui/material";
 import Chart from "../../components/Chart/Chart";
 import Deposits from "../../components/Deposits/Deposits";
 import Orders from "../../components/Orders/Orders";
@@ -25,27 +24,21 @@ const DashboardInfo = () => {
     });
   }, []);
 
-  if (dashboardDataLoading) return <LoadingPage fullHeight={true} />;
-  else if (dashboardDataError) return <ErrorPage />;
+  if (dashboardDataLoading) return <LoadingPage fullHeight />;
+  else if (dashboardDataError) return <ErrorPage fullHeight />;
   else
     return (
-      <Box>
-        <Grid container spacing={2}>
-          <Grid item xs={8}>
-            <Chart />
-          </Grid>
-          <Grid item xs={4}>
-            <Deposits totalDeposits="2500" />
-          </Grid>
-          <Grid item xs={12}>
-            <Orders
-              title="Latest Orders"
-              orders={dashboardData}
-              showAllOrders={true}
-            />
-          </Grid>
-        </Grid>
-      </Box>
+      <div className="flex flex-col flex-wrap gap-2">
+        <Chart />
+        <div className="shrink-0">
+          <Deposits totalDeposits="2500" />
+        </div>
+        <Orders
+          title="Latest Orders"
+          orders={dashboardData}
+          showAllOrders={true}
+        />
+      </div>
     );
 };
 

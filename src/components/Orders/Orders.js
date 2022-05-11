@@ -1,5 +1,4 @@
 import {
-  Paper,
   Typography,
   TableContainer,
   Table,
@@ -41,10 +40,7 @@ const Orders = ({ title, orders, showAllOrders = false }) => {
   else if (ordersDataError) return <ErrorPage />;
   else
     return (
-      <Paper
-        elevation={3}
-        sx={{ width: "100%", height: "100%", padding: "15px" }}
-      >
+      <div className="shadow-special w-full h-full p-4">
         {title && (
           <Typography component="h2" variant="h6" color="primary" gutterBottom>
             {title}
@@ -115,7 +111,7 @@ const Orders = ({ title, orders, showAllOrders = false }) => {
             Show all orders
           </Link>
         )}
-      </Paper>
+      </div>
     );
 };
 

@@ -1,17 +1,8 @@
-import {
-  Card,
-  CardMedia,
-  CardContent,
-  Typography,
-  Divider,
-  CardActionArea,
-} from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
-import LoadingButton from "@mui/lab/LoadingButton";
-
 import { truncateString } from "../../utils";
 
 import { useNavigate } from "react-router-dom";
+import IconButton from "../IconButton/IconButton";
+import { MdDelete } from "react-icons/md";
 
 const HorizontalProductCard = ({
   description,
@@ -25,42 +16,36 @@ const HorizontalProductCard = ({
 }) => {
   const navigate = useNavigate();
   return (
-    <Card
+    <div
       key={_id}
-      sx={{ display: "flex", paddingRight: "10px", marginBottom: "15px" }}
-      raised
+      className="flex flex-wrap justify-center my-4 gap-4 border-b-2 border-pale-grey border-opacity-30 pb-4 w-full"
     >
-      <CardActionArea
-        sx={{ display: "flex" }}
+      <div
+        className="w-28 h-28 overflow-hidden cursor-pointer"
         onClick={() => navigate(`/product/${_id}`)}
       >
-        <CardMedia
-          component="img"
-          src={imageUrl}
-          alt={description}
-          sx={{ width: "100px", height: "100px" }}
-        />
-        <CardContent sx={{ flex: "1" }}>
-          <Typography variant="h6">
-            {truncateString(description, 50)}
-          </Typography>
-          <Divider />
-          {quantity && <Typography variant="body2">Qty: {quantity}</Typography>}
-          <Typography variant="body2">
-            Price: ${priceAfterDiscount ? priceAfterDiscount : price}
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-      <LoadingButton
-        sx={{ alignSelf: "center" }}
-        variant="outlined"
-        startIcon={<DeleteIcon />}
-        loading={loading}
-        onClick={onRemoveButtonClicked}
-      >
-        Remove
-      </LoadingButton>
-    </Card>
+        <img src={imageUrl} alt={description} />
+      </div>
+      <div className="flex-1 basis-[55%]">
+        <p
+          className="text-lg font-semibold mb-2 max-w-[50ch] break-words cursor-pointer"
+          onClick={() => navigate(`/product/${_id}`)}
+        >
+          {truncateString(description, 50)}
+        </p>
+        {quantity && <p className="font-semibold text-sm">Qty: {quantity}</p>}
+        <p className="font-semibold">
+          Price: ${priceAfterDiscount ? priceAfterDiscount : price}
+        </p>
+      </div>
+      <IconButton
+        text="Remove"
+        onButtonClick={onRemoveButtonClicked}
+        Icon={MdDelete}
+        alignCenter
+        color="red"
+      />
+    </div>
   );
 };
 
