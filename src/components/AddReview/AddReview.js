@@ -109,7 +109,7 @@ const AddReview = ({ productId }) => {
           </div>
 
           <textarea
-            className=" block w-full px-3 py-1.5 text-base font-normal resize-none outline-none border-2 border-pale-grey rounded-md focus:border-blue border-opacity-60 transition-colors"
+            className=" block w-full px-3 py-1.5 text-base font-normal resize-none outline-none border-2 border-pale-grey rounded-md hover:border-deep-blue focus:border-blue border-opacity-60 transition-colors"
             rows={4}
             placeholder="Review description"
             value={rateDescription}

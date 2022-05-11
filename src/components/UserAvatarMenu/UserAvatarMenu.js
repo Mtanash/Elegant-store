@@ -51,7 +51,7 @@ const UserAvatarMenu = () => {
       {/* menu */}
       <div
         ref={userAvatarMenuRef}
-        className={` py-2 bg-white absolute flex flex-col justify-center items-center right-0 top-12 rounded-md transition-all duration-400 ease-linear shadow-lg hover:shadow-xl ${
+        className={`py-2 bg-white absolute flex flex-col justify-center items-start right-0 top-[150%] rounded-md transition-all duration-400 ease-linear shadow-lg hover:shadow-xl ${
           showUserMenu ? "opacity-100 z-10" : "opacity-0 -z-10"
         }`}
       >

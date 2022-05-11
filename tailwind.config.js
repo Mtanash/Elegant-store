@@ -10,12 +10,16 @@ module.exports = {
       grey: "#444",
       white: "#fff",
       red: "red",
-      blue: "#14279B",
+      blue: "#1976D2",
       "pale-grey": "#8D8DAA",
       "pale-red": "#7B5298",
       green: "#008000",
     },
-    extend: {},
+    extend: {
+      boxShadow: {
+        special: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
+      },
+    },
   },
   plugins: [],
 };

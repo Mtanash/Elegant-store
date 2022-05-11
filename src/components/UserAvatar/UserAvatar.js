@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../features/user/userSlice";
 
-const UserAvatar = ({ user, styles }) => {
+const UserAvatar = ({ user }) => {
   const currentUser = useSelector(selectCurrentUser);
 
   if (!user) user = currentUser;
@@ -16,9 +16,9 @@ const UserAvatar = ({ user, styles }) => {
     );
   else if (!user?.avatar)
     return (
-      <img src="" alt={user?.name} className="rounded-full object-cover">
-        {user?.name[0]?.toUpperCase()}
-      </img>
+      <div className="rounded-full flex justify-center items-center bg-pale-grey h-10 w-10 text-white text-xl">
+        <p>{user.name[0].toUpperCase()}</p>
+      </div>
     );
   else
     return (

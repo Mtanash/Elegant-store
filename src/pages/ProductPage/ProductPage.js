@@ -65,7 +65,7 @@ const ProductPage = () => {
                 to add a review.
               </p>
             )}
-            <hr />
+            <hr className="md:hidden" />
             <div>
               <Reviews productId={params.id} />
             </div>

@@ -2,7 +2,7 @@ import { Paper, Typography, Link } from "@mui/material";
 
 const Deposits = ({ totalDeposits }) => {
   return (
-    <Paper elevation={3} sx={{ padding: "10px", height: "100%" }}>
+    <div className="shadow-special p-2 h-full ">
       <Typography component="h2" variant="h6" color="primary" gutterBottom>
         Recent Deposits
       </Typography>
@@ -27,7 +27,7 @@ const Deposits = ({ totalDeposits }) => {
       >
         View balance
       </Link>
-    </Paper>
+    </div>
   );
 };
 

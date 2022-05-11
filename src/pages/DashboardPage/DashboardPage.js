@@ -1,83 +1,73 @@
-import {
-  Box,
-  Paper,
-  MenuList,
-  MenuItem,
-  ListItemIcon,
-  ListItemText,
-} from "@mui/material";
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import Inventory2Icon from "@mui/icons-material/Inventory2";
-import AddIcon from "@mui/icons-material/Add";
 import { Outlet, useNavigate } from "react-router-dom";
+import UserAvatarMenuOption from "../../components/UserAvatarMenuOption/UserAvatarMenuOption";
+import {
+  MdDashboard,
+  MdOutlineShoppingCart,
+  MdAddBox,
+  MdInventory,
+} from "react-icons/md";
+import { CgArrowRightR } from "react-icons/cg";
+import { useState } from "react";
 
 const DashboardPage = () => {
   const navigate = useNavigate();
+  const [isMenuOpen, setIsMenuOpen] = useState(true);
+
+  const toggleMenu = () => {
+    console.log("clicked");
+    setIsMenuOpen(!isMenuOpen);
+  };
 
   return (
-    <Box sx={{ minHeight: "calc(100vh - 124px)", display: "flex" }}>
-      <Paper
-        square
-        variant="outlined"
-        sx={{
-          padding: "10px 0",
-        }}
+    <section className="min-h-[calc(100vh_-_theme(headerAndFooterHeight))] md:flex">
+      <div
+        className={`bg-white drop-shadow-md h-full  py-3 md:flex flex-col gap-4 absolute -translate-x-full md:relative md:translate-x-0 ${
+          isMenuOpen ? "translate-x-0 z-10" : "-translate-x-full"
+        } transition-transform`}
       >
-        <MenuList sx={{ "&>li": { padding: "15px 10px" } }}>
-          <MenuItem
-            onClick={() => {
-              navigate("info");
-            }}
-          >
-            <ListItemIcon>
-              <DashboardIcon />
-            </ListItemIcon>
-            <ListItemText>Dashboard</ListItemText>
-          </MenuItem>
-          <MenuItem
-            onClick={() => {
-              navigate("orders");
-            }}
-          >
-            <ListItemIcon>
-              <ShoppingCartIcon />
-            </ListItemIcon>
-            <ListItemText>Orders</ListItemText>
-          </MenuItem>
-          <MenuItem
-            onClick={() => {
-              navigate("create-product");
-            }}
-          >
-            <ListItemIcon>
-              <AddIcon />
-            </ListItemIcon>
-            <ListItemText>Add Product</ListItemText>
-          </MenuItem>
-          <MenuItem
-            onClick={() => {
-              navigate("products");
-            }}
-          >
-            <ListItemIcon>
-              <Inventory2Icon />
-            </ListItemIcon>
-            <ListItemText>Products</ListItemText>
-          </MenuItem>
-        </MenuList>
-      </Paper>
-      <Box
-        sx={{
-          flex: "1",
-          display: "grid",
-          placeItems: "center",
-          padding: "20px",
-        }}
-      >
+        <div
+          className="absolute m-4 cursor-pointer md:hidden top-0 -right-[30%] z-10 opacity-80"
+          onClick={toggleMenu}
+        >
+          <CgArrowRightR className="text-3xl text-deep-blue" />
+        </div>
+        <UserAvatarMenuOption
+          text="Dashboard"
+          Icon={MdDashboard}
+          onOptionButtonClicked={() => {
+            navigate("info");
+            setIsMenuOpen(false);
+          }}
+        />
+        <UserAvatarMenuOption
+          text="Orders"
+          Icon={MdOutlineShoppingCart}
+          onOptionButtonClicked={() => {
+            navigate("orders");
+            setIsMenuOpen(false);
+          }}
+        />
+        <UserAvatarMenuOption
+          text="Add Product"
+          Icon={MdAddBox}
+          onOptionButtonClicked={() => {
+            navigate("create-product");
+            setIsMenuOpen(false);
+          }}
+        />
+        <UserAvatarMenuOption
+          text="Products"
+          Icon={MdInventory}
+          onOptionButtonClicked={() => {
+            navigate("products");
+            setIsMenuOpen(false);
+          }}
+        />
+      </div>
+      <div className="p-2 flex-1">
         <Outlet />
-      </Box>
-    </Box>
+      </div>
+    </section>
   );
 };
 

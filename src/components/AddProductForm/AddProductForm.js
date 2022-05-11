@@ -1,22 +1,10 @@
-import {
-  Input,
-  TextField,
-  Typography,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-} from "@mui/material";
-import LoadingButton from "@mui/lab/LoadingButton";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import { useState, useContext } from "react";
 import Resizer from "react-image-file-resizer";
 import usePrivateAxios from "../../hooks/usePrivateAxios";
 import { publicAxios } from "../../api/axios";
 import SnackbarContext from "../../context/SnackbarContext";
-import MainPaper from "../custome material ui components/MainPaper";
 import { categoriesObj } from "../../constants";
+import LoadingButton from "../LoadingButton/LoadingButton";
 
 const initialFormData = {
   description: "",
@@ -104,120 +92,164 @@ const AddProductForm = () => {
   };
 
   return (
-    <MainPaper elevation={3} sx={{ width: "100%" }}>
-      <Typography
-        variant="h4"
-        component="h2"
-        color="primary"
-        gutterBottom
-        sx={{ fontWeight: "bold" }}
-      >
-        Add new product
-      </Typography>
+    <div className="shadow-special w-full h-full p-2">
+      <h3 className="mb-2 font-bold text-3xl text-center">Add new product</h3>
       <form
         onSubmit={onFormSubmit}
-        style={{
-          width: "70%",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "flex-start",
-          gap: "10px",
-        }}
+        className="w-9/12 flex flex-col items-start gap-3 mx-auto"
       >
-        <TextField
-          required
-          fullWidth
-          multiline
-          type="text"
-          label="Description"
-          name="description"
-          minRows={4}
-          value={formData.description}
-          onChange={onFormDataChange}
-        />
-        <FormControl fullWidth>
-          <InputLabel id="category-select">Category</InputLabel>
-          <Select
-            labelId="category-select"
-            value={formData.category}
-            label="Category"
+        <div className="flex flex-col items-start gap-1 w-full">
+          <label className="text-lg font-semibold" htmlFor="descriptionField">
+            Description
+          </label>
+          <textarea
+            className=" block w-full h-40 px-3 py-1.5 text-base font-normal resize-none outline-none border-2 border-pale-grey rounded-md hover:border-deep-blue focus:border-blue border-opacity-50 transition-colors"
+            id="descriptionField"
+            name="description"
+            placeholder="Product Description"
+            value={formData.description}
+            onChange={onFormDataChange}
+            required
+          ></textarea>
+        </div>
+        <div className="flex flex-col items-start gap-1 w-full">
+          <label className="text-lg font-semibold" htmlFor="selectField">
+            Category
+          </label>
+          <select
+            className=" block px-2 py-3 text-base font-normal resize-none outline-none border-2 border-pale-grey rounded-md hover:border-deep-blue focus:border-blue border-opacity-50 transition-colors cursor-pointer "
             name="category"
+            id="selectField"
+            value={formData.category}
             onChange={onFormDataChange}
             required
           >
             {Object.values(categoriesObj).map((category) => (
-              <MenuItem key={category} value={category}>
+              <option
+                className="cursor-pointer"
+                key={category}
+                value={category}
+              >
                 {category}
-              </MenuItem>
+              </option>
             ))}
-          </Select>
-        </FormControl>
-        <FormControlLabel
-          control={<Checkbox />}
-          label="Product have discount"
-          checked={productHaveDiscount}
-          onChange={(e) => setProductHaveDiscount(e.target.checked)}
-        />
+          </select>
+        </div>
+        <div className="flex gap-2 items-center">
+          <input
+            type="checkbox"
+            id="checkboxField"
+            className="cursor-pointer w-4 h-4"
+            checked={productHaveDiscount}
+            onChange={(e) => setProductHaveDiscount(e.target.checked)}
+          />
+          <label
+            className="cursor-pointer font-semibold"
+            htmlFor="checkboxField"
+          >
+            Product have discount
+          </label>
+        </div>
         {productHaveDiscount ? (
           <>
-            <TextField
-              required
-              fullWidth
+            <div className="flex flex-col items-start gap-1 w-full">
+              <label className="font-semibold" htmlFor="priceBeforeDiscount">
+                Price before discount
+              </label>
+              <input
+                className=" block w-full p-2 py-3 text-base font-normal resize-none outline-none border-2 border-pale-grey rounded-md hover:border-deep-blue focus:border-blue border-opacity-50 transition-colors"
+                type="number"
+                id="priceBeforeDiscount"
+                name="price"
+                value={formData.price}
+                onChange={onFormDataChange}
+                required
+              />
+            </div>
+            <div className="flex flex-col items-start gap-1 w-full">
+              <label className="font-semibold" htmlFor="priceAfterDiscount">
+                Price after discount
+              </label>
+              <input
+                className=" block w-full p-2 py-3 text-base font-normal resize-none outline-none border-2 border-pale-grey rounded-md hover:border-deep-blue focus:border-blue border-opacity-50 transition-colors"
+                id="priceAfterDiscount"
+                type="number"
+                name="priceAfterDiscount"
+                value={priceAfterDiscount}
+                onChange={(e) => setPriceAfterDiscount(e.target.value)}
+                required
+              />
+            </div>
+          </>
+        ) : (
+          <div className="flex flex-col items-start gap-1 w-full">
+            <label className="font-semibold" htmlFor="price">
+              Price
+            </label>
+            <input
+              className=" block w-full p-2 py-3 text-base font-normal resize-none outline-none border-2 border-pale-grey rounded-md hover:border-deep-blue focus:border-blue border-opacity-50 transition-colors"
+              id="price"
               type="number"
-              label="Price before discount"
               name="price"
               value={formData.price}
               onChange={onFormDataChange}
-            />
-            <TextField
               required
-              fullWidth
-              type="number"
-              label="Price after discount"
-              name="priceAfterDiscount"
-              value={priceAfterDiscount}
-              onChange={(e) => setPriceAfterDiscount(e.target.value)}
             />
-          </>
-        ) : (
-          <TextField
-            required
-            fullWidth
-            type="number"
-            label="Price"
-            name="price"
-            value={formData.price}
-            onChange={onFormDataChange}
-          />
+          </div>
         )}
-        <TextField
-          required
-          fullWidth
-          type="number"
-          label="Stock"
-          name="stock"
-          value={formData.stock}
-          onChange={onFormDataChange}
+        <div className="flex flex-col items-start gap-1 w-full">
+          <label className="font-semibold" htmlFor="Stock">
+            Stock
+          </label>
+          <input
+            className=" block w-full p-2 py-3 text-base font-normal resize-none outline-none border-2 border-pale-grey rounded-md hover:border-deep-blue focus:border-blue border-opacity-50 transition-colors"
+            id="Stock"
+            type="number"
+            name="stock"
+            value={formData.stock}
+            onChange={onFormDataChange}
+            required
+          />
+        </div>
+
+        <div className="flex gap-2 items-center">
+          <input
+            type="checkbox"
+            id="checkboxField"
+            className="cursor-pointer w-4 h-4"
+            checked={formData.featured}
+            onChange={(e) =>
+              setFormData({ ...formData, featured: e.target.checked })
+            }
+          />
+          <label
+            className="cursor-pointer font-semibold"
+            htmlFor="checkboxField"
+          >
+            Featured
+          </label>
+        </div>
+
+        <div className="flex gap-2 items-center">
+          <label className="cursor-pointer font-semibold" htmlFor="image">
+            Product image
+          </label>
+          <input
+            type="file"
+            id="image"
+            onChange={onInputFileChange}
+            accept=".png, .jpeg, .jpg"
+            required
+          />
+        </div>
+        <LoadingButton
+          loading={loading}
+          text="Add product"
+          submit
+          color="deep-orange"
         />
-        <FormControlLabel
-          control={<Checkbox />}
-          label="Featured"
-          checked={formData.featured}
-          onChange={(e) =>
-            setFormData({ ...formData, featured: e.target.checked })
-          }
-        />
-        <Input
-          type="file"
-          inputProps={{ accept: ".png, .jpeg, .jpg" }}
-          required
-          onChange={onInputFileChange}
-        />
-        <LoadingButton variant="contained" type="submit" loading={loading}>
-          Add product
-        </LoadingButton>
       </form>
-    </MainPaper>
+    </div>
   );
 };
 

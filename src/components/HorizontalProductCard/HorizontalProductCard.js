@@ -18,7 +18,7 @@ const HorizontalProductCard = ({
   return (
     <div
       key={_id}
-      className="flex flex-wrap justify-center my-4 gap-4 border-b-2 border-pale-grey border-opacity-30 pb-4"
+      className="flex flex-wrap justify-center my-4 gap-4 border-b-2 border-pale-grey border-opacity-30 pb-4 w-full"
     >
       <div
         className="w-28 h-28 overflow-hidden cursor-pointer"
