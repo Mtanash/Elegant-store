@@ -8,17 +8,22 @@ import useAxios from "./useAxios";
 import usePrivateAxios from "./usePrivateAxios";
 import { useContext } from "react";
 import SnackbarContext from "../context/SnackbarContext";
+import { useNavigate } from "react-router-dom";
+
 const useHandleAddToFavorite = () => {
   const { openSnackbar } = useContext(SnackbarContext);
   const [, loading, , axiosFetch] = useAxios();
   const privateAxios = usePrivateAxios();
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const user = useSelector(selectCurrentUser);
 
   const handleAddToFavorite = (productId) => {
     // handle user not logged or signed in
-    if (!user) return;
+    if (!user) {
+      return navigate("/auth");
+    }
     const productIsFavorite = user?.favoriteProducts.includes(productId);
     if (!productIsFavorite) {
       axiosFetch({
