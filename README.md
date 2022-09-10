@@ -19,6 +19,7 @@
 
 - React Js
 - Redux toolkit
+- Tailwind css
 - Material UI
 - Google Oauth
 - Axios
