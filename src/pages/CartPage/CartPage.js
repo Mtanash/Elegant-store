@@ -61,7 +61,7 @@ const CartPage = () => {
       {cartProductsCount > 0 && (
         <div className="flex justify-between items-center">
           <p className="font-semibold text-lg">
-            Total price: ${cartTotalPrice}.00
+            Total price: EGP {cartTotalPrice}.00
           </p>
           <button
             className="py-2 px-6 bg-deep-orange rounded-md text-white text-lg font-semibold hover:scale-95 transition-transform"

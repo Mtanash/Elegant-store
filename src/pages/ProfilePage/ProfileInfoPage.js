@@ -63,7 +63,7 @@ const ProfileInfoPage = () => {
   return (
     <div className="shadow-special w-full h-full flex flex-col gap-4 items-center px-2 py-4">
       <h3 className="text-center font-semibold text-3xl">{user?.name}</h3>
-      <div className="w-32 h-32">
+      <div className="w-32 h-32 flex items-center justify-center">
         <UserAvatar user={user} />
       </div>
       <button
