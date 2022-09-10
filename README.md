@@ -4,12 +4,16 @@
 
 ### [Elegant store API](https://github.com/Mtanash/Elegant-store-api)
 
+<hr />
+<img src="/images/screen.png" alt="screenshot" />
+<hr />
+
 ## Features
 
 - Authentication system.
 - Cart system.
 - Add products to favorite menu.
-- Each user can buy and sell products.
+- full e commerce experience.
 
 ## Tech
 
