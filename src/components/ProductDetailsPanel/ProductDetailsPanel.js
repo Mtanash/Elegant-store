@@ -4,27 +4,53 @@ import {
   BsFillArrowDownSquareFill,
 } from "react-icons/bs";
 import { BsCartPlus } from "react-icons/bs";
-import { useContext, useState } from "react";
-import SnackbarContext from "../../context/SnackbarContext";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { productAddedToCart } from "../../features/Cart/cartSlice";
-import useHandleAddToFavorite from "../../hooks/useHandleAddToFavorite";
 import IconButton from "../IconButton/IconButton";
 import AddToFavoriteButton from "../AddToFavoriteButton/AddToFavoriteButton";
+import {
+  useAddProductToFavoritesMutation,
+  useRemoveProductFromFavoritesMutation,
+} from "../../features/api/usersApiSlice";
+import {
+  productAddedToFavorite,
+  productRemovedFromFavorite,
+} from "../../features/user/userSlice";
+import { errorToast, successToast } from "../../toast/toasts";
 
 const ProductDetailsPanel = ({ product, productIsFavorite }) => {
-  const { openSnackbar } = useContext(SnackbarContext);
   const dispatch = useDispatch();
 
   const [productQuantity, setProductQuantity] = useState(1);
 
-  const [addToFavoriteLoading, handleAddToFavorite] = useHandleAddToFavorite();
+  const [loading, setLoading] = useState(false);
+  const [addProductToFavorite] = useAddProductToFavoritesMutation();
+  const [removeProductFromFavorites] = useRemoveProductFromFavoritesMutation();
+
+  const handleAddToFavorite = async (id) => {
+    setLoading(true);
+    try {
+      if (!productIsFavorite) {
+        await addProductToFavorite({ _id: id }).unwrap();
+        dispatch(productAddedToFavorite({ _id: id }));
+      } else {
+        await removeProductFromFavorites({ _id: id }).unwrap();
+        dispatch(productRemovedFromFavorite({ _id: id }));
+      }
+    } catch (error) {
+      console.log(error);
+      errorToast("Something went wrong!");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const onAddToCartClick = () => {
     dispatch(
       productAddedToCart({ productToAdd: product, amount: productQuantity })
     );
-    openSnackbar("Product added to cart");
+    successToast("Product added to cart");
   };
 
   const onUpButtonClicked = () => {
@@ -48,14 +74,20 @@ const ProductDetailsPanel = ({ product, productIsFavorite }) => {
       </p>
       <p>Delivery: {moment(new Date()).add(2, "days").format("dddd, MMM.D")}</p>
       <p
-        className={`font-semibold text-xl ${!product?.stock > 0 && "text-red"}`}
+        className={`font-semibold text-xl ${
+          !product?.stock > 0 ? "text-red" : "text-green"
+        }`}
       >
-        {!product?.stock > 0 ? "Out of stock." : "In stock."}
+        {product?.stock > 0
+          ? product.stock < 4
+            ? `Only ${product.stock} left in stock - order soon.`
+            : "In stock"
+          : "Out of stock."}
       </p>
       <AddToFavoriteButton
         onButtonClick={() => handleAddToFavorite(product._id)}
         productIsFavorite={productIsFavorite}
-        loading={addToFavoriteLoading}
+        loading={loading}
       />
 
       <hr className="text-pale-white" />

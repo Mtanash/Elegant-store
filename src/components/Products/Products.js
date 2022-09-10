@@ -1,31 +1,22 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import Paginate from "../Paginate/Paginate";
-import useAxios from "../../hooks/useAxios";
-import { publicAxios } from "../../api/axios";
 import LoadingPage from "../../pages/LoadingPage/LoadingPage";
 import ErrorPage from "../../pages/ErrorPage/ErrorPage";
+import { useGetProductsQuery } from "../../features/api/productsApiSlice";
 
 const Products = () => {
   const productsRef = useRef(null);
-  const [productsData, productsLoading, productsError, fetchProducts] =
-    useAxios();
+
   const [page, setPage] = useState(1);
+  const { data: productsData, isLoading, error } = useGetProductsQuery(page);
 
   const handlePageChange = (value) => {
     productsRef.current.scrollIntoView();
     setPage(value);
   };
 
-  useEffect(() => {
-    fetchProducts({
-      axiosInstance: publicAxios,
-      method: "GET",
-      url: `products?page=${page}`,
-    });
-  }, [page]);
-
-  if (productsLoading) return <LoadingPage fullHeight={true} />;
-  else if (productsError) return <ErrorPage />;
+  if (isLoading) return <LoadingPage fullHeight={true} />;
+  else if (error) return <ErrorPage />;
   else
     return (
       <div ref={productsRef} className="my-8">

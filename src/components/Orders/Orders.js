@@ -41,11 +41,7 @@ const Orders = ({ title, orders, showAllOrders = false }) => {
   else
     return (
       <div className="shadow-special w-full h-full p-4">
-        {title && (
-          <Typography component="h2" variant="h6" color="primary" gutterBottom>
-            {title}
-          </Typography>
-        )}
+        {title && <p className="text-xl mb-4">{title}</p>}
 
         {fetchedOrders?.length === 0 ? (
           <Typography>No orders</Typography>

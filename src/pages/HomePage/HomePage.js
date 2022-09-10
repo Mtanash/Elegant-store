@@ -1,28 +1,17 @@
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import Products from "../../components/Products/Products";
-import useAxios from "../../hooks/useAxios";
-import { publicAxios } from "../../api/axios";
 import LoadingPage from "../LoadingPage/LoadingPage";
 import ErrorPage from "../ErrorPage/ErrorPage";
 import HomeCarousel from "../../components/HomeCarousel/HomeCarousel";
+import { useGetFeaturedProductsQuery } from "../../features/api/productsApiSlice";
 
 const HomePage = () => {
   const ProductSectionRef = useRef(null);
-
-  const [
-    featuredProductsData,
-    featuredProductsLoading,
-    featuredProductsError,
-    axiosFetch,
-  ] = useAxios();
-
-  useEffect(() => {
-    axiosFetch({
-      axiosInstance: publicAxios,
-      method: "GET",
-      url: `products?featured=true`,
-    });
-  }, []);
+  const {
+    data: featuredProductsData,
+    isLoading: featuredProductsLoading,
+    error: featuredProductsError,
+  } = useGetFeaturedProductsQuery();
 
   const scrollToElement = (ref) => {
     window.scrollTo({
@@ -31,6 +20,16 @@ const HomePage = () => {
       behavior: "smooth",
     });
   };
+
+  let content;
+
+  if (featuredProductsLoading) {
+    content = <LoadingPage customStyles={{ minHeight: "228px" }} />;
+  } else if (featuredProductsError) {
+    content = <ErrorPage />;
+  } else {
+    content = <HomeCarousel products={featuredProductsData.products} />;
+  }
 
   return (
     <main className="home">
@@ -47,15 +46,7 @@ const HomePage = () => {
         </button>
       </div>
       <div id="products" className="container mx-auto" ref={ProductSectionRef}>
-        {featuredProductsLoading && (
-          <LoadingPage customStyles={{ minHeight: "228px" }} />
-        )}
-        {!featuredProductsLoading && featuredProductsError && <ErrorPage />}
-        {!featuredProductsError &&
-          !featuredProductsLoading &&
-          featuredProductsData?.products && (
-            <HomeCarousel products={featuredProductsData.products} />
-          )}
+        {content}
         <Products />
       </div>
     </main>

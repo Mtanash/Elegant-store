@@ -35,7 +35,7 @@ const HorizontalProductCard = ({
         </p>
         {quantity && <p className="font-semibold text-sm">Qty: {quantity}</p>}
         <p className="font-semibold">
-          Price: ${priceAfterDiscount ? priceAfterDiscount : price}
+          EGP {priceAfterDiscount ? priceAfterDiscount : price}
         </p>
       </div>
       <IconButton

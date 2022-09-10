@@ -1,37 +1,26 @@
-import { useEffect } from "react";
 import LoadingPage from "../LoadingPage/LoadingPage";
 import { useSelector } from "react-redux";
-
 import { useNavigate, useParams } from "react-router-dom";
-import useAxios from "../../hooks/useAxios";
-import { publicAxios } from "../../api/axios";
 import { selectCurrentUser } from "../../features/user/userSlice";
 import AddReview from "../../components/AddReview/AddReview";
 import Reviews from "../../components/Reviews/Reviews";
 
 import ProductFullDetails from "../../components/ProductFullDetails/ProductFullDetails";
 import ProductDetailsPanel from "../../components/ProductDetailsPanel/ProductDetailsPanel";
+import { useGetProductByIdQuery } from "../../features/api/productsApiSlice";
 
 const ProductPage = () => {
   const navigate = useNavigate();
-  const params = useParams();
+  const { id: productId } = useParams();
 
-  const [product, productLoading, productError, fetchProduct] = useAxios();
+  const { data: product, isLoading, error } = useGetProductByIdQuery(productId);
   const productIsFavorite = useSelector((state) =>
-    state.user?.user?.favoriteProducts.includes(params.id)
+    state.user?.user?.favoriteProducts.includes(productId)
   );
   const user = useSelector(selectCurrentUser);
 
-  useEffect(() => {
-    fetchProduct({
-      axiosInstance: publicAxios,
-      method: "get",
-      url: `/products/${params.id}`,
-    });
-  }, []);
-
-  if (productLoading) return <LoadingPage fullHeight={true} />;
-  else if (productError) return <div>Error: {productError}</div>;
+  if (isLoading) return <LoadingPage fullHeight={true} />;
+  else if (error) return <div>Error: {error.data.message}</div>;
   else
     return (
       <section className="min-h-[calc(100vh_-_theme(headerAndFooterHeight))] p-3">
@@ -51,7 +40,7 @@ const ProductPage = () => {
           <div className="w-full flex flex-col md:grid grid-cols-2 gap-4">
             {user ? (
               <div>
-                <AddReview productId={params.id} />
+                <AddReview productId={productId} />
               </div>
             ) : (
               <p className="text-center text-lg">
@@ -67,7 +56,7 @@ const ProductPage = () => {
             )}
             <hr className="md:hidden" />
             <div>
-              <Reviews productId={params.id} />
+              <Reviews productId={productId} />
             </div>
           </div>
         </div>

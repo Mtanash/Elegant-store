@@ -18,16 +18,26 @@ import ProductsList from "./pages/DashboardPage/ProductsList";
 import DashboardOrdersPage from "./pages/DashboardPage/DashboardOrdersPage";
 import ProfileOrdersPage from "./pages/ProfilePage/ProfileOrdersPage";
 import PersistentLogin from "./components/PersistentLogin/PersistentLogin";
-import SnackbarAlert from "./components/SnackbarAlert/SnackbarAlert";
-
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import CategoryPage from "./pages/CategoryPage/CategoryPage";
+import { ToastContainer, Zoom } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
     <BrowserRouter>
+      <ToastContainer
+        transition={Zoom}
+        position="top-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss={false}
+        draggable
+        pauseOnHover={false}
+      />
       <Header />
-      <SnackbarAlert />
       <Routes>
         <Route element={<PersistentLogin />}>
           <Route path="/" element={<HomePage />} />
@@ -36,7 +46,6 @@ function App() {
           <Route path="/auth" element={<AuthPage />} />
           <Route path="/unauthorized" element={<UnauthorizedPage />} />
           <Route path="/products-search" element={<SearchPage />} />
-          <Route path="/category" element={<CategoryPage />} />
 
           {/* protected routes */}
           <Route element={<RequireAuth allowedRoles={["admin"]} />}>

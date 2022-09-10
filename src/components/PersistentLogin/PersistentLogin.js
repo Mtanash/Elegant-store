@@ -1,46 +1,60 @@
 import { Outlet } from "react-router-dom";
 import { useState, useEffect } from "react";
-import useRefreshToken from "../../hooks/useRefreshToken";
 import { useSelector } from "react-redux";
-import { userDataRefreshed } from "../../features/user/userSlice";
-import { publicAxios } from "../../api/axios";
+import {
+  accessTokenRefreshed,
+  userDataRefreshed,
+} from "../../features/user/userSlice";
 import jwtDecode from "jwt-decode";
 import { useDispatch } from "react-redux";
 import LoadingPage from "../../pages/LoadingPage/LoadingPage";
+import {
+  useGetUserAccessTokenMutation,
+  useGetUserMutation,
+} from "../../features/api/usersApiSlice";
 
 const PersistentLogin = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
-  const getAccessToken = useRefreshToken();
-  let accessToken = useSelector((state) => state.user?.accessToken);
+  let userAccessToken = useSelector((state) => state.user?.accessToken);
+
+  const [fetchAccessToken] = useGetUserAccessTokenMutation();
+
+  const [getUser] = useGetUserMutation();
 
   useEffect(() => {
-    const verifyRefreshToken = async () => {
+    const persistUser = async () => {
       try {
-        accessToken = await getAccessToken();
-      } catch (error) {
-        console.log(error);
-      }
-    };
+        if (!userAccessToken) {
+          const response = await fetchAccessToken();
+          dispatch(accessTokenRefreshed(response.data.accessToken));
+        }
 
-    const fetchUser = async () => {
-      if (!accessToken) await verifyRefreshToken();
+        const { _id: id } = jwtDecode(userAccessToken);
 
-      try {
-        const decoded = jwtDecode(accessToken);
-        const response = await publicAxios.get(`/users/${decoded?._id}`);
-        dispatch(userDataRefreshed(response?.data));
+        const response = await getUser(id).unwrap();
+
+        dispatch(userDataRefreshed(response));
       } catch (error) {
-        console.log(error);
+        if (error.message === "Invalid token specified")
+          console.log("Invalid Token for decoding");
+        else console.log(error);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchUser();
-  }, []);
+    persistUser();
+  }, [dispatch, fetchAccessToken, getUser, userAccessToken]);
+  let content;
 
-  return loading ? <LoadingPage fullHeight /> : <Outlet />;
+  if (loading) {
+    content = <LoadingPage fullHeight />;
+  } else {
+    content = <Outlet />;
+  }
+
+  return content;
 };
 
 export default PersistentLogin;
