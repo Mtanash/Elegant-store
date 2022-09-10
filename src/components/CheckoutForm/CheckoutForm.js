@@ -1,20 +1,15 @@
 import { useState, useContext } from "react";
-import useAxios from "../../hooks/useAxios";
-import usePrivateAxios from "../../hooks/usePrivateAxios";
 import { useDispatch, useSelector } from "react-redux";
 import {
   cartCleared,
   selectCartProducts,
   selectCartProductsTotalPrice,
 } from "../../features/Cart/cartSlice";
-
 import { useNavigate } from "react-router-dom";
-
 import NumberFormat from "react-number-format";
-
 import SnackbarContext from "../../context/SnackbarContext";
-
 import LoadingButton from "../LoadingButton/LoadingButton";
+import { useAddOrderMutation } from "../../features/api/ordersApiSlice";
 
 const initialFormDataState = {
   firstName: "",
@@ -29,14 +24,14 @@ const initialFormDataState = {
 
 const CheckoutForm = ({ checkoutFormIsOpen, toggleCheckoutForm }) => {
   const { openSnackbar } = useContext(SnackbarContext);
-  const privateAxios = usePrivateAxios();
   const cartProducts = useSelector(selectCartProducts);
   const cartProductsTotalPrice = useSelector(selectCartProductsTotalPrice);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [formData, setFormData] = useState(initialFormDataState);
-  const [, createdOrderLoading, , fetchCreatedOrder] = useAxios();
+
+  const [addOrder, { isLoading: addOrderLoading }] = useAddOrderMutation();
 
   const handleFormData = (e) => {
     setFormData({
@@ -45,7 +40,7 @@ const CheckoutForm = ({ checkoutFormIsOpen, toggleCheckoutForm }) => {
     });
   };
 
-  const onFormSubmit = (e) => {
+  const onFormSubmit = async (e) => {
     e.preventDefault();
 
     const order = {
@@ -68,21 +63,14 @@ const CheckoutForm = ({ checkoutFormIsOpen, toggleCheckoutForm }) => {
       },
     };
 
-    fetchCreatedOrder({
-      axiosInstance: privateAxios,
-      method: "POST",
-      url: "orders",
-      requestConfig: {
-        ...order,
-      },
-    }).then(() => {
-      toggleCheckoutForm();
-      setFormData(initialFormDataState);
-      dispatch(cartCleared());
-      navigate("/");
+    await addOrder(order);
 
-      openSnackbar("Order created successfully");
-    });
+    toggleCheckoutForm();
+    setFormData(initialFormDataState);
+    dispatch(cartCleared());
+    navigate("/");
+
+    openSnackbar("Order created successfully");
   };
 
   const limit = (val, max) => {
@@ -262,7 +250,7 @@ const CheckoutForm = ({ checkoutFormIsOpen, toggleCheckoutForm }) => {
 
             <LoadingButton
               text="Submit"
-              loading={createdOrderLoading}
+              loading={addOrderLoading}
               submit
               color="blue"
             />

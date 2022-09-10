@@ -1,15 +1,14 @@
 import { useEffect, useState } from "react";
-
 import { FcGoogle } from "react-icons/fc";
-
 import { useDispatch, useSelector } from "react-redux";
 import { selectCurrentUser, userLoggedIn } from "../../features/user/userSlice";
-
 import { useNavigate, useLocation } from "react-router-dom";
-import useAxios from "../../hooks/useAxios";
-import { publicAxios } from "../../api/axios";
-
 import { GoogleLogin } from "react-google-login";
+import {
+  useAuthWithGoogleMutation,
+  useCreateUserMutation,
+  useLoginUserMutation,
+} from "../../features/api/usersApiSlice";
 
 const initialFormData = { name: "", email: "", password: "" };
 
@@ -21,17 +20,22 @@ const AuthPage = () => {
   const [formData, setFormData] = useState(initialFormData);
   const [isSignup, setIsSignup] = useState(false);
 
-  const [errorMessage, setErrorMessage] = useState(null);
-
   const user = useSelector(selectCurrentUser);
 
-  const [, authDataLoading, , fetchAuthData] = useAxios();
+  const [createUser, createUserResult] = useCreateUserMutation();
+  const [loginUser, loginUserResult] = useLoginUserMutation();
+  const [authWithGoogle, authWithGoogleResult] = useAuthWithGoogleMutation();
 
   useEffect(() => {
-    if (user) {
+    let isMounted = true;
+    if (user && isMounted) {
       navigate("/");
     }
-  }, []);
+
+    return () => {
+      isMounted = false;
+    };
+  }, [user, navigate]);
 
   const handleFormChange = (e) => {
     setFormData({
@@ -43,46 +47,20 @@ const AuthPage = () => {
   const handleFormSubmit = (e) => {
     e.preventDefault();
     if (isSignup) {
-      fetchAuthData({
-        axiosInstance: publicAxios,
-        method: "POST",
-        url: "/users",
-        requestConfig: {
-          ...formData,
-          withCredentials: true,
-        },
-      })
+      createUser(formData)
+        .unwrap()
         .then((response) => {
-          setErrorMessage(null);
           setFormData(initialFormData);
           dispatch(userLoggedIn(response));
           navigate(from, { replace: true });
-        })
-        .catch((error) => {
-          if (!error?.data?.message)
-            return setErrorMessage("No server response!");
-          setErrorMessage(error?.data?.message);
         });
     } else {
-      fetchAuthData({
-        axiosInstance: publicAxios,
-        method: "POST",
-        url: "/users/login",
-        requestConfig: {
-          ...formData,
-          withCredentials: true,
-        },
-      })
+      loginUser(formData)
+        .unwrap()
         .then((response) => {
-          setErrorMessage(null);
           setFormData(initialFormData);
           dispatch(userLoggedIn(response));
           navigate(from, { replace: true });
-        })
-        .catch((error) => {
-          if (!error?.data?.message)
-            return setErrorMessage("No server response!");
-          setErrorMessage(error?.data?.message);
         });
     }
   };
@@ -97,26 +75,11 @@ const AuthPage = () => {
   const googleSuccess = (res) => {
     const { name, email, googleId: password, imageUrl } = res.profileObj;
 
-    fetchAuthData({
-      axiosInstance: publicAxios,
-      method: "POST",
-      url: "/users/googleAuth",
-      requestConfig: {
-        name,
-        email,
-        password,
-        imageUrl,
-      },
-    })
+    authWithGoogle({ name, email, imageUrl, password })
+      .unwrap()
       .then((response) => {
-        setErrorMessage(null);
         dispatch(userLoggedIn(response));
         navigate(from, { replace: true });
-      })
-      .catch((error) => {
-        if (!error?.data?.message)
-          return setErrorMessage("No server response!");
-        setErrorMessage(error?.data?.message);
       });
   };
 
@@ -126,9 +89,15 @@ const AuthPage = () => {
         <p className="text-3xl font-semibold mb-10 text-center">
           {!isSignup ? "Sign in to your account" : "Sign up a new account"}
         </p>
-        {errorMessage && (
+        {(loginUserResult.error ||
+          createUserResult.error ||
+          authWithGoogleResult.error) && (
           <div className="p-1 rounded-sm bg-pale-white">
-            <p className="text-red text-center">{errorMessage}</p>
+            <p className="text-red text-center">
+              {loginUserResult.error.message ||
+                createUserResult.error.message ||
+                authWithGoogleResult.error.message}
+            </p>
           </div>
         )}
         <form
@@ -183,9 +152,13 @@ const AuthPage = () => {
           <button
             type="submit"
             className="w-full rounded-md bg-deep-orange text-white font-semibold p-2 px-4 hover:opacity-90 transition-opacity ease-in-out duration-200 flex items-center justify-center h-11 disabled:cursor-not-allowed"
-            disabled={authDataLoading}
+            disabled={
+              createUserResult.isLoading ||
+              loginUserResult.isLoading ||
+              authWithGoogleResult.isLoading
+            }
           >
-            {authDataLoading ? (
+            {createUserResult.isLoading || loginUserResult.isLoading ? (
               <svg
                 className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
                 xmlns="http://www.w3.org/2000/svg"
@@ -221,7 +194,30 @@ const AuthPage = () => {
                 disabled={renderProps.disabled}
               >
                 <FcGoogle className="w-7 h-7" />
-                Google Sign In
+                {authWithGoogleResult.isLoading ? (
+                  <svg
+                    className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
+                  </svg>
+                ) : (
+                  "Google Sign In"
+                )}
               </button>
             )}
             onSuccess={googleSuccess}

@@ -1,19 +1,26 @@
-import useUserFavoriteProducts from "../../hooks/useUserFavoriteProducts";
 import HorizontalProductCard from "../../components/HorizontalProductCard/HorizontalProductCard";
-
 import { CircularProgress } from "@mui/material";
-
 import { useNavigate } from "react-router-dom";
-
 import LoadingPage from "../LoadingPage/LoadingPage";
 import ErrorPage from "../ErrorPage/ErrorPage";
-import useHandleAddToFavorite from "../../hooks/useHandleAddToFavorite";
+import {
+  useGetUserFavoriteProductsQuery,
+  useRemoveProductFromFavoritesMutation,
+} from "../../features/api/usersApiSlice";
 
 const FavoriteProductsPage = () => {
   const navigate = useNavigate();
-  const [favoriteProducts, favoriteProductsLoading, favoriteProductsError] =
-    useUserFavoriteProducts();
-  const [addToFavoriteLoading, handleAddToFavorite] = useHandleAddToFavorite();
+
+  const {
+    data: favoriteProducts,
+    isLoading: favoriteProductsLoading,
+    error: favoriteProductsError,
+  } = useGetUserFavoriteProductsQuery();
+
+  const [
+    removeProductFromFavorites,
+    { isLoading: removeProductFromFavoritesLoading },
+  ] = useRemoveProductFromFavoritesMutation();
 
   if (favoriteProductsLoading) return <LoadingPage fullHeight />;
   else if (favoriteProductsError) return <ErrorPage fullHeight />;
@@ -43,8 +50,10 @@ const FavoriteProductsPage = () => {
             <HorizontalProductCard
               key={product._id}
               {...product}
-              loading={addToFavoriteLoading}
-              onRemoveButtonClicked={() => handleAddToFavorite(product._id)}
+              loading={removeProductFromFavoritesLoading}
+              onRemoveButtonClicked={() =>
+                removeProductFromFavorites({ _id: product._id })
+              }
             />
           ))
         )}
