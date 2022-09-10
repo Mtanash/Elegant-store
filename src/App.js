@@ -19,15 +19,15 @@ import DashboardOrdersPage from "./pages/DashboardPage/DashboardOrdersPage";
 import ProfileOrdersPage from "./pages/ProfilePage/ProfileOrdersPage";
 import PersistentLogin from "./components/PersistentLogin/PersistentLogin";
 import SnackbarAlert from "./components/SnackbarAlert/SnackbarAlert";
-
+import { Toaster } from "react-hot-toast";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import CategoryPage from "./pages/CategoryPage/CategoryPage";
 
 function App() {
   return (
     <BrowserRouter>
       <Header />
       <SnackbarAlert />
+      <Toaster />
       <Routes>
         <Route element={<PersistentLogin />}>
           <Route path="/" element={<HomePage />} />
@@ -36,7 +36,6 @@ function App() {
           <Route path="/auth" element={<AuthPage />} />
           <Route path="/unauthorized" element={<UnauthorizedPage />} />
           <Route path="/products-search" element={<SearchPage />} />
-          <Route path="/category" element={<CategoryPage />} />
 
           {/* protected routes */}
           <Route element={<RequireAuth allowedRoles={["admin"]} />}>
