@@ -1,17 +1,16 @@
 import { Rating } from "@mui/material";
-import { useState, useContext } from "react";
+import { useState } from "react";
 import ErrorPage from "../../pages/ErrorPage/ErrorPage";
 import LoadingPage from "../../pages/LoadingPage/LoadingPage";
 import UserAvatar from "../UserAvatar/UserAvatar";
 import { selectCurrentUser } from "../../features/user/userSlice";
 import { useSelector } from "react-redux";
-import SnackbarContext from "../../context/SnackbarContext";
 import LoadingButton from "../LoadingButton/LoadingButton";
-import toast from "react-hot-toast";
 import {
   useAddReviewMutation,
   useGetUserReviewedProductQuery,
 } from "../../features/api/productsApiSlice";
+import { successToast, warningToast } from "../../toast/toasts";
 
 const rateLabels = {
   1: "Useless",
@@ -22,7 +21,6 @@ const rateLabels = {
 };
 
 const AddReview = ({ productId }) => {
-  const { openSnackbar } = useContext(SnackbarContext);
   const [hover, setHover] = useState(-1);
   const [rate, setRate] = useState(0);
   const [rateDescription, setRateDescription] = useState("");
@@ -41,13 +39,12 @@ const AddReview = ({ productId }) => {
     if (!productId) return;
 
     if (!rate) {
-      toast("Please select a rate");
-      console.log(rate);
+      warningToast("Please select a rate!");
       return;
     }
 
     if (rateDescription.length === 0) {
-      toast("Please provide a rate description");
+      warningToast("Please provide a rate description!");
       return;
     }
 
@@ -60,7 +57,7 @@ const AddReview = ({ productId }) => {
       await addReview(review);
       setRate(0);
       setRateDescription("");
-      openSnackbar("Review added successfully");
+      successToast("Review added successfully");
     } catch (error) {
       console.log(error);
     }
@@ -123,7 +120,6 @@ const AddReview = ({ productId }) => {
             onChange={(e) => setRateDescription(e.target.value)}
             required
           ></textarea>
-          {/* <Toaster /> */}
         </div>
 
         <LoadingButton

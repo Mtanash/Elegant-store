@@ -4,8 +4,7 @@ import {
   BsFillArrowDownSquareFill,
 } from "react-icons/bs";
 import { BsCartPlus } from "react-icons/bs";
-import { useContext, useState } from "react";
-import SnackbarContext from "../../context/SnackbarContext";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { productAddedToCart } from "../../features/Cart/cartSlice";
 import IconButton from "../IconButton/IconButton";
@@ -18,9 +17,9 @@ import {
   productAddedToFavorite,
   productRemovedFromFavorite,
 } from "../../features/user/userSlice";
+import { errorToast, successToast } from "../../toast/toasts";
 
 const ProductDetailsPanel = ({ product, productIsFavorite }) => {
-  const { openSnackbar } = useContext(SnackbarContext);
   const dispatch = useDispatch();
 
   const [productQuantity, setProductQuantity] = useState(1);
@@ -41,6 +40,7 @@ const ProductDetailsPanel = ({ product, productIsFavorite }) => {
       }
     } catch (error) {
       console.log(error);
+      errorToast("Something went wrong!");
     } finally {
       setLoading(false);
     }
@@ -50,7 +50,7 @@ const ProductDetailsPanel = ({ product, productIsFavorite }) => {
     dispatch(
       productAddedToCart({ productToAdd: product, amount: productQuantity })
     );
-    openSnackbar("Product added to cart");
+    successToast("Product added to cart");
   };
 
   const onUpButtonClicked = () => {

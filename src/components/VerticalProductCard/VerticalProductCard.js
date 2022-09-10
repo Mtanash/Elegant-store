@@ -4,8 +4,7 @@ import { productAddedToCart } from "../../features/Cart/cartSlice";
 import { useNavigate } from "react-router-dom";
 import Price from "../Price/Price";
 import Rates from "../Rates/Rates";
-import { useContext, useState } from "react";
-import SnackbarContext from "../../context/SnackbarContext";
+import { useState } from "react";
 import { BsCartPlus } from "react-icons/bs";
 import IconButton from "../IconButton/IconButton";
 import AddToFavoriteButton from "../AddToFavoriteButton/AddToFavoriteButton";
@@ -17,11 +16,11 @@ import {
   productAddedToFavorite,
   productRemovedFromFavorite,
 } from "../../features/user/userSlice";
+import { successToast } from "../../toast/toasts";
 
 function VerticalProductCard({ product }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { openSnackbar } = useContext(SnackbarContext);
 
   const { description, price, priceAfterDiscount, imageUrl, _id, rates } =
     product;
@@ -42,9 +41,11 @@ function VerticalProductCard({ product }) {
       if (!productIsFavorite) {
         await addProductToFavorite({ _id: id }).unwrap();
         dispatch(productAddedToFavorite({ _id: id }));
+        successToast("Product added to favorites");
       } else {
         await removeProductFromFavorites({ _id: id }).unwrap();
         dispatch(productRemovedFromFavorite({ _id: id }));
+        successToast("Product removed from favorites");
       }
     } catch (error) {
       console.log(error);
@@ -55,7 +56,7 @@ function VerticalProductCard({ product }) {
 
   const onAddToCartButtonClicked = () => {
     dispatch(productAddedToCart({ productToAdd: product }));
-    openSnackbar("Product added to cart.");
+    successToast("Product added to cart");
   };
 
   return (

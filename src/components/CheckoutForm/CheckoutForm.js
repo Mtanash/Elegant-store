@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   cartCleared,
@@ -7,9 +7,9 @@ import {
 } from "../../features/Cart/cartSlice";
 import { useNavigate } from "react-router-dom";
 import NumberFormat from "react-number-format";
-import SnackbarContext from "../../context/SnackbarContext";
 import LoadingButton from "../LoadingButton/LoadingButton";
 import { useAddOrderMutation } from "../../features/api/ordersApiSlice";
+import { errorToast, successToast } from "../../toast/toasts";
 
 const initialFormDataState = {
   firstName: "",
@@ -23,7 +23,6 @@ const initialFormDataState = {
 };
 
 const CheckoutForm = ({ checkoutFormIsOpen, toggleCheckoutForm }) => {
-  const { openSnackbar } = useContext(SnackbarContext);
   const cartProducts = useSelector(selectCartProducts);
   const cartProductsTotalPrice = useSelector(selectCartProductsTotalPrice);
 
@@ -62,15 +61,19 @@ const CheckoutForm = ({ checkoutFormIsOpen, toggleCheckoutForm }) => {
         creditCVC: formData.creditCVC,
       },
     };
+    try {
+      await addOrder(order);
 
-    await addOrder(order);
+      toggleCheckoutForm();
+      setFormData(initialFormDataState);
+      dispatch(cartCleared());
+      navigate("/");
 
-    toggleCheckoutForm();
-    setFormData(initialFormDataState);
-    dispatch(cartCleared());
-    navigate("/");
-
-    openSnackbar("Order created successfully");
+      successToast("Order created successfully");
+    } catch (error) {
+      console.log(error);
+      errorToast("Something went wrong!");
+    }
   };
 
   const limit = (val, max) => {

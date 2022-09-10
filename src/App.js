@@ -18,16 +18,26 @@ import ProductsList from "./pages/DashboardPage/ProductsList";
 import DashboardOrdersPage from "./pages/DashboardPage/DashboardOrdersPage";
 import ProfileOrdersPage from "./pages/ProfilePage/ProfileOrdersPage";
 import PersistentLogin from "./components/PersistentLogin/PersistentLogin";
-import SnackbarAlert from "./components/SnackbarAlert/SnackbarAlert";
-import { Toaster } from "react-hot-toast";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { ToastContainer, Zoom } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
     <BrowserRouter>
+      <ToastContainer
+        transition={Zoom}
+        position="top-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss={false}
+        draggable
+        pauseOnHover={false}
+      />
       <Header />
-      <SnackbarAlert />
-      <Toaster />
       <Routes>
         <Route element={<PersistentLogin />}>
           <Route path="/" element={<HomePage />} />
