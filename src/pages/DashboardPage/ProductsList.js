@@ -1,10 +1,8 @@
-import { useEffect } from "react";
-import usePrivateAxios from "../../hooks/usePrivateAxios";
 import { DataGrid } from "@mui/x-data-grid";
 import { Paper, Rating } from "@mui/material";
-import useAxios from "../../hooks/useAxios";
 import LoadingPage from "../LoadingPage/LoadingPage";
 import ErrorPage from "../ErrorPage/ErrorPage";
+import { useGetProductsByLimitQuery } from "../../features/api/productsApiSlice";
 
 const columns = [
   {
@@ -34,17 +32,11 @@ const columns = [
 ];
 
 const ProductsList = () => {
-  const privateAxios = usePrivateAxios();
-  const [productsData, productsLoading, productsError, fetchProducts] =
-    useAxios();
-
-  useEffect(() => {
-    fetchProducts({
-      axiosInstance: privateAxios,
-      method: "GET",
-      url: "products?limit=20",
-    });
-  }, []);
+  const {
+    data: productsData,
+    isLoading: productsLoading,
+    error: productsError,
+  } = useGetProductsByLimitQuery(20);
 
   if (productsLoading) return <LoadingPage />;
   else if (productsError) return <ErrorPage />;

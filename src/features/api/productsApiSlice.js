@@ -5,6 +5,9 @@ export const extendedApi = apiSlice.injectEndpoints({
     getProducts: builder.query({
       query: (page) => `products?page=${page}`,
     }),
+    getProductsByLimit: builder.query({
+      query: (limit) => `products?limit=${limit}`,
+    }),
     getFeaturedProducts: builder.query({
       query: () => "products?featured=true",
     }),
@@ -41,4 +44,5 @@ export const {
   useGetProductReviewsQuery,
   useAddReviewMutation,
   useGetUserReviewedProductQuery,
+  useGetProductsByLimitQuery,
 } = extendedApi;

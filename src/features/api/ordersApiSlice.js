@@ -9,7 +9,10 @@ export const extendedApi = apiSlice.injectEndpoints({
         body: order,
       }),
     }),
+    getOrders: builder.query({
+      query: () => "orders",
+    }),
   }),
 });
 
-export const { useAddOrderMutation } = extendedApi;
+export const { useAddOrderMutation, useGetOrdersQuery } = extendedApi;

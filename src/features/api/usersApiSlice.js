@@ -60,6 +60,23 @@ export const extendedApi = apiSlice.injectEndpoints({
       query: () => "users/me/favoriteProducts",
       providesTags: ["userFavoriteProducts"],
     }),
+    getUserOrders: builder.query({
+      query: () => "users/me/orders",
+    }),
+    updateUserAvatar: builder.mutation({
+      query: (avatar) => ({
+        url: "/users/me/avatar",
+        method: "POST",
+        body: avatar,
+      }),
+    }),
+    logoutUser: builder.mutation({
+      query: () => ({
+        url: "/users/logout",
+        method: "GET",
+        credentials: "include",
+      }),
+    }),
   }),
 });
 
@@ -72,4 +89,7 @@ export const {
   useGetUserMutation,
   useRemoveProductFromFavoritesMutation,
   useGetUserFavoriteProductsQuery,
+  useGetUserOrdersQuery,
+  useUpdateUserAvatarMutation,
+  useLogoutUserMutation,
 } = extendedApi;

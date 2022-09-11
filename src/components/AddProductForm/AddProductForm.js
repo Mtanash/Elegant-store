@@ -1,7 +1,7 @@
 import { useState, useContext } from "react";
 import Resizer from "react-image-file-resizer";
-import usePrivateAxios from "../../hooks/usePrivateAxios";
-import { publicAxios } from "../../api/axios";
+// import usePrivateAxios from "../../hooks/usePrivateAxios";
+// import { publicAxios } from "../../api/axios";
 import SnackbarContext from "../../context/SnackbarContext";
 import { categoriesObj } from "../../constants";
 import LoadingButton from "../LoadingButton/LoadingButton";
@@ -18,7 +18,7 @@ const AddProductForm = () => {
   const { openSnackbar } = useContext(SnackbarContext);
   const [formData, setFormData] = useState(initialFormData);
   const [file, setFile] = useState(null);
-  const privateAxios = usePrivateAxios();
+  // const privateAxios = usePrivateAxios();
   const [loading, setLoading] = useState(false);
   const [productHaveDiscount, setProductHaveDiscount] = useState(false);
   const [priceAfterDiscount, setPriceAfterDiscount] = useState("");
@@ -41,36 +41,36 @@ const AddProductForm = () => {
       });
     }
 
-    const uploadProductImage = async (imageName) => {
-      try {
-        const response = await privateAxios.get(
-          `/products/imageUploadUrl/${imageName}`
-        );
-        const uploadUrl = response?.data?.url;
-        await publicAxios.put(uploadUrl, file, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        });
-        const imageUrl = uploadUrl.split("?")[0];
-        return imageUrl;
-      } catch (err) {
-        console.log(err?.response?.data);
-      }
-    };
+    // const uploadProductImage = async (imageName) => {
+    //   try {
+    //     const response = await privateAxios.get(
+    //       `/products/imageUploadUrl/${imageName}`
+    //     );
+    //     const uploadUrl = response?.data?.url;
+    //     await publicAxios.put(uploadUrl, file, {
+    //       headers: {
+    //         "Content-Type": "multipart/form-data",
+    //       },
+    //     });
+    //     const imageUrl = uploadUrl.split("?")[0];
+    //     return imageUrl;
+    //   } catch (err) {
+    //     console.log(err?.response?.data);
+    //   }
+    // };
 
-    privateAxios.post("/products", { ...formData }).then(async (res) => {
-      const productId = res?.data?._id;
-      const imageUrl = await uploadProductImage(productId);
-      try {
-        await privateAxios.post("/products/image", { productId, imageUrl });
-        setFormData(initialFormData);
-        setLoading(false);
-        openSnackbar("New Product added successfully");
-      } catch (err) {
-        console.log(err);
-      }
-    });
+    // privateAxios.post("/products", { ...formData }).then(async (res) => {
+    //   const productId = res?.data?._id;
+    //   const imageUrl = await uploadProductImage(productId);
+    //   try {
+    //     await privateAxios.post("/products/image", { productId, imageUrl });
+    //     setFormData(initialFormData);
+    //     setLoading(false);
+    //     openSnackbar("New Product added successfully");
+    //   } catch (err) {
+    //     console.log(err);
+    //   }
+    // });
   };
 
   const onInputFileChange = (e) => {
