@@ -43,12 +43,13 @@ const SearchBar = () => {
   });
 
   return (
-    <div className="relative">
+    <div className="relative" data-testid="searchbar-icon">
       <AiOutlineSearch
         onClick={toggleSearchBar}
         className="m-2 cursor-pointer w-8 h-8 text-grey hover:text-deep-blue transition-colors ease-in-out duration-200"
       />
       <form
+        data-testid="searchbar-form"
         className={`absolute right-0 transition-all duration-300 shadow-lg
               ${
                 showSearchBar
@@ -62,6 +63,7 @@ const SearchBar = () => {
             <AiOutlineSearch />
           </label>
           <input
+            data-testid="searchbar-input"
             ref={searchBarRef}
             id="search-input"
             className="bg-pale-white px-1 outline-none w-36 md:w-64"
