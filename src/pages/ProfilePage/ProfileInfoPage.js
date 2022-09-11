@@ -1,29 +1,25 @@
 import { Modal } from "@mui/material";
-
 import { useState } from "react";
 import UserAvatar from "../../components/UserAvatar/UserAvatar";
-
 import { useNavigate } from "react-router-dom";
-
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectCurrentUser,
   userDataRefreshed,
 } from "../../features/user/userSlice";
-
 import Resizer from "react-image-file-resizer";
-import usePrivateAxios from "../../hooks/usePrivateAxios";
 import LoadingButton from "../../components/LoadingButton/LoadingButton";
+import { useUpdateUserAvatarMutation } from "../../features/api/usersApiSlice";
 
 const ProfileInfoPage = () => {
-  const privateAxios = usePrivateAxios();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector(selectCurrentUser);
 
   const [open, setOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [file, setFile] = useState(null);
+
+  const [updateUserAvatar, { isLoading }] = useUpdateUserAvatarMutation();
 
   const handleOpen = () => {
     if (!user) return navigate("/auth");
@@ -52,12 +48,12 @@ const ProfileInfoPage = () => {
   };
 
   const updateAvatar = () => {
-    setLoading(true);
-    privateAxios.post("/users/me/avatar", { avatar: file }).then((response) => {
-      dispatch(userDataRefreshed({ ...user, avatar: file }));
-      setLoading(false);
-      handleClose();
-    });
+    updateUserAvatar({ avatar: file })
+      .unwrap()
+      .then(() => {
+        dispatch(userDataRefreshed({ ...user, avatar: file }));
+        handleClose();
+      });
   };
 
   return (
@@ -99,7 +95,7 @@ const ProfileInfoPage = () => {
             />
           </div>
           <LoadingButton
-            loading={loading}
+            loading={isLoading}
             text="Save"
             color="deep-orange"
             onButtonClick={updateAvatar}

@@ -1,21 +1,14 @@
-import { useEffect } from "react";
 import Orders from "../../components/Orders/Orders";
 import LoadingPage from "../../pages/LoadingPage/LoadingPage";
-import useAxios from "../../hooks/useAxios";
-import usePrivateAxios from "../../hooks/usePrivateAxios";
 import ErrorPage from "../../pages/ErrorPage/ErrorPage";
+import { useGetUserOrdersQuery } from "../../features/api/usersApiSlice";
 
 const ProfileOrdersPage = () => {
-  const [orders, ordersLoading, ordersError, fetchOrders] = useAxios();
-  const privateAxios = usePrivateAxios();
-
-  useEffect(() => {
-    fetchOrders({
-      axiosInstance: privateAxios,
-      method: "GET",
-      url: "users/me/orders",
-    });
-  }, []);
+  const {
+    data: orders,
+    isLoading: ordersLoading,
+    error: ordersError,
+  } = useGetUserOrdersQuery();
 
   if (ordersLoading) return <LoadingPage />;
   else if (ordersError) return <ErrorPage />;

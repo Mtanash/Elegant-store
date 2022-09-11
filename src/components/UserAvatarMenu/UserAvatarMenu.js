@@ -1,19 +1,23 @@
 import { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
-import { selectCurrentUser } from "../../features/user/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  selectCurrentUser,
+  userLoggedOut,
+} from "../../features/user/userSlice";
 import UserAvatar from "../UserAvatar/UserAvatar";
 import { FiLogIn } from "react-icons/fi";
 import { CgLogOut } from "react-icons/cg";
 import { ImProfile } from "react-icons/im";
 import { MdSpaceDashboard } from "react-icons/md";
 import UserAvatarMenuOption from "../UserAvatarMenuOption/UserAvatarMenuOption";
-import useLogout from "../../hooks/useLogout";
 import { useNavigate } from "react-router-dom";
+import { useLogoutUserMutation } from "../../features/api/usersApiSlice";
 
 const UserAvatarMenu = () => {
+  const dispatch = useDispatch();
   const user = useSelector(selectCurrentUser);
   const navigate = useNavigate();
-  const logout = useLogout();
+  const [logoutUser] = useLogoutUserMutation();
   const userAvatarMenuRef = useRef(null);
 
   const [showUserMenu, setShowUserMenu] = useState(false);
@@ -21,6 +25,15 @@ const UserAvatarMenu = () => {
   const toggleUserMenu = () => setShowUserMenu(!showUserMenu);
 
   const closeUserMenu = () => setShowUserMenu(false);
+
+  const logout = () => {
+    logoutUser()
+      .unwrap()
+      .then(() => {
+        dispatch(userLoggedOut());
+        closeUserMenu();
+      });
+  };
 
   useEffect(() => {
     if (!showUserMenu) return;
@@ -78,9 +91,8 @@ const UserAvatarMenu = () => {
             <UserAvatarMenuOption
               text="Logout"
               Icon={CgLogOut}
-              onOptionButtonClicked={async () => {
-                await logout();
-                closeUserMenu();
+              onOptionButtonClicked={() => {
+                logout();
               }}
             />
           </>

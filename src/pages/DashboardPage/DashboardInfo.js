@@ -1,28 +1,16 @@
-import { useEffect } from "react";
 import Chart from "../../components/Chart/Chart";
 import Deposits from "../../components/Deposits/Deposits";
 import Orders from "../../components/Orders/Orders";
-import useAxios from "../../hooks/useAxios";
-import usePrivateAxios from "../../hooks/usePrivateAxios";
 import LoadingPage from "../../pages/LoadingPage/LoadingPage";
 import ErrorPage from "../../pages/ErrorPage/ErrorPage";
+import { useGetDashboardDataQuery } from "../../features/api/dashboardApiSlice";
 
 const DashboardInfo = () => {
-  const privateAxios = usePrivateAxios();
-  const [
-    dashboardData,
-    dashboardDataLoading,
-    dashboardDataError,
-    fetchDashboardData,
-  ] = useAxios();
-
-  useEffect(() => {
-    fetchDashboardData({
-      axiosInstance: privateAxios,
-      method: "GET",
-      url: "dashboard",
-    });
-  }, []);
+  const {
+    data: dashboardData,
+    isLoading: dashboardDataLoading,
+    error: dashboardDataError,
+  } = useGetDashboardDataQuery();
 
   if (dashboardDataLoading) return <LoadingPage fullHeight />;
   else if (dashboardDataError) return <ErrorPage fullHeight />;
