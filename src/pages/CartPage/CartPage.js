@@ -1,4 +1,9 @@
+import { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import CheckoutForm from "../../components/CheckoutForm/CheckoutForm";
+import HorizontalProductCard from "../../components/HorizontalProductCard/HorizontalProductCard";
+import Price from "../../components/Price/Price";
 import {
   productRemovedFromCart,
   selectCartProducts,
@@ -6,13 +11,6 @@ import {
   selectCartProductsTotalPrice,
 } from "../../features/Cart/cartSlice";
 import { selectCurrentUser } from "../../features/user/userSlice";
-
-import { useNavigate } from "react-router-dom";
-
-import CheckoutForm from "../../components/CheckoutForm/CheckoutForm";
-import HorizontalProductCard from "../../components/HorizontalProductCard/HorizontalProductCard";
-
-import { useState } from "react";
 
 const CartPage = () => {
   const dispatch = useDispatch();
@@ -25,16 +23,19 @@ const CartPage = () => {
 
   const [checkoutFormIsOpen, setCheckoutFormIsOpen] = useState(false);
 
-  const toggleCheckoutForm = () => {
+  const toggleCheckoutForm = useCallback(() => {
     setCheckoutFormIsOpen(!checkoutFormIsOpen);
-  };
+  }, [checkoutFormIsOpen]);
 
   const onCheckoutClick = () => {
     if (!user) return navigate("/auth");
     toggleCheckoutForm();
   };
 
-  const onRemoveButtonClicked = (_id) => dispatch(productRemovedFromCart(_id));
+  const onRemoveButtonClicked = useCallback(
+    (_id) => dispatch(productRemovedFromCart(_id)),
+    [dispatch]
+  );
 
   return (
     <section className="overflow-hidden min-h-[calc(100vh_-_theme(headerAndFooterHeight))] container mx-auto mb-10 p-4">
@@ -51,6 +52,19 @@ const CartPage = () => {
           </button>
         </div>
       )}
+      {cartProductsCount !== 0 && (
+        <div className="w-full flex gap-2 items-center text-slate-500">
+          <p className="uppercase flex-[0.4] text-center text-inherit">
+            Product details
+          </p>
+          <p className="uppercase flex-[0.2] text-center text-inherit">
+            Quantity
+          </p>
+          <p className="uppercase flex-[0.2] text-center text-inherit">Price</p>
+          <p className="uppercase flex-[0.2] text-center text-inherit">Total</p>
+        </div>
+      )}
+
       {cartProducts.map((product) => (
         <HorizontalProductCard
           key={product._id}
@@ -60,9 +74,10 @@ const CartPage = () => {
       ))}
       {cartProductsCount > 0 && (
         <div className="flex justify-between items-center">
-          <p className="font-semibold text-lg">
-            Total price: EGP {cartTotalPrice}.00
-          </p>
+          <div className="flex items-start gap-3">
+            <p className="font-semibold text-lg">Total price:</p>
+            <Price price={cartTotalPrice} center />
+          </div>
           <button
             className="py-2 px-6 bg-deep-orange rounded-md text-white text-lg font-semibold hover:scale-95 transition-transform"
             onClick={onCheckoutClick}
