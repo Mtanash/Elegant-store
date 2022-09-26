@@ -8,7 +8,7 @@ const IconButton = ({ text, onButtonClick, Icon, alignCenter, color }) => {
       }`}
       onClick={onButtonClick}
     >
-      {text} <Icon className="inline-block w-6 h-6" />
+      {text && text} <Icon className="inline-block w-6 h-6" />
     </button>
   );
 };
