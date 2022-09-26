@@ -34,12 +34,29 @@ const cartSlice = createSlice({
     cartCleared: (state) => {
       state.cartProducts = [];
     },
+    cartProductQuantityIncreased: (state, action) => {
+      const productIndex = state.cartProducts.findIndex(
+        (product) => product._id === action.payload
+      );
+      state.cartProducts[productIndex].quantity += 1;
+    },
+    cartProductQuantityDecreased: (state, action) => {
+      const productIndex = state.cartProducts.findIndex(
+        (product) => product._id === action.payload
+      );
+      state.cartProducts[productIndex].quantity -= 1;
+    },
   },
   extraReducers: {},
 });
 
-export const { productAddedToCart, productRemovedFromCart, cartCleared } =
-  cartSlice.actions;
+export const {
+  productAddedToCart,
+  productRemovedFromCart,
+  cartCleared,
+  cartProductQuantityDecreased,
+  cartProductQuantityIncreased,
+} = cartSlice.actions;
 
 export const selectCartProducts = (state) => state.cart.cartProducts;
 
@@ -52,9 +69,11 @@ export const selectCartProductsTotalPrice = (state) =>
   state.cart.cartProducts.reduce(
     (prev, current) => {
       if (current?.priceAfterDiscount) {
-        return { total: prev.total + current.priceAfterDiscount };
+        return {
+          total: prev.total + current.priceAfterDiscount * current.quantity,
+        };
       }
-      return { total: prev.total + current.price };
+      return { total: prev.total + current.price * current.quantity };
     },
     { total: 0 }
   );
