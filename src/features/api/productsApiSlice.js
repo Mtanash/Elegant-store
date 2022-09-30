@@ -4,12 +4,15 @@ export const extendedApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getProducts: builder.query({
       query: (page) => `products?page=${page}`,
+      providesTags: ["products"],
     }),
     getProductsByLimit: builder.query({
       query: (limit) => `products?limit=${limit}`,
+      providesTags: ["products"],
     }),
     getFeaturedProducts: builder.query({
       query: () => "products?featured=true",
+      providesTags: ["products"],
     }),
     getProductById: builder.query({
       query: (id) => `/products/${id}`,
@@ -17,6 +20,7 @@ export const extendedApi = apiSlice.injectEndpoints({
     getProductsBySearch: builder.query({
       query: (searchQuery, page) =>
         `/products?search=${searchQuery}&page=${page}`,
+      providesTags: ["products"],
     }),
     getProductReviews: builder.query({
       query: (productId) => `products/reviews/${productId}`,
@@ -33,6 +37,29 @@ export const extendedApi = apiSlice.injectEndpoints({
       query: (productId) => `products/reviews/userReviewedProduct/${productId}`,
       providesTags: ["userReviewedProduct"],
     }),
+    addNewProduct: builder.mutation({
+      query: (productData) => ({
+        url: "/products",
+        method: "POST",
+        body: productData,
+      }),
+      invalidatesTags: ["products"],
+    }),
+    deleteProduct: builder.mutation({
+      query: (productId) => ({
+        url: `/products/${productId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["products"],
+    }),
+    updateProduct: builder.mutation({
+      query: ({ productId, productData }) => ({
+        url: `/products/${productId}`,
+        method: "PATCH",
+        body: productData,
+      }),
+      invalidatesTags: ["products"],
+    }),
   }),
 });
 
@@ -45,4 +72,7 @@ export const {
   useAddReviewMutation,
   useGetUserReviewedProductQuery,
   useGetProductsByLimitQuery,
+  useAddNewProductMutation,
+  useDeleteProductMutation,
+  useUpdateProductMutation,
 } = extendedApi;
