@@ -1,16 +1,16 @@
 import { Rating } from "@mui/material";
 import { useState } from "react";
-import ErrorPage from "../../pages/ErrorPage/ErrorPage";
-import LoadingPage from "../../pages/LoadingPage/LoadingPage";
-import UserAvatar from "../UserAvatar/UserAvatar";
-import { selectCurrentUser } from "../../features/user/userSlice";
 import { useSelector } from "react-redux";
-import LoadingButton from "../LoadingButton/LoadingButton";
 import {
   useAddReviewMutation,
   useGetUserReviewedProductQuery,
 } from "../../features/api/productsApiSlice";
-import { successToast, warningToast } from "../../toast/toasts";
+import { selectCurrentUser } from "../../features/user/userSlice";
+import ErrorPage from "../../pages/ErrorPage/ErrorPage";
+import LoadingPage from "../../pages/LoadingPage/LoadingPage";
+import { errorToast, successToast, warningToast } from "../../toast/toasts";
+import LoadingButton from "../LoadingButton/LoadingButton";
+import UserAvatar from "../UserAvatar/UserAvatar";
 
 const rateLabels = {
   1: "Useless",
@@ -60,6 +60,7 @@ const AddReview = ({ productId }) => {
       successToast("Review added successfully");
     } catch (error) {
       console.log(error);
+      errorToast(error.message);
     }
   };
 

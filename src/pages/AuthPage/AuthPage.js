@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
+import { GoogleLogin } from "react-google-login";
 import { FcGoogle } from "react-icons/fc";
 import { useDispatch, useSelector } from "react-redux";
-import { selectCurrentUser, userLoggedIn } from "../../features/user/userSlice";
-import { useNavigate, useLocation } from "react-router-dom";
-import { GoogleLogin } from "react-google-login";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   useAuthWithGoogleMutation,
   useCreateUserMutation,
   useLoginUserMutation,
 } from "../../features/api/usersApiSlice";
+import { selectCurrentUser, userLoggedIn } from "../../features/user/userSlice";
 
 const initialFormData = { name: "", email: "", password: "" };
 
@@ -94,9 +94,9 @@ const AuthPage = () => {
           authWithGoogleResult.error) && (
           <div className="p-1 rounded-sm bg-pale-white">
             <p className="text-red text-center">
-              {loginUserResult.error.message ||
-                createUserResult.error.message ||
-                authWithGoogleResult.error.message}
+              {loginUserResult.error?.message ||
+                createUserResult.error?.message ||
+                authWithGoogleResult.error?.message}
             </p>
           </div>
         )}
