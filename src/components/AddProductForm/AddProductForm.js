@@ -1,9 +1,8 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import Resizer from "react-image-file-resizer";
-// import usePrivateAxios from "../../hooks/usePrivateAxios";
-// import { publicAxios } from "../../api/axios";
-import SnackbarContext from "../../context/SnackbarContext";
 import { categoriesObj } from "../../constants";
+import { useAddNewProductMutation } from "../../features/api/productsApiSlice";
+import { errorToast, successToast } from "../../toast/toasts";
 import LoadingButton from "../LoadingButton/LoadingButton";
 
 const initialFormData = {
@@ -15,62 +14,52 @@ const initialFormData = {
 };
 
 const AddProductForm = () => {
-  const { openSnackbar } = useContext(SnackbarContext);
   const [formData, setFormData] = useState(initialFormData);
   const [file, setFile] = useState(null);
-  // const privateAxios = usePrivateAxios();
-  const [loading, setLoading] = useState(false);
   const [productHaveDiscount, setProductHaveDiscount] = useState(false);
   const [priceAfterDiscount, setPriceAfterDiscount] = useState("");
 
+  const [addNewProduct, { isLoading: addNewProductLoading }] =
+    useAddNewProductMutation();
+
   const onFormDataChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    if (e.target.name === "price" || e.target.name === "stock") {
+      setFormData({ ...formData, [e.target.name]: parseInt(e.target.value) });
+    } else {
+      setFormData({ ...formData, [e.target.name]: e.target.value });
+    }
   };
 
-  const onFormSubmit = (e) => {
+  const onFormSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
 
     // if product have discount => add price after discount to formData obj
     if (productHaveDiscount) {
       Object.defineProperty(formData, "priceAfterDiscount", {
-        value: priceAfterDiscount,
+        value: parseInt(priceAfterDiscount),
         writable: true,
         enumerable: true,
         configurable: true,
       });
     }
 
-    // const uploadProductImage = async (imageName) => {
-    //   try {
-    //     const response = await privateAxios.get(
-    //       `/products/imageUploadUrl/${imageName}`
-    //     );
-    //     const uploadUrl = response?.data?.url;
-    //     await publicAxios.put(uploadUrl, file, {
-    //       headers: {
-    //         "Content-Type": "multipart/form-data",
-    //       },
-    //     });
-    //     const imageUrl = uploadUrl.split("?")[0];
-    //     return imageUrl;
-    //   } catch (err) {
-    //     console.log(err?.response?.data);
-    //   }
-    // };
+    try {
+      const productFormData = new FormData();
 
-    // privateAxios.post("/products", { ...formData }).then(async (res) => {
-    //   const productId = res?.data?._id;
-    //   const imageUrl = await uploadProductImage(productId);
-    //   try {
-    //     await privateAxios.post("/products/image", { productId, imageUrl });
-    //     setFormData(initialFormData);
-    //     setLoading(false);
-    //     openSnackbar("New Product added successfully");
-    //   } catch (err) {
-    //     console.log(err);
-    //   }
-    // });
+      for (let key in formData) {
+        productFormData.append(key, formData[key]);
+      }
+
+      productFormData.append("productImage", file);
+
+      await addNewProduct(productFormData).unwrap();
+      successToast("Product added successfully");
+
+      setFormData(initialFormData);
+    } catch (error) {
+      console.log(error);
+      errorToast(error.message);
+    }
   };
 
   const onInputFileChange = (e) => {
@@ -243,10 +232,10 @@ const AddProductForm = () => {
           />
         </div>
         <LoadingButton
-          loading={loading}
+          loading={addNewProductLoading}
           text="Add product"
           submit
-          color="deep-orange"
+          className="bg-deep-orange"
         />
       </form>
     </div>
