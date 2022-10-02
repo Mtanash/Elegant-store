@@ -1,20 +1,19 @@
+import { useState } from "react";
+import { CgArrowRightR } from "react-icons/cg";
+import {
+  MdAddBox,
+  MdDashboard,
+  MdInventory,
+  MdOutlineShoppingCart,
+} from "react-icons/md";
 import { Outlet, useNavigate } from "react-router-dom";
 import UserAvatarMenuOption from "../../components/UserAvatarMenuOption/UserAvatarMenuOption";
-import {
-  MdDashboard,
-  MdOutlineShoppingCart,
-  MdAddBox,
-  MdInventory,
-} from "react-icons/md";
-import { CgArrowRightR } from "react-icons/cg";
-import { useState } from "react";
 
 const DashboardPage = () => {
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(true);
 
   const toggleMenu = () => {
-    console.log("clicked");
     setIsMenuOpen(!isMenuOpen);
   };
 
