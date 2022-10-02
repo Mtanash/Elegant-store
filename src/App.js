@@ -1,26 +1,27 @@
-import Footer from "./components/Footer/Footer";
-import Header from "./components/Header/Header";
-import CartPage from "./pages/CartPage/CartPage";
-import ProductPage from "./pages/ProductPage/ProductPage";
-import AuthPage from "./pages/AuthPage/AuthPage";
-import HomePage from "./pages/HomePage/HomePage";
-import ProfilePage from "./pages/ProfilePage/ProfilePage";
-import DashboardPage from "./pages/DashboardPage/DashboardPage";
-import RequireAuth from "./components/RequireAuth/RequireAuth";
-import UnauthorizedPage from "./pages/UnauthorizedPage/UnauthorizedPage";
-import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
-import SearchPage from "./pages/SearchPage/SearchPage";
-import DashboardInfo from "./pages/DashboardPage/DashboardInfo";
-import AddProductForm from "./components/AddProductForm/AddProductForm";
-import FavoriteProductsPage from "./pages/ProfilePage/FavoriteProductsPage";
-import ProfileInfoPage from "./pages/ProfilePage/ProfileInfoPage";
-import ProductsList from "./pages/DashboardPage/ProductsList";
-import DashboardOrdersPage from "./pages/DashboardPage/DashboardOrdersPage";
-import ProfileOrdersPage from "./pages/ProfilePage/ProfileOrdersPage";
-import PersistentLogin from "./components/PersistentLogin/PersistentLogin";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer, Zoom } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import AddProductForm from "./components/AddProductForm/AddProductForm";
+import Footer from "./components/Footer/Footer";
+import Header from "./components/Header/Header";
+import PersistentLogin from "./components/PersistentLogin/PersistentLogin";
+import RequireAuth from "./components/RequireAuth/RequireAuth";
+import AuthPage from "./pages/AuthPage/AuthPage";
+import CartPage from "./pages/CartPage/CartPage";
+import DashboardInfo from "./pages/DashboardPage/DashboardInfo";
+import DashboardOrdersPage from "./pages/DashboardPage/DashboardOrdersPage";
+import DashboardPage from "./pages/DashboardPage/DashboardPage";
+import ProductsList from "./pages/DashboardPage/ProductsList";
+import HomePage from "./pages/HomePage/HomePage";
+import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
+import OrderPage from "./pages/OrderPage/OrderPage";
+import ProductPage from "./pages/ProductPage/ProductPage";
+import FavoriteProductsPage from "./pages/ProfilePage/FavoriteProductsPage";
+import ProfileInfoPage from "./pages/ProfilePage/ProfileInfoPage";
+import ProfileOrdersPage from "./pages/ProfilePage/ProfileOrdersPage";
+import ProfilePage from "./pages/ProfilePage/ProfilePage";
+import SearchPage from "./pages/SearchPage/SearchPage";
+import UnauthorizedPage from "./pages/UnauthorizedPage/UnauthorizedPage";
 
 function App() {
   return (
@@ -54,6 +55,7 @@ function App() {
               <Route path="info" element={<DashboardInfo />} />
               <Route path="create-product" element={<AddProductForm />} />
               <Route path="orders" element={<DashboardOrdersPage />} />
+              <Route path="orders/:id" element={<OrderPage />} />
               <Route path="products" element={<ProductsList />} />
             </Route>
           </Route>
