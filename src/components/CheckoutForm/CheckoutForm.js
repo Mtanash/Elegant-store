@@ -1,15 +1,15 @@
 import { useState } from "react";
+import NumberFormat from "react-number-format";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { useAddOrderMutation } from "../../features/api/ordersApiSlice";
 import {
   cartCleared,
   selectCartProducts,
   selectCartProductsTotalPrice,
 } from "../../features/Cart/cartSlice";
-import { useNavigate } from "react-router-dom";
-import NumberFormat from "react-number-format";
-import LoadingButton from "../LoadingButton/LoadingButton";
-import { useAddOrderMutation } from "../../features/api/ordersApiSlice";
 import { errorToast, successToast } from "../../toast/toasts";
+import LoadingButton from "../LoadingButton/LoadingButton";
 
 const initialFormDataState = {
   firstName: "",
@@ -43,12 +43,12 @@ const CheckoutForm = ({ checkoutFormIsOpen, toggleCheckoutForm }) => {
     e.preventDefault();
 
     const order = {
-      orderProducts: cartProducts.map((product) => ({
+      products: cartProducts.map((product) => ({
         product: product._id,
         quantity: product.quantity,
       })),
-      orderTotalPrice: cartProductsTotalPrice.total,
-      orderInfo: {
+      totalPrice: cartProductsTotalPrice.total,
+      info: {
         firstName: formData.firstName,
         lastName: formData.lastName,
         address: formData.address,
