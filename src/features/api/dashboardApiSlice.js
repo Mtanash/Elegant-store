@@ -4,6 +4,7 @@ export const extendedApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getDashboardData: builder.query({
       query: () => "dashboard",
+      providesTags: ["orders"],
     }),
   }),
 });
