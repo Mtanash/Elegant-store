@@ -1,8 +1,8 @@
 import { useRef, useState } from "react";
-import Paginate from "../Paginate/Paginate";
-import LoadingPage from "../../pages/LoadingPage/LoadingPage";
-import ErrorPage from "../../pages/ErrorPage/ErrorPage";
 import { useGetProductsQuery } from "../../features/api/productsApiSlice";
+import ErrorPage from "../../pages/ErrorPage/ErrorPage";
+import LoadingPage from "../../pages/LoadingPage/LoadingPage";
+import Paginate from "../Paginate/Paginate";
 
 const Products = () => {
   const productsRef = useRef(null);
@@ -15,7 +15,7 @@ const Products = () => {
     setPage(value);
   };
 
-  if (isLoading) return <LoadingPage fullHeight={true} />;
+  if (isLoading) return <LoadingPage fullHeight />;
   else if (error) return <ErrorPage />;
   else
     return (
