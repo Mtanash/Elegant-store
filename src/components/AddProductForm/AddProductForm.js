@@ -3,6 +3,7 @@ import Resizer from "react-image-file-resizer";
 import { categoriesObj } from "../../constants";
 import { useAddNewProductMutation } from "../../features/api/productsApiSlice";
 import { errorToast, successToast } from "../../toast/toasts";
+import Input from "../Input/Input";
 import LoadingButton from "../LoadingButton/LoadingButton";
 
 const initialFormData = {
@@ -141,65 +142,46 @@ const AddProductForm = () => {
         </div>
         {productHaveDiscount ? (
           <>
-            <div className="flex flex-col items-start gap-1 w-full">
-              <label className="font-semibold" htmlFor="priceBeforeDiscount">
-                Price before discount
-              </label>
-              <input
-                className=" block w-full p-2 py-3 text-base font-normal resize-none outline-none border-2 border-pale-grey rounded-md hover:border-deep-blue focus:border-blue border-opacity-50 transition-colors"
-                type="number"
-                id="priceBeforeDiscount"
-                name="price"
-                value={formData.price}
-                onChange={onFormDataChange}
-                required
-              />
-            </div>
-            <div className="flex flex-col items-start gap-1 w-full">
-              <label className="font-semibold" htmlFor="priceAfterDiscount">
-                Price after discount
-              </label>
-              <input
-                className=" block w-full p-2 py-3 text-base font-normal resize-none outline-none border-2 border-pale-grey rounded-md hover:border-deep-blue focus:border-blue border-opacity-50 transition-colors"
-                id="priceAfterDiscount"
-                type="number"
-                name="priceAfterDiscount"
-                value={priceAfterDiscount}
-                onChange={(e) => setPriceAfterDiscount(e.target.value)}
-                required
-              />
-            </div>
-          </>
-        ) : (
-          <div className="flex flex-col items-start gap-1 w-full">
-            <label className="font-semibold" htmlFor="price">
-              Price
-            </label>
-            <input
-              className=" block w-full p-2 py-3 text-base font-normal resize-none outline-none border-2 border-pale-grey rounded-md hover:border-deep-blue focus:border-blue border-opacity-50 transition-colors"
-              id="price"
-              type="number"
+            <Input
+              id="priceBeforeDiscount"
               name="price"
+              type="number"
               value={formData.price}
               onChange={onFormDataChange}
+              label="Price before discount"
               required
             />
-          </div>
-        )}
-        <div className="flex flex-col items-start gap-1 w-full">
-          <label className="font-semibold" htmlFor="Stock">
-            Stock
-          </label>
-          <input
-            className=" block w-full p-2 py-3 text-base font-normal resize-none outline-none border-2 border-pale-grey rounded-md hover:border-deep-blue focus:border-blue border-opacity-50 transition-colors"
-            id="Stock"
+            <Input
+              id="priceAfterDiscount"
+              name="priceAfterDiscount"
+              type="number"
+              value={priceAfterDiscount}
+              onChange={(e) => setPriceAfterDiscount(e.target.value)}
+              label="Price after discount"
+              required
+            />
+          </>
+        ) : (
+          <Input
+            id="price"
+            name="price"
             type="number"
-            name="stock"
-            value={formData.stock}
+            value={formData.price}
             onChange={onFormDataChange}
+            label="Price"
             required
           />
-        </div>
+        )}
+
+        <Input
+          id="stock"
+          name="stock"
+          type="number"
+          value={formData.stock}
+          onChange={onFormDataChange}
+          label="Stock"
+          required
+        />
 
         <div className="flex gap-2 items-center">
           <input
