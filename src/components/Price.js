@@ -31,7 +31,7 @@ const Price = ({ price, priceAfterDiscount, center }) => {
           </div>
         </div>
       ) : (
-        <div className="flex items-start gap-1">
+        <div className="flex items-start gap-1 pt-3">
           <p className="text-xs">EGP</p>
           <p className="text-xl font-semibold">{price.toFixed(2)}</p>
         </div>
