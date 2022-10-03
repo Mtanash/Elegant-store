@@ -255,7 +255,7 @@ const CheckoutForm = ({ checkoutFormIsOpen, toggleCheckoutForm }) => {
               text="Submit"
               loading={addOrderLoading}
               submit
-              color="blue"
+              className="bg-blue"
             />
           </div>
         </form>
