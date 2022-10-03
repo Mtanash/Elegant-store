@@ -2,6 +2,7 @@ import { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import CheckoutForm from "../../components/CheckoutForm/CheckoutForm";
+import FullPageLayout from "../../components/FullPageLayout/FullPageLayout";
 import HorizontalProductCard from "../../components/HorizontalProductCard/HorizontalProductCard";
 import Price from "../../components/Price/Price";
 import {
@@ -38,7 +39,7 @@ const CartPage = () => {
   );
 
   return (
-    <section className="overflow-hidden min-h-[calc(100vh_-_theme(headerAndFooterHeight))] container mx-auto mb-10 p-4">
+    <FullPageLayout>
       {cartProductsCount > 0 ? (
         <p className="text-center font-bold text-2xl my-6">
           There {cartProductsCount > 1 ? " are" : " is"} {cartProductsCount}
@@ -90,7 +91,7 @@ const CartPage = () => {
         toggleCheckoutForm={toggleCheckoutForm}
         checkoutFormIsOpen={checkoutFormIsOpen}
       />
-    </section>
+    </FullPageLayout>
   );
 };
 
