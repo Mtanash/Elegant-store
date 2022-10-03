@@ -9,6 +9,7 @@ import {
   useLoginUserMutation,
 } from "../../features/api/usersApiSlice";
 import { selectCurrentUser, userLoggedIn } from "../../features/user/userSlice";
+import { errorToast } from "../../toast/toasts";
 
 const initialFormData = { name: "", email: "", password: "" };
 
@@ -53,6 +54,10 @@ const AuthPage = () => {
           setFormData(initialFormData);
           dispatch(userLoggedIn(response));
           navigate(from, { replace: true });
+        })
+        .catch((error) => {
+          console.log(error);
+          errorToast(error?.message);
         });
     } else {
       loginUser(formData)
@@ -61,6 +66,10 @@ const AuthPage = () => {
           setFormData(initialFormData);
           dispatch(userLoggedIn(response));
           navigate(from, { replace: true });
+        })
+        .catch((error) => {
+          console.log(error);
+          errorToast(error?.message);
         });
     }
   };
