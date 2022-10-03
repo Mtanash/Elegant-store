@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { selectCartProducts } from "../../features/Cart/cartSlice";
+import CartIcon from "../CartIcon/CartIcon";
 import HamburgerMenu from "../HamburgerMenu/HamburgerMenu";
 import SearchBar from "../SearchBar/SearchBar";
-import CartIcon from "../CartIcon/CartIcon";
 import UserAvatarMenu from "../UserAvatarMenu/UserAvatarMenu";
-import { useNavigate } from "react-router-dom";
 
 function Header() {
   const navigate = useNavigate();
@@ -68,7 +68,7 @@ function Header() {
                 <button
                   className="py-2 font-normal hover:translate-x-1 transition-transform duration-200"
                   onClick={() => {
-                    navigate(`category?category=Men Clothes`);
+                    navigate(`categories/Men Clothes`);
                     setIsFashionOpen(false);
                   }}
                 >
@@ -77,7 +77,7 @@ function Header() {
                 <button
                   className="py-2 font-normal hover:translate-x-1 transition-transform duration-200"
                   onClick={() => {
-                    navigate(`category?category=Women Clothes`);
+                    navigate(`categories/Women Clothes`);
                     setIsFashionOpen(false);
                   }}
                 >
@@ -87,25 +87,25 @@ function Header() {
             </div>
             <button
               className="p-2 font-semibold text-grey hover:text-deep-blue inline-block transition-colors ease-in-out duration-200"
-              onClick={() => navigate(`category?category=Bags`)}
+              onClick={() => navigate(`categories/Bags`)}
             >
               Bags
             </button>
             <button
               className="p-2 font-semibold text-grey hover:text-deep-blue inline-block transition-colors ease-in-out duration-200"
-              onClick={() => navigate(`category?category=Watches`)}
+              onClick={() => navigate(`categories/Watches`)}
             >
               Watches
             </button>
             <button
               className="p-2 font-semibold text-grey hover:text-deep-blue inline-block transition-colors ease-in-out duration-200"
-              onClick={() => navigate(`category?category=Shoes`)}
+              onClick={() => navigate(`categories/Shoes`)}
             >
               Shoes
             </button>
             <button
               className="p-2 font-semibold text-grey hover:text-deep-blue inline-block transition-colors ease-in-out duration-200"
-              onClick={() => navigate(`category?category=Perfumes`)}
+              onClick={() => navigate(`categories/Perfumes`)}
             >
               Perfumes
             </button>
