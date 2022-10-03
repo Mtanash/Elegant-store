@@ -17,6 +17,10 @@ export const extendedApi = apiSlice.injectEndpoints({
     getProductById: builder.query({
       query: (id) => `/products/${id}`,
     }),
+    getProductsByCategory: builder.query({
+      query: ({ category, page }) =>
+        `/products?category=${category}&page=${page}`,
+    }),
     getProductsBySearch: builder.query({
       query: (searchQuery, page) =>
         `/products?search=${searchQuery}&page=${page}`,
@@ -75,4 +79,5 @@ export const {
   useAddNewProductMutation,
   useDeleteProductMutation,
   useUpdateProductMutation,
+  useGetProductsByCategoryQuery,
 } = extendedApi;
