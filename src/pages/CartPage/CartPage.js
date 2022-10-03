@@ -1,10 +1,10 @@
 import { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import CheckoutForm from "../../components/CheckoutForm/CheckoutForm";
-import FullPageLayout from "../../components/FullPageLayout/FullPageLayout";
-import HorizontalProductCard from "../../components/HorizontalProductCard/HorizontalProductCard";
-import Price from "../../components/Price/Price";
+import CheckoutForm from "../../components/CheckoutForm";
+import FullPageLayout from "../../components/FullPageLayout";
+import HorizontalProductCard from "../../components/HorizontalProductCard";
+import Price from "../../components/Price";
 import {
   productRemovedFromCart,
   selectCartProducts,

@@ -7,7 +7,7 @@ import {
   MdOutlineShoppingCart,
 } from "react-icons/md";
 import { Outlet, useNavigate } from "react-router-dom";
-import UserAvatarMenuOption from "../../components/UserAvatarMenuOption/UserAvatarMenuOption";
+import UserAvatarMenuOption from "../../components/UserAvatarMenuOption";
 
 const DashboardPage = () => {
   const navigate = useNavigate();

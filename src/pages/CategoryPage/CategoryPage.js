@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { useParams } from "react-router-dom";
-import FullPageLayout from "../../components/FullPageLayout/FullPageLayout";
-import Paginate from "../../components/Paginate/Paginate";
+import FullPageLayout from "../../components/FullPageLayout";
+import Paginate from "../../components/Paginate";
 import { useGetProductsByCategoryQuery } from "../../features/api/productsApiSlice";
 import ErrorPage from "../ErrorPage/ErrorPage";
 import LoadingPage from "../LoadingPage/LoadingPage";

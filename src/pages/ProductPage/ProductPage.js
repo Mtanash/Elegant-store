@@ -1,12 +1,12 @@
-import LoadingPage from "../LoadingPage/LoadingPage";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
+import AddReview from "../../components/AddReview";
+import Reviews from "../../components/Reviews";
 import { selectCurrentUser } from "../../features/user/userSlice";
-import AddReview from "../../components/AddReview/AddReview";
-import Reviews from "../../components/Reviews/Reviews";
+import LoadingPage from "../LoadingPage/LoadingPage";
 
-import ProductFullDetails from "../../components/ProductFullDetails/ProductFullDetails";
-import ProductDetailsPanel from "../../components/ProductDetailsPanel/ProductDetailsPanel";
+import ProductDetailsPanel from "../../components/ProductDetailsPanel";
+import ProductFullDetails from "../../components/ProductFullDetails";
 import { useGetProductByIdQuery } from "../../features/api/productsApiSlice";
 
 const ProductPage = () => {

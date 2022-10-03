@@ -1,11 +1,11 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer, Zoom } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import AddProductForm from "./components/AddProductForm/AddProductForm";
-import Footer from "./components/Footer/Footer";
-import Header from "./components/Header/Header";
-import PersistentLogin from "./components/PersistentLogin/PersistentLogin";
-import RequireAuth from "./components/RequireAuth/RequireAuth";
+import AddProductForm from "./components/AddProductForm";
+import Footer from "./components/Footer";
+import Header from "./components/Header";
+import PersistentLogin from "./components/PersistentLogin";
+import RequireAuth from "./components/RequireAuth";
 import AuthPage from "./pages/AuthPage/AuthPage";
 import CartPage from "./pages/CartPage/CartPage";
 import CategoryPage from "./pages/CategoryPage/CategoryPage";

@@ -1,10 +1,10 @@
 import { CgArrowRightR, CgProfile } from "react-icons/cg";
-import { MdFavorite } from "react-icons/md";
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
+import { MdFavorite } from "react-icons/md";
 
-import { useNavigate, Outlet } from "react-router-dom";
-import UserAvatarMenuOption from "../../components/UserAvatarMenuOption/UserAvatarMenuOption";
 import { useState } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
+import UserAvatarMenuOption from "../../components/UserAvatarMenuOption";
 
 const ProfilePage = () => {
   const navigate = useNavigate();

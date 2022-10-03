@@ -1,7 +1,7 @@
-import LoadingPage from "../../pages/LoadingPage/LoadingPage";
-import ErrorPage from "../../pages/ErrorPage/ErrorPage";
-import Orders from "../../components/Orders/Orders";
+import Orders from "../../components/Orders";
 import { useGetOrdersQuery } from "../../features/api/ordersApiSlice";
+import ErrorPage from "../../pages/ErrorPage/ErrorPage";
+import LoadingPage from "../../pages/LoadingPage/LoadingPage";
 
 const DashboardOrdersPage = () => {
   const {

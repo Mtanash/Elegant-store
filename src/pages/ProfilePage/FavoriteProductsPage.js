@@ -1,12 +1,12 @@
-import HorizontalProductCard from "../../components/HorizontalProductCard/HorizontalProductCard";
 import { CircularProgress } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import LoadingPage from "../LoadingPage/LoadingPage";
-import ErrorPage from "../ErrorPage/ErrorPage";
+import HorizontalProductCard from "../../components/HorizontalProductCard";
 import {
   useGetUserFavoriteProductsQuery,
   useRemoveProductFromFavoritesMutation,
 } from "../../features/api/usersApiSlice";
+import ErrorPage from "../ErrorPage/ErrorPage";
+import LoadingPage from "../LoadingPage/LoadingPage";
 
 const FavoriteProductsPage = () => {
   const navigate = useNavigate();

@@ -1,9 +1,9 @@
 import { useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import Paginate from "../../components/Paginate";
+import { useGetProductsBySearchQuery } from "../../features/api/productsApiSlice";
 import ErrorPage from "../ErrorPage/ErrorPage";
 import LoadingPage from "../LoadingPage/LoadingPage";
-import Paginate from "../../components/Paginate/Paginate";
-import { useGetProductsBySearchQuery } from "../../features/api/productsApiSlice";
 
 const SearchPage = () => {
   const productsRef = useRef(null);

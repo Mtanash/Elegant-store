@@ -1,15 +1,15 @@
 import { Modal } from "@mui/material";
 import { useState } from "react";
-import UserAvatar from "../../components/UserAvatar/UserAvatar";
-import { useNavigate } from "react-router-dom";
+import Resizer from "react-image-file-resizer";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import LoadingButton from "../../components/LoadingButton";
+import UserAvatar from "../../components/UserAvatar";
+import { useUpdateUserAvatarMutation } from "../../features/api/usersApiSlice";
 import {
   selectCurrentUser,
   userDataRefreshed,
 } from "../../features/user/userSlice";
-import Resizer from "react-image-file-resizer";
-import LoadingButton from "../../components/LoadingButton/LoadingButton";
-import { useUpdateUserAvatarMutation } from "../../features/api/usersApiSlice";
 
 const ProfileInfoPage = () => {
   const navigate = useNavigate();

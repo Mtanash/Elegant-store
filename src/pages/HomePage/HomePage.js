@@ -1,9 +1,9 @@
 import { useRef } from "react";
-import Products from "../../components/Products/Products";
-import LoadingPage from "../LoadingPage/LoadingPage";
-import ErrorPage from "../ErrorPage/ErrorPage";
-import HomeCarousel from "../../components/HomeCarousel/HomeCarousel";
+import HomeCarousel from "../../components/HomeCarousel";
+import Products from "../../components/Products";
 import { useGetFeaturedProductsQuery } from "../../features/api/productsApiSlice";
+import ErrorPage from "../ErrorPage/ErrorPage";
+import LoadingPage from "../LoadingPage/LoadingPage";
 
 const HomePage = () => {
   const ProductSectionRef = useRef(null);

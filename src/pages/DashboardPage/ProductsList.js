@@ -1,9 +1,9 @@
 import { Paper, Rating } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { useCallback, useState } from "react";
-import CustomModal from "../../components/CustomModal/CustomModal";
-import EditProductForm from "../../components/EditProductForm/EditProductForm";
-import LoadingButton from "../../components/LoadingButton/LoadingButton";
+import CustomModal from "../../components/CustomModal";
+import EditProductForm from "../../components/EditProductForm";
+import LoadingButton from "../../components/LoadingButton";
 import {
   useDeleteProductMutation,
   useGetProductsByLimitQuery,

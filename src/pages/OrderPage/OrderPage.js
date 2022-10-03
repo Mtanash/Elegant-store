@@ -1,8 +1,8 @@
 import { Paper } from "@mui/material";
 import moment from "moment/moment";
 import { useNavigate, useParams } from "react-router-dom";
-import CustomDialog from "../../components/CustomDialog/CustomDialog";
-import LoadingButton from "../../components/LoadingButton/LoadingButton";
+import CustomDialog from "../../components/CustomDialog";
+import LoadingButton from "../../components/LoadingButton";
 import {
   useDeleteOrderMutation,
   useGetOrderQuery,

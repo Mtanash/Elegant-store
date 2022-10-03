@@ -1,7 +1,7 @@
-import Orders from "../../components/Orders/Orders";
-import LoadingPage from "../../pages/LoadingPage/LoadingPage";
-import ErrorPage from "../../pages/ErrorPage/ErrorPage";
+import Orders from "../../components/Orders";
 import { useGetUserOrdersQuery } from "../../features/api/usersApiSlice";
+import ErrorPage from "../../pages/ErrorPage/ErrorPage";
+import LoadingPage from "../../pages/LoadingPage/LoadingPage";
 
 const ProfileOrdersPage = () => {
   const {
