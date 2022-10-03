@@ -1,7 +1,7 @@
 import { Rating } from "@mui/material";
 import { useGetProductReviewsQuery } from "../features/api/productsApiSlice";
-import ErrorPage from "../pages/ErrorPage/ErrorPage";
-import LoadingPage from "../pages/LoadingPage/LoadingPage";
+import ErrorPage from "../pages/ErrorPage";
+import LoadingPage from "../pages/LoadingPage";
 import UserAvatar from "./UserAvatar";
 
 const Reviews = ({ productId }) => {

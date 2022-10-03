@@ -1,13 +1,13 @@
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import AddReview from "../../components/AddReview";
-import Reviews from "../../components/Reviews";
-import { selectCurrentUser } from "../../features/user/userSlice";
-import LoadingPage from "../LoadingPage/LoadingPage";
+import AddReview from "../components/AddReview";
+import Reviews from "../components/Reviews";
+import { selectCurrentUser } from "../features/user/userSlice";
+import LoadingPage from "./LoadingPage";
 
-import ProductDetailsPanel from "../../components/ProductDetailsPanel";
-import ProductFullDetails from "../../components/ProductFullDetails";
-import { useGetProductByIdQuery } from "../../features/api/productsApiSlice";
+import ProductDetailsPanel from "../components/ProductDetailsPanel";
+import ProductFullDetails from "../components/ProductFullDetails";
+import { useGetProductByIdQuery } from "../features/api/productsApiSlice";
 
 const ProductPage = () => {
   const navigate = useNavigate();

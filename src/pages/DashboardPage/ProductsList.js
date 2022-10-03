@@ -9,8 +9,8 @@ import {
   useGetProductsByLimitQuery,
 } from "../../features/api/productsApiSlice";
 import { errorToast, successToast } from "../../toast/toasts";
-import ErrorPage from "../ErrorPage/ErrorPage";
-import LoadingPage from "../LoadingPage/LoadingPage";
+import ErrorPage from "../ErrorPage";
+import LoadingPage from "../LoadingPage";
 
 const columns = [
   {

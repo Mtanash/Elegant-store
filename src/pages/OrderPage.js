@@ -1,16 +1,16 @@
 import { Paper } from "@mui/material";
 import moment from "moment/moment";
 import { useNavigate, useParams } from "react-router-dom";
-import CustomDialog from "../../components/CustomDialog";
-import LoadingButton from "../../components/LoadingButton";
+import CustomDialog from "../components/CustomDialog";
+import LoadingButton from "../components/LoadingButton";
 import {
   useDeleteOrderMutation,
   useGetOrderQuery,
-} from "../../features/api/ordersApiSlice";
-import useCustomDialog from "../../hooks/useCustomDialog";
-import ErrorPage from "../../pages/ErrorPage/ErrorPage";
-import LoadingPage from "../../pages/LoadingPage/LoadingPage";
-import { errorToast } from "../../toast/toasts";
+} from "../features/api/ordersApiSlice";
+import useCustomDialog from "../hooks/useCustomDialog";
+import { errorToast } from "../toast/toasts";
+import ErrorPage from "./ErrorPage";
+import LoadingPage from "./LoadingPage";
 
 const OrderPageDataRow = ({ title, value }) => {
   return (

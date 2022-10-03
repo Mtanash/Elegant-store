@@ -10,7 +10,7 @@ import {
   accessTokenRefreshed,
   userDataRefreshed,
 } from "../features/user/userSlice";
-import LoadingPage from "../pages/LoadingPage/LoadingPage";
+import LoadingPage from "../pages/LoadingPage";
 
 const PersistentLogin = () => {
   const dispatch = useDispatch();

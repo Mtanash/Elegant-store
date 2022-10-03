@@ -2,8 +2,8 @@ import Chart from "../../components/Chart";
 import Deposits from "../../components/Deposits";
 import Orders from "../../components/Orders";
 import { useGetDashboardDataQuery } from "../../features/api/dashboardApiSlice";
-import ErrorPage from "../../pages/ErrorPage/ErrorPage";
-import LoadingPage from "../../pages/LoadingPage/LoadingPage";
+import ErrorPage from "../../pages/ErrorPage";
+import LoadingPage from "../../pages/LoadingPage";
 
 const DashboardInfo = () => {
   const {

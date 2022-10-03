@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { useGetProductsQuery } from "../features/api/productsApiSlice";
-import ErrorPage from "../pages/ErrorPage/ErrorPage";
-import LoadingPage from "../pages/LoadingPage/LoadingPage";
+import ErrorPage from "../pages/ErrorPage";
+import LoadingPage from "../pages/LoadingPage";
 import Paginate from "./Paginate";
 
 const Products = () => {

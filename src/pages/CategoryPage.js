@@ -1,10 +1,10 @@
 import { useRef, useState } from "react";
 import { useParams } from "react-router-dom";
-import FullPageLayout from "../../components/FullPageLayout";
-import Paginate from "../../components/Paginate";
-import { useGetProductsByCategoryQuery } from "../../features/api/productsApiSlice";
-import ErrorPage from "../ErrorPage/ErrorPage";
-import LoadingPage from "../LoadingPage/LoadingPage";
+import FullPageLayout from "../components/FullPageLayout";
+import Paginate from "../components/Paginate";
+import { useGetProductsByCategoryQuery } from "../features/api/productsApiSlice";
+import ErrorPage from "./ErrorPage";
+import LoadingPage from "./LoadingPage";
 
 const CategoryPage = () => {
   const { category } = useParams();

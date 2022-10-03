@@ -1,17 +1,17 @@
 import { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import CheckoutForm from "../../components/CheckoutForm";
-import FullPageLayout from "../../components/FullPageLayout";
-import HorizontalProductCard from "../../components/HorizontalProductCard";
-import Price from "../../components/Price";
+import CheckoutForm from "../components/CheckoutForm";
+import FullPageLayout from "../components/FullPageLayout";
+import HorizontalProductCard from "../components/HorizontalProductCard";
+import Price from "../components/Price";
 import {
   productRemovedFromCart,
   selectCartProducts,
   selectCartProductsCount,
   selectCartProductsTotalPrice,
-} from "../../features/Cart/cartSlice";
-import { selectCurrentUser } from "../../features/user/userSlice";
+} from "../features/Cart/cartSlice";
+import { selectCurrentUser } from "../features/user/userSlice";
 
 const CartPage = () => {
   const dispatch = useDispatch();

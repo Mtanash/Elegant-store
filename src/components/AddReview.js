@@ -6,8 +6,8 @@ import {
   useGetUserReviewedProductQuery,
 } from "../features/api/productsApiSlice";
 import { selectCurrentUser } from "../features/user/userSlice";
-import ErrorPage from "../pages/ErrorPage/ErrorPage";
-import LoadingPage from "../pages/LoadingPage/LoadingPage";
+import ErrorPage from "../pages/ErrorPage";
+import LoadingPage from "../pages/LoadingPage";
 import { errorToast, successToast, warningToast } from "../toast/toasts";
 import LoadingButton from "./LoadingButton";
 import UserAvatar from "./UserAvatar";

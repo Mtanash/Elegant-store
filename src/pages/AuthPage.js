@@ -7,9 +7,9 @@ import {
   useAuthWithGoogleMutation,
   useCreateUserMutation,
   useLoginUserMutation,
-} from "../../features/api/usersApiSlice";
-import { selectCurrentUser, userLoggedIn } from "../../features/user/userSlice";
-import { errorToast } from "../../toast/toasts";
+} from "../features/api/usersApiSlice";
+import { selectCurrentUser, userLoggedIn } from "../features/user/userSlice";
+import { errorToast } from "../toast/toasts";
 
 const initialFormData = { name: "", email: "", password: "" };
 

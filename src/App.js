@@ -6,23 +6,23 @@ import Footer from "./components/Footer";
 import Header from "./components/Header";
 import PersistentLogin from "./components/PersistentLogin";
 import RequireAuth from "./components/RequireAuth";
-import AuthPage from "./pages/AuthPage/AuthPage";
-import CartPage from "./pages/CartPage/CartPage";
-import CategoryPage from "./pages/CategoryPage/CategoryPage";
+import AuthPage from "./pages/AuthPage";
+import CartPage from "./pages/CartPage";
+import CategoryPage from "./pages/CategoryPage";
 import DashboardInfo from "./pages/DashboardPage/DashboardInfo";
 import DashboardOrdersPage from "./pages/DashboardPage/DashboardOrdersPage";
 import DashboardPage from "./pages/DashboardPage/DashboardPage";
 import ProductsList from "./pages/DashboardPage/ProductsList";
-import HomePage from "./pages/HomePage/HomePage";
-import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
-import OrderPage from "./pages/OrderPage/OrderPage";
-import ProductPage from "./pages/ProductPage/ProductPage";
+import HomePage from "./pages/HomePage";
+import NotFoundPage from "./pages/NotFoundPage";
+import OrderPage from "./pages/OrderPage";
+import ProductPage from "./pages/ProductPage";
 import FavoriteProductsPage from "./pages/ProfilePage/FavoriteProductsPage";
 import ProfileInfoPage from "./pages/ProfilePage/ProfileInfoPage";
 import ProfileOrdersPage from "./pages/ProfilePage/ProfileOrdersPage";
 import ProfilePage from "./pages/ProfilePage/ProfilePage";
-import SearchPage from "./pages/SearchPage/SearchPage";
-import UnauthorizedPage from "./pages/UnauthorizedPage/UnauthorizedPage";
+import SearchPage from "./pages/SearchPage";
+import UnauthorizedPage from "./pages/UnauthorizedPage";
 
 function App() {
   return (

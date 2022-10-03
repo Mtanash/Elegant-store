@@ -5,8 +5,8 @@ import {
   useGetUserFavoriteProductsQuery,
   useRemoveProductFromFavoritesMutation,
 } from "../../features/api/usersApiSlice";
-import ErrorPage from "../ErrorPage/ErrorPage";
-import LoadingPage from "../LoadingPage/LoadingPage";
+import ErrorPage from "../ErrorPage";
+import LoadingPage from "../LoadingPage";
 
 const FavoriteProductsPage = () => {
   const navigate = useNavigate();
