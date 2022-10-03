@@ -8,6 +8,7 @@ import PersistentLogin from "./components/PersistentLogin/PersistentLogin";
 import RequireAuth from "./components/RequireAuth/RequireAuth";
 import AuthPage from "./pages/AuthPage/AuthPage";
 import CartPage from "./pages/CartPage/CartPage";
+import CategoryPage from "./pages/CategoryPage/CategoryPage";
 import DashboardInfo from "./pages/DashboardPage/DashboardInfo";
 import DashboardOrdersPage from "./pages/DashboardPage/DashboardOrdersPage";
 import DashboardPage from "./pages/DashboardPage/DashboardPage";
@@ -47,6 +48,7 @@ function App() {
           <Route path="/auth" element={<AuthPage />} />
           <Route path="/unauthorized" element={<UnauthorizedPage />} />
           <Route path="/products-search" element={<SearchPage />} />
+          <Route path="/categories/:category" element={<CategoryPage />} />
 
           {/* protected routes */}
           <Route element={<RequireAuth allowedRoles={["admin"]} />}>
