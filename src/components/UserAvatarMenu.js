@@ -7,8 +7,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useLogoutUserMutation } from "../features/api/usersApiSlice";
 import { selectCurrentUser, userLoggedOut } from "../features/user/userSlice";
+import MenuOption from "./MenuOption";
 import UserAvatar from "./UserAvatar";
-import UserAvatarMenuOption from "./UserAvatarMenuOption";
 
 const UserAvatarMenu = () => {
   const dispatch = useDispatch();
@@ -67,7 +67,7 @@ const UserAvatarMenu = () => {
       >
         {user ? (
           <>
-            <UserAvatarMenuOption
+            <MenuOption
               text="Profile"
               Icon={ImProfile}
               onOptionButtonClicked={() => {
@@ -76,7 +76,7 @@ const UserAvatarMenu = () => {
               }}
             />
             {user?.role === "admin" && (
-              <UserAvatarMenuOption
+              <MenuOption
                 text="Dashboard"
                 Icon={MdSpaceDashboard}
                 onOptionButtonClicked={() => {
@@ -85,7 +85,7 @@ const UserAvatarMenu = () => {
                 }}
               />
             )}
-            <UserAvatarMenuOption
+            <MenuOption
               text="Logout"
               Icon={CgLogOut}
               onOptionButtonClicked={() => {
@@ -95,7 +95,7 @@ const UserAvatarMenu = () => {
           </>
         ) : (
           <>
-            <UserAvatarMenuOption
+            <MenuOption
               text="Login"
               Icon={FiLogIn}
               onOptionButtonClicked={() => {

@@ -7,7 +7,7 @@ import {
   MdOutlineShoppingCart,
 } from "react-icons/md";
 import { Outlet, useNavigate } from "react-router-dom";
-import UserAvatarMenuOption from "../../components/UserAvatarMenuOption";
+import MenuOption from "../../components/MenuOption";
 
 const DashboardPage = () => {
   const navigate = useNavigate();
@@ -30,7 +30,7 @@ const DashboardPage = () => {
         >
           <CgArrowRightR className="text-3xl text-deep-blue" />
         </div>
-        <UserAvatarMenuOption
+        <MenuOption
           text="Dashboard"
           Icon={MdDashboard}
           onOptionButtonClicked={() => {
@@ -38,7 +38,7 @@ const DashboardPage = () => {
             setIsMenuOpen(false);
           }}
         />
-        <UserAvatarMenuOption
+        <MenuOption
           text="Orders"
           Icon={MdOutlineShoppingCart}
           onOptionButtonClicked={() => {
@@ -46,7 +46,7 @@ const DashboardPage = () => {
             setIsMenuOpen(false);
           }}
         />
-        <UserAvatarMenuOption
+        <MenuOption
           text="Add Product"
           Icon={MdAddBox}
           onOptionButtonClicked={() => {
@@ -54,7 +54,7 @@ const DashboardPage = () => {
             setIsMenuOpen(false);
           }}
         />
-        <UserAvatarMenuOption
+        <MenuOption
           text="Products"
           Icon={MdInventory}
           onOptionButtonClicked={() => {

@@ -4,7 +4,7 @@ import { MdFavorite } from "react-icons/md";
 
 import { useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-import UserAvatarMenuOption from "../../components/UserAvatarMenuOption";
+import MenuOption from "../../components/MenuOption";
 
 const ProfilePage = () => {
   const navigate = useNavigate();
@@ -29,7 +29,7 @@ const ProfilePage = () => {
         >
           <CgArrowRightR className="text-3xl text-deep-blue" />
         </div>
-        <UserAvatarMenuOption
+        <MenuOption
           text="Profile"
           Icon={CgProfile}
           onOptionButtonClicked={() => {
@@ -37,7 +37,7 @@ const ProfilePage = () => {
             setIsMenuOpen(false);
           }}
         />
-        <UserAvatarMenuOption
+        <MenuOption
           text="Favorite Products"
           Icon={MdFavorite}
           onOptionButtonClicked={() => {
@@ -45,7 +45,7 @@ const ProfilePage = () => {
             setIsMenuOpen(false);
           }}
         />
-        <UserAvatarMenuOption
+        <MenuOption
           text="My Orders"
           Icon={IoMdCheckmarkCircleOutline}
           onOptionButtonClicked={() => {

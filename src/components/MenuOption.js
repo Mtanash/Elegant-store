@@ -1,7 +1,7 @@
-const UserAvatarMenuOption = ({ text, Icon, onOptionButtonClicked }) => {
+const MenuOption = ({ text, Icon, onOptionButtonClicked }) => {
   return (
     <button
-      className="flex gap-3 items-center justify-start transition-colors ease-in-out duration-200 hover:bg-pale-white w-full"
+      className="flex gap-3 items-center justify-start transition-colors ease-in-out duration-200 hover:bg-pale-white w-full w-40"
       onClick={onOptionButtonClicked}
     >
       <Icon className="ml-3.5 w-5 h-5" />
@@ -12,4 +12,4 @@ const UserAvatarMenuOption = ({ text, Icon, onOptionButtonClicked }) => {
   );
 };
 
-export default UserAvatarMenuOption;
+export default MenuOption;
