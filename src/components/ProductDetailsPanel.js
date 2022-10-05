@@ -1,5 +1,5 @@
 import moment from "moment";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import {
   BsCartPlus,
   BsFillArrowDownSquareFill,
@@ -15,7 +15,8 @@ import {
   productAddedToFavorite,
   productRemovedFromFavorite,
 } from "../features/user/userSlice";
-import { errorToast, successToast } from "../toast/toasts";
+import useErrorHandler from "../hooks/useErrorHandler";
+import { successToast } from "../toast/toasts";
 import AddToFavoriteButton from "./AddToFavoriteButton";
 import IconButton from "./IconButton";
 
@@ -25,43 +26,55 @@ const ProductDetailsPanel = ({ product, productIsFavorite }) => {
   const [productQuantity, setProductQuantity] = useState(1);
 
   const [loading, setLoading] = useState(false);
+
+  const { handleError } = useErrorHandler();
+
   const [addProductToFavorite] = useAddProductToFavoritesMutation();
+
   const [removeProductFromFavorites] = useRemoveProductFromFavoritesMutation();
 
-  const handleAddToFavorite = async (id) => {
-    setLoading(true);
-    try {
-      if (!productIsFavorite) {
-        await addProductToFavorite({ _id: id }).unwrap();
-        dispatch(productAddedToFavorite({ _id: id }));
-      } else {
-        await removeProductFromFavorites({ _id: id }).unwrap();
-        dispatch(productRemovedFromFavorite({ _id: id }));
+  const handleAddToFavorite = useCallback(
+    async (id) => {
+      setLoading(true);
+      try {
+        if (!productIsFavorite) {
+          await addProductToFavorite({ _id: id }).unwrap();
+          dispatch(productAddedToFavorite({ _id: id }));
+        } else {
+          await removeProductFromFavorites({ _id: id }).unwrap();
+          dispatch(productRemovedFromFavorite({ _id: id }));
+        }
+      } catch (error) {
+        handleError(error);
+      } finally {
+        setLoading(false);
       }
-    } catch (error) {
-      console.log(error);
-      errorToast("Something went wrong!");
-    } finally {
-      setLoading(false);
-    }
-  };
+    },
+    [
+      addProductToFavorite,
+      dispatch,
+      handleError,
+      productIsFavorite,
+      removeProductFromFavorites,
+    ]
+  );
 
-  const onAddToCartClick = () => {
+  const onAddToCartClick = useCallback(() => {
     dispatch(
       productAddedToCart({ productToAdd: product, amount: productQuantity })
     );
     successToast("Product added to cart");
-  };
+  }, [dispatch, product, productQuantity]);
 
-  const onUpButtonClicked = () => {
+  const onUpButtonClicked = useCallback(() => {
     if (productQuantity === product?.stock) return;
     setProductQuantity(productQuantity + 1);
-  };
+  }, [productQuantity, product]);
 
-  const onDownButtonClicked = () => {
+  const onDownButtonClicked = useCallback(() => {
     if (productQuantity < 2) return;
     setProductQuantity(productQuantity - 1);
-  };
+  }, [productQuantity]);
 
   return (
     <div className="border-[1px] border-solid border-grey border-opacity-20 rounded-md p-2 col-start-1 col-end-2 row-start-3 row-end-4 md:col-start-4 md:col-end-5 md:row-start-1 md:row-end-2 flex flex-col justify-center">

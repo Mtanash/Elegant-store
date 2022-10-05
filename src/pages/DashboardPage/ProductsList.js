@@ -8,7 +8,8 @@ import {
   useDeleteProductMutation,
   useGetProductsByLimitQuery,
 } from "../../features/api/productsApiSlice";
-import { errorToast, successToast } from "../../toast/toasts";
+import useErrorHandler from "../../hooks/useErrorHandler";
+import { successToast } from "../../toast/toasts";
 import ErrorPage from "../ErrorPage";
 import LoadingPage from "../LoadingPage";
 
@@ -57,6 +58,8 @@ const ProductsList = () => {
   const handleOpenModal = () => setModalIsOpen(true);
   const handleCloseModal = useCallback(() => setModalIsOpen(false), []);
 
+  const { handleError } = useErrorHandler();
+
   const {
     data: productsData,
     isLoading: productsLoading,
@@ -73,8 +76,7 @@ const ProductsList = () => {
       }
       successToast("Product deleted successfully");
     } catch (error) {
-      console.log(error);
-      errorToast(error.message);
+      handleError(error);
     }
   };
 
@@ -121,7 +123,6 @@ const ProductsList = () => {
           />
           <LoadingButton
             text="Edit"
-            // loading={updateProductLoading}
             onButtonClick={handleEditProductClick}
             className="bg-blue text-white px-5 py-2 rounded-md disabled:bg-sky-300 disabled:cursor-not-allowed"
             disabled={

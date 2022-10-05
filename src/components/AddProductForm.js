@@ -2,7 +2,8 @@ import { useState } from "react";
 import Resizer from "react-image-file-resizer";
 import { categoriesObj } from "../constants";
 import { useAddNewProductMutation } from "../features/api/productsApiSlice";
-import { errorToast, successToast } from "../toast/toasts";
+import useErrorHandler from "../hooks/useErrorHandler";
+import { successToast } from "../toast/toasts";
 import Input from "./Input";
 import LoadingButton from "./LoadingButton";
 
@@ -22,6 +23,8 @@ const AddProductForm = () => {
 
   const [addNewProduct, { isLoading: addNewProductLoading }] =
     useAddNewProductMutation();
+
+  const { handleError } = useErrorHandler();
 
   const onFormDataChange = (e) => {
     if (e.target.name === "price" || e.target.name === "stock") {
@@ -58,8 +61,7 @@ const AddProductForm = () => {
 
       setFormData(initialFormData);
     } catch (error) {
-      console.log(error);
-      errorToast(error.message);
+      handleError(error);
     }
   };
 

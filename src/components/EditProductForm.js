@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { categoriesObj } from "../constants";
 import { useUpdateProductMutation } from "../features/api/productsApiSlice";
-import { errorToast, successToast } from "../toast/toasts";
+import useErrorHandler from "../hooks/useErrorHandler";
+import { successToast } from "../toast/toasts";
 import LoadingButton from "./LoadingButton";
 
 const EditProductForm = ({ handleCloseModal, productToEdit }) => {
@@ -9,6 +10,8 @@ const EditProductForm = ({ handleCloseModal, productToEdit }) => {
 
   const [updateProduct, { isLoading: updateProductLoading }] =
     useUpdateProductMutation();
+
+  const { handleError } = useErrorHandler();
 
   const handleEditProductFormSubmit = async (e) => {
     e.preventDefault();
@@ -24,8 +27,7 @@ const EditProductForm = ({ handleCloseModal, productToEdit }) => {
 
       successToast("Product updated successfully");
     } catch (error) {
-      console.log(error);
-      errorToast(error.message);
+      handleError(error);
     }
   };
 

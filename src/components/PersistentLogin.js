@@ -10,6 +10,7 @@ import {
   accessTokenRefreshed,
   userDataRefreshed,
 } from "../features/user/userSlice";
+import useErrorHandler from "../hooks/useErrorHandler";
 import LoadingPage from "../pages/LoadingPage";
 
 const PersistentLogin = () => {
@@ -20,6 +21,8 @@ const PersistentLogin = () => {
   const [fetchAccessToken] = useGetUserAccessTokenMutation();
 
   const [getUser] = useGetUserMutation();
+
+  const { handleError } = useErrorHandler();
 
   useEffect(() => {
     const persistUser = async () => {
@@ -37,14 +40,14 @@ const PersistentLogin = () => {
       } catch (error) {
         if (error.message === "Invalid token specified")
           console.log("Invalid Token for decoding");
-        else console.log(error);
+        else handleError(error);
       } finally {
         setLoading(false);
       }
     };
 
     persistUser();
-  }, [dispatch, fetchAccessToken, getUser, userAccessToken]);
+  }, [dispatch, fetchAccessToken, getUser, userAccessToken, handleError]);
   let content;
 
   if (loading) {

@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useLogoutUserMutation } from "../features/api/usersApiSlice";
 import { selectCurrentUser, userLoggedOut } from "../features/user/userSlice";
+import useErrorHandler from "../hooks/useErrorHandler";
 import MenuOption from "./MenuOption";
 import UserAvatar from "./UserAvatar";
 
@@ -23,12 +24,17 @@ const UserAvatarMenu = () => {
 
   const closeUserMenu = () => setShowUserMenu(false);
 
+  const { handleError } = useErrorHandler();
+
   const logout = () => {
     logoutUser()
       .unwrap()
       .then(() => {
         dispatch(userLoggedOut());
         closeUserMenu();
+      })
+      .catch((error) => {
+        handleError(error);
       });
   };
 

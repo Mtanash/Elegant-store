@@ -9,7 +9,7 @@ import {
   useLoginUserMutation,
 } from "../features/api/usersApiSlice";
 import { selectCurrentUser, userLoggedIn } from "../features/user/userSlice";
-import { errorToast } from "../toast/toasts";
+import useErrorHandler from "../hooks/useErrorHandler";
 
 const initialFormData = { name: "", email: "", password: "" };
 
@@ -18,19 +18,24 @@ const AuthPage = () => {
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
   const dispatch = useDispatch();
+
   const [formData, setFormData] = useState(initialFormData);
   const [isSignup, setIsSignup] = useState(false);
 
   const user = useSelector(selectCurrentUser);
 
+  const { handleError } = useErrorHandler();
+
   const [createUser, createUserResult] = useCreateUserMutation();
+
   const [loginUser, loginUserResult] = useLoginUserMutation();
+
   const [authWithGoogle, authWithGoogleResult] = useAuthWithGoogleMutation();
 
   useEffect(() => {
     let isMounted = true;
     if (user && isMounted) {
-      navigate("/");
+      navigate(-1);
     }
 
     return () => {
@@ -56,8 +61,7 @@ const AuthPage = () => {
           navigate(from, { replace: true });
         })
         .catch((error) => {
-          console.log(error);
-          errorToast(error?.message);
+          handleError(error);
         });
     } else {
       loginUser(formData)
@@ -68,8 +72,7 @@ const AuthPage = () => {
           navigate(from, { replace: true });
         })
         .catch((error) => {
-          console.log(error);
-          errorToast(error?.message);
+          handleError(error);
         });
     }
   };

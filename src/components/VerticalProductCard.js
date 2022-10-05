@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { BsCartPlus } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -11,6 +11,7 @@ import {
   productAddedToFavorite,
   productRemovedFromFavorite,
 } from "../features/user/userSlice";
+import useErrorHandler from "../hooks/useErrorHandler";
 import { successToast } from "../toast/toasts";
 import { truncateString } from "../utils";
 import AddToFavoriteButton from "./AddToFavoriteButton";
@@ -27,6 +28,8 @@ function VerticalProductCard({ product }) {
 
   const [loading, setLoading] = useState(false);
 
+  const { handleError } = useErrorHandler();
+
   const [addProductToFavorite] = useAddProductToFavoritesMutation();
 
   const [removeProductFromFavorites] = useRemoveProductFromFavoritesMutation();
@@ -35,29 +38,38 @@ function VerticalProductCard({ product }) {
     state.user.user?.favoriteProducts.includes(_id)
   );
 
-  const handleAddToFavorite = async (id) => {
-    setLoading(true);
-    try {
-      if (!productIsFavorite) {
-        await addProductToFavorite({ _id: id }).unwrap();
-        dispatch(productAddedToFavorite({ _id: id }));
-        successToast("Product added to favorites");
-      } else {
-        await removeProductFromFavorites({ _id: id }).unwrap();
-        dispatch(productRemovedFromFavorite({ _id: id }));
-        successToast("Product removed from favorites");
+  const handleAddToFavorite = useCallback(
+    async (id) => {
+      setLoading(true);
+      try {
+        if (!productIsFavorite) {
+          await addProductToFavorite({ _id: id }).unwrap();
+          dispatch(productAddedToFavorite({ _id: id }));
+          successToast("Product added to favorites");
+        } else {
+          await removeProductFromFavorites({ _id: id }).unwrap();
+          dispatch(productRemovedFromFavorite({ _id: id }));
+          successToast("Product removed from favorites");
+        }
+      } catch (error) {
+        handleError(error);
+      } finally {
+        setLoading(false);
       }
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
+    },
+    [
+      addProductToFavorite,
+      dispatch,
+      handleError,
+      productIsFavorite,
+      removeProductFromFavorites,
+    ]
+  );
 
-  const onAddToCartButtonClicked = () => {
+  const onAddToCartButtonClicked = useCallback(() => {
     dispatch(productAddedToCart({ productToAdd: product }));
     successToast("Product added to cart");
-  };
+  }, [dispatch, product]);
 
   return (
     <div className="rounded-lg shadow-xl hover:shadow-2xl flex flex-col w-56 transition-shadow ease-in-out duration-200">

@@ -6,9 +6,10 @@ import {
   useGetUserReviewedProductQuery,
 } from "../features/api/productsApiSlice";
 import { selectCurrentUser } from "../features/user/userSlice";
+import useErrorHandler from "../hooks/useErrorHandler";
 import ErrorPage from "../pages/ErrorPage";
 import LoadingPage from "../pages/LoadingPage";
-import { errorToast, successToast, warningToast } from "../toast/toasts";
+import { successToast, warningToast } from "../toast/toasts";
 import LoadingButton from "./LoadingButton";
 import UserAvatar from "./UserAvatar";
 
@@ -35,6 +36,8 @@ const AddReview = ({ productId }) => {
 
   const user = useSelector(selectCurrentUser);
 
+  const { handleError } = useErrorHandler();
+
   const handleAddReview = async () => {
     if (!productId) return;
 
@@ -59,8 +62,7 @@ const AddReview = ({ productId }) => {
       setRateDescription("");
       successToast("Review added successfully");
     } catch (error) {
-      console.log(error);
-      errorToast(error.message);
+      handleError(error);
     }
   };
 

@@ -12,7 +12,6 @@ const ProfilePage = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(true);
 
   const toggleMenu = () => {
-    console.log("clicked");
     setIsMenuOpen(!isMenuOpen);
   };
 
