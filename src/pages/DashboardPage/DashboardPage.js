@@ -18,9 +18,9 @@ const DashboardPage = () => {
   };
 
   return (
-    <section className="min-h-[calc(100vh_-_theme(headerAndFooterHeight))] md:flex">
+    <section className="min-h-[calc(100vh_-_theme(headerAndFooterHeight))] md:grid grid-cols-6">
       <div
-        className={`bg-white drop-shadow-md h-full  py-3 md:flex flex-col gap-4 absolute -translate-x-full md:relative md:translate-x-0 ${
+        className={`bg-white drop-shadow-md h-full col-start-1 col-end-2 w-36 md:max-w-[180px] py-3 md:flex flex-col gap-4 absolute -translate-x-full md:relative md:translate-x-0 ${
           isMenuOpen ? "translate-x-0 z-10" : "-translate-x-full"
         } transition-transform`}
       >
@@ -63,7 +63,7 @@ const DashboardPage = () => {
           }}
         />
       </div>
-      <div className="p-2 flex-1">
+      <div className="p-2 col-start-2 col-end-7">
         <Outlet />
       </div>
     </section>
