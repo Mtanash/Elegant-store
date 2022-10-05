@@ -15,7 +15,7 @@ const HomeCarousel = ({ products }) => {
       showStatus={false}
       showThumbs={false}
       showIndicators={false}
-      className=" px-2"
+      className="px-2 pt-7"
       renderArrowPrev={(onClickHandler, hasPrev, label) => (
         <button
           type="button"
