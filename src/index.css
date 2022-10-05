@@ -22,3 +22,11 @@ input::-webkit-inner-spin-button {
 input[type="number"] {
   -moz-appearance: textfield;
 }
+
+#hero {
+  background: url("../public/images/wave.svg") white;
+  background-repeat: no-repeat;
+  background-position-y: bottom;
+  background-size: cover;
+  background-blend-mode: multiply;
+}
