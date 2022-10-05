@@ -37,8 +37,10 @@ const HomePage = () => {
         className="flex flex-col justify-center items-center h-[calc(100vh_-_64px)]"
         id="hero"
       >
-        <h1 className="text-5xl text-center my-4 font-bold">Elegant store</h1>
-        <h2 className="text-3xl text-center font-semibold my-8">
+        <h1 className="text-5xl text-center my-4 font-bold uppercase">
+          Elegant store
+        </h1>
+        <h2 className="text-3xl text-center font-semibold my-8 uppercase">
           Best products for best customers
         </h2>
         <button
