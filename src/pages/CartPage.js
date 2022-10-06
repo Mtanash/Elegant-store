@@ -74,8 +74,8 @@ const CartPage = () => {
         />
       ))}
       {cartProductsCount > 0 && (
-        <div className="flex justify-between items-center">
-          <div className="flex items-start gap-3">
+        <div className="flex sm:flex-row flex-col justify-between items-center">
+          <div className="flex items-center gap-3">
             <p className="font-semibold text-lg">Total price:</p>
             <Price price={cartTotalPrice} center />
           </div>

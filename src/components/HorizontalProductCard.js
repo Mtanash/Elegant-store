@@ -38,7 +38,7 @@ const HorizontalProductCard = ({
     >
       <div className="flex-[0.4] flex items-center justify-center text-center">
         <img
-          className="w-20 h-20 cursor-pointer"
+          className="w-20 h-20 cursor-pointer md:inline-block hidden"
           src={imageUrl}
           alt={description}
           onClick={() => navigate(`/product/${_id}`)}
@@ -46,14 +46,14 @@ const HorizontalProductCard = ({
 
         <div className="flex-1 basis-[55%]">
           <p
-            className="text-lg font-semibold mb-2 max-w-[50ch] break-words cursor-pointer"
+            className="md:text-lg text-base font-semibold mb-2 max-w-[50ch] break-words cursor-pointer"
             onClick={() => navigate(`/product/${_id}`)}
           >
             {truncateString(description, 30)}
           </p>
         </div>
       </div>
-      <div className="flex-[0.2] flex items-center gap-2 text-center justify-center">
+      <div className="flex-[0.2] flex md:flex-row flex-col items-center gap-2 text-center justify-center">
         <button
           className="border-2 h-7 w-7 grid place-items-center border-gray-300"
           onClick={handleQuantityDecrementClick}
@@ -71,10 +71,18 @@ const HorizontalProductCard = ({
         </button>
       </div>
       <div className="flex-[0.2] text-center justify-center">
-        <Price center price={price} priceAfterDiscount={priceAfterDiscount} />
+        <Price
+          direction="column"
+          size="sm"
+          center
+          price={price}
+          priceAfterDiscount={priceAfterDiscount}
+        />
       </div>
       <div className="flex-[0.2] text-center justify-center">
         <Price
+          size="sm"
+          direction="column"
           center
           price={
             priceAfterDiscount

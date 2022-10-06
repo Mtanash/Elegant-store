@@ -81,7 +81,7 @@ function VerticalProductCard({ product }) {
       />
       <p className="h-28 p-3 text-center">{truncateString(description, 90)}</p>
       <hr className="text-pale-white" />
-      <Price price={price} priceAfterDiscount={priceAfterDiscount} center />
+      <Price price={price} priceAfterDiscount={priceAfterDiscount} center pt />
       <Rates rates={rates} center />
       <div className="flex justify-center gap-5 p-3">
         <AddToFavoriteButton

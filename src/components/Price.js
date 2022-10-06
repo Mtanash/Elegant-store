@@ -1,4 +1,11 @@
-const Price = ({ price, priceAfterDiscount, center }) => {
+const Price = ({
+  price,
+  priceAfterDiscount,
+  center,
+  size = "xl",
+  direction = "row",
+  pt,
+}) => {
   const discount = Math.floor(((price - priceAfterDiscount) / price) * 100);
   return (
     <div
@@ -31,9 +38,23 @@ const Price = ({ price, priceAfterDiscount, center }) => {
           </div>
         </div>
       ) : (
-        <div className="flex items-start gap-1 pt-3">
+        <div
+          className={`flex ${
+            direction === "column" &&
+            "flex-col justify-center items-center md:flex-row"
+          }  gap-1 ${pt && "pt-3"}`}
+        >
           <p className="text-xs">EGP</p>
-          <p className="text-xl font-semibold">{price.toFixed(2)}</p>
+          <p
+            className={`
+              ${size === "sm" && "text-sm md:text-xl"}
+              ${size === "lg" && "text-lg md:text-xl"}
+              ${size === "xl" && "text-xl"}
+              font-semibold
+            `}
+          >
+            {price.toFixed(2)}
+          </p>
         </div>
       )}
     </div>
