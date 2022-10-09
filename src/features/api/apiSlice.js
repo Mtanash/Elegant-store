@@ -18,6 +18,7 @@ export const apiSlice = createApi({
     "userReviewedProduct",
     "userFavoriteProducts",
     "orders",
+    "user",
   ],
   endpoints: () => ({}),
 });
