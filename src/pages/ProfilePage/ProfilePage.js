@@ -18,7 +18,7 @@ const ProfilePage = () => {
   return (
     <section className="md:flex min-h-[calc(100vh_-_theme(headerAndFooterHeight))]">
       <div
-        className={`bg-white drop-shadow-md h-full  py-3 md:flex flex-col gap-4 absolute -translate-x-full md:relative md:translate-x-0 ${
+        className={`bg-white drop-shadow-md min-h-[calc(100vh_-_theme(headerAndFooterHeight))]  py-3 md:flex flex-col gap-4 absolute -translate-x-full md:relative md:translate-x-0 ${
           isMenuOpen ? "translate-x-0 z-10" : "-translate-x-full"
         } transition-transform`}
       >
@@ -54,7 +54,7 @@ const ProfilePage = () => {
         />
       </div>
 
-      <div className="p-2 flex-1">
+      <div className="p-2 flex-1 min-h-[calc(100vh_-_theme(headerAndFooterHeight))]">
         <Outlet />
       </div>
     </section>
