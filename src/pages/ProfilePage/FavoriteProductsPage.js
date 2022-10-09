@@ -1,10 +1,7 @@
 import { CircularProgress } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import HorizontalProductCard from "../../components/HorizontalProductCard";
-import {
-  useGetUserFavoriteProductsQuery,
-  useRemoveProductFromFavoritesMutation,
-} from "../../features/api/usersApiSlice";
+import FavoriteProductCard from "../../components/FavoriteProductCard";
+import { useGetUserFavoriteProductsQuery } from "../../features/api/usersApiSlice";
 import ErrorPage from "../ErrorPage";
 import LoadingPage from "../LoadingPage";
 
@@ -16,11 +13,6 @@ const FavoriteProductsPage = () => {
     isLoading: favoriteProductsLoading,
     error: favoriteProductsError,
   } = useGetUserFavoriteProductsQuery();
-
-  const [
-    removeProductFromFavorites,
-    { isLoading: removeProductFromFavoritesLoading },
-  ] = useRemoveProductFromFavoritesMutation();
 
   if (favoriteProductsLoading) return <LoadingPage fullHeight />;
   else if (favoriteProductsError) return <ErrorPage fullHeight />;
@@ -43,18 +35,14 @@ const FavoriteProductsPage = () => {
   else
     return (
       <div className="shadow-special w-full h-full p-2 flex flex-col gap-3 items-center justify-start">
+        <h3 className="font-semibold text-2xl text-center py-4">
+          My favorite products
+        </h3>
         {favoriteProductsLoading ? (
           <CircularProgress />
         ) : (
           favoriteProducts.map((product) => (
-            <HorizontalProductCard
-              key={product._id}
-              {...product}
-              loading={removeProductFromFavoritesLoading}
-              onRemoveButtonClicked={() =>
-                removeProductFromFavorites({ _id: product._id })
-              }
-            />
+            <FavoriteProductCard key={product._id} product={product} />
           ))
         )}
       </div>
