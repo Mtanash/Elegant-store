@@ -10,7 +10,7 @@ const LoadingButton = ({
 }) => {
   return (
     <button
-      className={`text-white hover:opacity-80 transition-opacity disabled:cursor-not-allowed self-center grid place-items-center py-2 px-6 rounded-md ${className}`}
+      className={`text-white hover:opacity-80 transition-opacity disabled:cursor-not-allowed self-center grid place-items-center py-2 px-6 rounded-md font-semibold ${className}`}
       disabled={!loading ? disabled : loading}
       onClick={onButtonClick}
       type={`${submit ? "submit" : "button"}`}
