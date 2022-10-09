@@ -14,6 +14,8 @@ import useErrorHandler from "../hooks/useErrorHandler";
 import LoadingPage from "../pages/LoadingPage";
 
 const PersistentLogin = () => {
+  let firstRender = true;
+
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   let userAccessToken = useSelector((state) => state.user?.accessToken);
@@ -38,11 +40,13 @@ const PersistentLogin = () => {
 
         dispatch(userDataRefreshed(response));
       } catch (error) {
+        if (firstRender) return;
         if (error.message === "Invalid token specified")
           console.log("Invalid Token for decoding");
         else handleError(error);
       } finally {
         setLoading(false);
+        firstRender = false;
       }
     };
 
