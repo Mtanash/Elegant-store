@@ -1,5 +1,6 @@
 import { Paper } from "@mui/material";
 import moment from "moment/moment";
+import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import CustomDialog from "../components/CustomDialog";
 import LoadingButton from "../components/LoadingButton";
@@ -7,6 +8,7 @@ import {
   useDeleteOrderMutation,
   useGetOrderQuery,
 } from "../features/api/ordersApiSlice";
+import { selectCurrentUser } from "../features/user/userSlice";
 import useCustomDialog from "../hooks/useCustomDialog";
 import { errorToast } from "../toast/toasts";
 import ErrorPage from "./ErrorPage";
@@ -24,6 +26,8 @@ const OrderPageDataRow = ({ title, value }) => {
 const OrderPage = () => {
   const navigate = useNavigate();
   const { id: orderId } = useParams();
+
+  const currentUserIsAdmin = useSelector(selectCurrentUser).role === "admin";
 
   const { customDialogOpen, handleCustomDialogClose, handleCustomDialogOpen } =
     useCustomDialog();
@@ -101,11 +105,13 @@ const OrderPage = () => {
           ))}
         </div>
 
-        <LoadingButton
-          text="Delete Order"
-          className="bg-red"
-          onButtonClick={handleDeleteOrderClick}
-        />
+        {currentUserIsAdmin && (
+          <LoadingButton
+            text="Delete Order"
+            className="bg-red"
+            onButtonClick={handleDeleteOrderClick}
+          />
+        )}
 
         {/* dialog */}
         <CustomDialog
