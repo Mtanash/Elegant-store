@@ -1,15 +1,16 @@
-import { Modal } from "@mui/material";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import Resizer from "react-image-file-resizer";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import LoadingButton from "../../components/LoadingButton";
+import CustomModal from "../../components/CustomModal";
+import ProfilePictureForm from "../../components/ProfilePictureForm";
 import UserAvatar from "../../components/UserAvatar";
 import { useUpdateUserAvatarMutation } from "../../features/api/usersApiSlice";
 import {
   selectCurrentUser,
   userDataRefreshed,
 } from "../../features/user/userSlice";
+import useErrorHandler from "../../hooks/useErrorHandler";
 
 const ProfileInfoPage = () => {
   const navigate = useNavigate();
@@ -19,6 +20,8 @@ const ProfileInfoPage = () => {
   const [open, setOpen] = useState(false);
   const [file, setFile] = useState(null);
 
+  const { handleError } = useErrorHandler();
+
   const [updateUserAvatar, { isLoading }] = useUpdateUserAvatarMutation();
 
   const handleOpen = () => {
@@ -26,9 +29,9 @@ const ProfileInfoPage = () => {
     setOpen(true);
   };
 
-  const handleClose = () => setOpen(false);
+  const handleClose = useCallback(() => setOpen(false), []);
 
-  const onInputFileChange = (e) => {
+  const onInputFileChange = useCallback((e) => {
     const uncompressedFile = e.target.files[0];
     Resizer.imageFileResizer(
       uncompressedFile,
@@ -39,25 +42,29 @@ const ProfileInfoPage = () => {
       0,
       (uri) => {
         setFile(uri);
-        console.log(file);
       },
-      "base64",
+      "file",
       250,
       200
     );
-  };
+  }, []);
 
-  const updateAvatar = () => {
-    updateUserAvatar({ avatar: file })
-      .unwrap()
-      .then(() => {
-        dispatch(userDataRefreshed({ ...user, avatar: file }));
-        handleClose();
-      });
-  };
+  const updateAvatar = useCallback(async () => {
+    const avatarFormData = new FormData();
+
+    avatarFormData.append("avatar", file);
+
+    try {
+      const response = await updateUserAvatar(avatarFormData).unwrap();
+      dispatch(userDataRefreshed({ ...user, avatar: response.data }));
+      handleClose();
+    } catch (error) {
+      handleError(error);
+    }
+  }, [dispatch, file, handleClose, handleError, updateUserAvatar, user]);
 
   return (
-    <div className="shadow-special w-full h-full flex flex-col gap-4 items-center px-2 py-4">
+    <div className="shadow-special w-full h-full flex flex-col gap-8 items-center px-2 py-4">
       <h3 className="text-center font-semibold text-3xl">{user?.name}</h3>
       <div className="w-32 h-32 flex items-center justify-center">
         <UserAvatar user={user} />
@@ -68,40 +75,22 @@ const ProfileInfoPage = () => {
       >
         Update profile picture
       </button>
+      <p className="text-sm text-gray-500">
+        Hint: if you can not see the new profile image, please refresh the page.
+      </p>
 
       {/* Modal */}
-      <Modal
+      <CustomModal
         open={open}
         onClose={handleClose}
-        aria-labelledby="pick-file-modal"
+        title="Change profile picture"
       >
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[450px] bg-white px-2 py-8 flex flex-col items-center gap-6">
-          <button
-            className="bg-red text-white w-9 h-9 rounded-md font-semibold hover:bg-deep-red transition-colors absolute top-3 right-3"
-            onClick={handleClose}
-          >
-            &#10005;
-          </button>
-          <div className="flex gap-2 items-center">
-            <label className="cursor-pointer font-semibold" htmlFor="image">
-              Profile picture
-            </label>
-            <input
-              type="file"
-              id="image"
-              onChange={onInputFileChange}
-              accept=".png, .jpeg, .jpg"
-              required
-            />
-          </div>
-          <LoadingButton
-            loading={isLoading}
-            text="Save"
-            color="deep-orange"
-            onButtonClick={updateAvatar}
-          />
-        </div>
-      </Modal>
+        <ProfilePictureForm
+          isLoading={isLoading}
+          onInputFileChange={onInputFileChange}
+          updateAvatar={updateAvatar}
+        />
+      </CustomModal>
     </div>
   );
 };
