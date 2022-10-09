@@ -8,6 +8,7 @@ export const extendedApi = apiSlice.injectEndpoints({
         method: "GET",
         credentials: "include",
       }),
+      providesTags: ["user"],
     }),
     createUser: builder.mutation({
       query: (userData) => ({
@@ -69,6 +70,7 @@ export const extendedApi = apiSlice.injectEndpoints({
         method: "POST",
         body: avatar,
       }),
+      invalidatesTags: ["user"],
     }),
     logoutUser: builder.mutation({
       query: () => ({
