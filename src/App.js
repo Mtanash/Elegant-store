@@ -70,6 +70,7 @@ function App() {
               />
               <Route path="info" element={<ProfileInfoPage />} />
               <Route path="orders" element={<ProfileOrdersPage />} />
+              <Route path="orders/:id" element={<OrderPage />} />
             </Route>
           </Route>
         </Route>
