@@ -1,35 +1,7 @@
-import { useRef } from "react";
-import HomeCarousel from "../components/HomeCarousel";
-import Products from "../components/Products";
-import { useGetFeaturedProductsQuery } from "../features/api/productsApiSlice";
-import ErrorPage from "./ErrorPage";
-import LoadingPage from "./LoadingPage";
+import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
-  const ProductSectionRef = useRef(null);
-  const {
-    data: featuredProductsData,
-    isLoading: featuredProductsLoading,
-    error: featuredProductsError,
-  } = useGetFeaturedProductsQuery();
-
-  const scrollToElement = (ref) => {
-    window.scrollTo({
-      top: ref.current.offsetTop,
-      left: 0,
-      behavior: "smooth",
-    });
-  };
-
-  let content;
-
-  if (featuredProductsLoading) {
-    content = <LoadingPage className="min-h-[228px]" />;
-  } else if (featuredProductsError) {
-    content = <ErrorPage />;
-  } else {
-    content = <HomeCarousel products={featuredProductsData.products} />;
-  }
+  const navigate = useNavigate();
 
   return (
     <main className="home">
@@ -45,14 +17,10 @@ const HomePage = () => {
         </h2>
         <button
           className="rounded-md inline-block px-8 py-4 bg-white text-black font-semibold text-center  hover:scale-95 transition-transform self-center shadow-special shadow-deep-orange "
-          onClick={() => scrollToElement(ProductSectionRef)}
+          onClick={() => navigate("/products?page=1")}
         >
           Shop Now
         </button>
-      </div>
-      <div id="products" className="container mx-auto" ref={ProductSectionRef}>
-        {content}
-        <Products />
       </div>
     </main>
   );
