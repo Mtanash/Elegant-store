@@ -1,4 +1,4 @@
-import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
+import { AiOutlineDoubleLeft, AiOutlineDoubleRight } from "react-icons/ai";
 import ProductsContainer from "./ProductsContainer";
 
 const Paginate = ({ products, totalPages, page, handlePageChange }) => {
@@ -18,10 +18,10 @@ const Paginate = ({ products, totalPages, page, handlePageChange }) => {
       <div className="flex gap-3 self-center justify-center items-center">
         {page !== 1 && (
           <button
-            className="p-1 px-4 rounded-md flex items-center justify-center gap-2 text-white bg-deep-blue hover:opacity-95  transition-all ease-in-out duration-150"
+            className="py-2 px-4 rounded-md flex items-center justify-center gap-1 text-white bg-deep-blue hover:opacity-95  transition-all ease-in-out duration-150"
             onClick={() => prevPage()}
           >
-            <BsArrowLeft className="w-4 h-4" />
+            <AiOutlineDoubleLeft className="w-4 h-4" />
             Prev
           </button>
         )}
@@ -30,12 +30,12 @@ const Paginate = ({ products, totalPages, page, handlePageChange }) => {
         </p>
         {page !== totalPages && (
           <button
-            className="p-1 px-4 rounded-md flex items-center justify-center gap-2 text-white bg-deep-blue hover:opacity-95
+            className="py-2 px-4 rounded-md flex items-center justify-center gap-1 text-white bg-deep-blue hover:opacity-95
               transition-all ease-in-out duration-200"
             onClick={() => nextPage()}
           >
             Next
-            <BsArrowRight className="w-4 h-4" />
+            <AiOutlineDoubleRight className="w-4 h-4" />
           </button>
         )}
       </div>
