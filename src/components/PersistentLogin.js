@@ -6,10 +6,7 @@ import {
   useGetUserAccessTokenMutation,
   useGetUserMutation,
 } from "../features/api/usersApiSlice";
-import {
-  accessTokenRefreshed,
-  userDataRefreshed,
-} from "../features/user/userSlice";
+import { userDataRefreshed } from "../features/user/userSlice";
 import useErrorHandler from "../hooks/useErrorHandler";
 import LoadingPage from "../pages/LoadingPage";
 
@@ -28,12 +25,10 @@ const PersistentLogin = () => {
 
   useEffect(() => {
     const persistUser = async () => {
+      if (!userAccessToken) {
+        return;
+      }
       try {
-        if (!userAccessToken) {
-          const response = await fetchAccessToken();
-          dispatch(accessTokenRefreshed(response.data.accessToken));
-        }
-
         const { _id: id } = jwtDecode(userAccessToken);
 
         const response = await getUser(id).unwrap();
@@ -41,6 +36,7 @@ const PersistentLogin = () => {
         dispatch(userDataRefreshed(response));
       } catch (error) {
         if (firstRender) return;
+        // handle reauthorization and refetch a new access token
         if (error.message === "Invalid token specified")
           console.log("Invalid Token for decoding");
         else handleError(error);
