@@ -24,7 +24,7 @@ const FavoriteProductsPage = () => {
           Go to{" "}
           <button
             className="text-blue hover:underline"
-            onClick={() => navigate("/")}
+            onClick={() => navigate("/products?page=1")}
           >
             products
           </button>{" "}
