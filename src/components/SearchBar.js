@@ -21,8 +21,9 @@ const SearchBar = () => {
   const handleSearchFormSubmit = (e) => {
     e.preventDefault();
     if (!searchQuery) return;
-    navigate(`products-search?search=${searchQuery}`);
+    navigate(`products/search?q=${searchQuery}&page=1`);
     setSearchQuery("");
+    setShowSearchBar(false);
   };
 
   useEffect(() => {

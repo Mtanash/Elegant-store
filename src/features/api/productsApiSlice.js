@@ -22,7 +22,7 @@ export const extendedApi = apiSlice.injectEndpoints({
         `/products?category=${category}&page=${page}`,
     }),
     getProductsBySearch: builder.query({
-      query: (searchQuery, page) =>
+      query: ({ searchQuery, page = 1 }) =>
         `/products?search=${searchQuery}&page=${page}`,
       providesTags: ["products"],
     }),

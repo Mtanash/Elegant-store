@@ -1,25 +1,27 @@
-import { useRef, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useRef } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import Paginate from "../components/Paginate";
 import { useGetProductsBySearchQuery } from "../features/api/productsApiSlice";
 import ErrorPage from "./ErrorPage";
 import LoadingPage from "./LoadingPage";
 
 const SearchPage = () => {
+  const navigate = useNavigate();
   const productsRef = useRef(null);
   const [searchParams] = useSearchParams();
-  const searchQuery = searchParams.get("search");
-  const [page, setPage] = useState(1);
+
+  const searchQuery = searchParams.get("q");
+  const page = searchParams.get("page") || 1;
 
   const {
     data: searchResult,
     isLoading,
     error,
-  } = useGetProductsBySearchQuery(searchQuery, page);
+  } = useGetProductsBySearchQuery({ searchQuery, page });
 
   const handlePageChange = (value) => {
     productsRef.current.scrollIntoView();
-    setPage(value);
+    navigate(`/products/search?q=${searchQuery}&page=${+value}`);
   };
 
   if (isLoading) return <LoadingPage fullHeight />;
@@ -28,10 +30,10 @@ const SearchPage = () => {
     return (
       <div ref={productsRef}>
         <h3 className="text-center text-3xl p-6">
-          Search result for "{searchQuery}"
+          Search results for "{searchQuery}"
         </h3>
         <Paginate
-          page={page}
+          page={+page}
           totalPages={searchResult.totalPages}
           products={searchResult.products}
           handlePageChange={handlePageChange}
