@@ -17,6 +17,7 @@ import HomePage from "./pages/HomePage";
 import NotFoundPage from "./pages/NotFoundPage";
 import OrderPage from "./pages/OrderPage";
 import ProductPage from "./pages/ProductPage";
+import ProductsListPage from "./pages/ProductsListPage";
 import FavoriteProductsPage from "./pages/ProfilePage/FavoriteProductsPage";
 import ProfileInfoPage from "./pages/ProfilePage/ProfileInfoPage";
 import ProfileOrdersPage from "./pages/ProfilePage/ProfileOrdersPage";
@@ -43,11 +44,12 @@ function App() {
       <Routes>
         <Route element={<PersistentLogin />}>
           <Route path="/" element={<HomePage />} />
+          <Route path="/products" element={<ProductsListPage />} />
           <Route path="/product/:id" element={<ProductPage />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/auth" element={<AuthPage />} />
           <Route path="/unauthorized" element={<UnauthorizedPage />} />
-          <Route path="/products-search" element={<SearchPage />} />
+          <Route path="/products/search" element={<SearchPage />} />
           <Route path="/categories/:category" element={<CategoryPage />} />
 
           {/* protected routes */}
