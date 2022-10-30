@@ -1,5 +1,6 @@
 import { useRef } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import FullPageLayout from "../components/FullPageLayout";
 import Paginate from "../components/Paginate";
 import { useGetProductsBySearchQuery } from "../features/api/productsApiSlice";
 import ErrorPage from "./ErrorPage";
@@ -29,15 +30,25 @@ const SearchPage = () => {
   else
     return (
       <div ref={productsRef}>
-        <h3 className="text-center text-3xl p-6">
-          Search results for "{searchQuery}"
-        </h3>
-        <Paginate
-          page={+page}
-          totalPages={searchResult.totalPages}
-          products={searchResult.products}
-          handlePageChange={handlePageChange}
-        />
+        {searchResult.products.length > 0 ? (
+          <>
+            <h3 className="text-center text-3xl p-6">
+              Search results for "{searchQuery}"
+            </h3>
+            <Paginate
+              page={+page}
+              totalPages={searchResult.totalPages}
+              products={searchResult.products}
+              handlePageChange={handlePageChange}
+            />
+          </>
+        ) : (
+          <FullPageLayout center>
+            <h3 className="text-2xl font-semibold">
+              No results for "{searchQuery}"
+            </h3>
+          </FullPageLayout>
+        )}
       </div>
     );
 };
