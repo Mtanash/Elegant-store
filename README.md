@@ -5,7 +5,7 @@
 ### [Elegant store API](https://github.com/Mtanash/Elegant-store-api)
 
 <hr />
-<img src="./public/images/screen.png" alt="screenshot" />
+<img src="https://my-portfolio-thumbnail.s3.amazonaws.com/elegant-thumbnail.png" alt="screenshot" />
 <hr />
 
 ## Features
