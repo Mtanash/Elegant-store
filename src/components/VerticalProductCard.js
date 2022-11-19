@@ -83,14 +83,14 @@ function VerticalProductCard({ product }) {
       <hr className="text-pale-white" />
       <Price price={price} priceAfterDiscount={priceAfterDiscount} center pt />
       <Rates rates={rates} center />
-      <div className="flex justify-center gap-5 p-3">
+      <div className="flex justify-center gap-5 p-1">
         <AddToFavoriteButton
           onButtonClick={() => handleAddToFavorite(_id)}
           productIsFavorite={productIsFavorite}
           loading={loading}
         />
         <IconButton
-          text="Add to cart"
+          rounded
           onButtonClick={onAddToCartButtonClicked}
           Icon={BsCartPlus}
         />
